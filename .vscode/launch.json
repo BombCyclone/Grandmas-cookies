@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TacosWebsiteApplication<tacos-website>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.lutheroaks.tacoswebsite.TacosWebsiteApplication",
+            "projectName": "tacos-website",
+            "args": ""
+        }
+    ]
+}
