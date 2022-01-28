@@ -5,9 +5,9 @@ This repository hosts the code for a website to be used by the TACOS organizatio
 
 
 
-SETUP INSTRUCTIONS
+-----------------------------------SETUP INSTRUCTIONS-----------------------------------
 
-In order to run this project, you need the following local installations on your computer:
+In order to run this project, the following local installations need to be on your computer:
 
 Java Development Kit: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
 
@@ -20,7 +20,7 @@ java --version
 mvn -v
 
 
-RUNNING THE PROJECT LOCALLY
+-----------------------------------RUNNING THE PROJECT LOCALLY-----------------------------------
 
 1) Clone the contents of this repository
 2) Navigate to the location of the downloaded files in a terminal window (inside the tacos-website folder)
