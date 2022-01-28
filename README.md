@@ -4,6 +4,7 @@ IT 326 Project
 This repository hosts the code for a website to be used by the TACOS organization to schedule and manage technical assistance tickets.
 
 
+
 SETUP INSTRUCTIONS
 
 In order to run this project, you need the following local installations on your computer:
@@ -17,6 +18,7 @@ You can check that your computer has these packages installed by entering the fo
 java --version
 
 mvn -v
+
 
 RUNNING THE PROJECT LOCALLY
 
