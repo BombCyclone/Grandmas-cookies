@@ -28,9 +28,9 @@ information on how to use Spring Boot to create a web application.
 
 -----------------------------------RUNNING THE PROJECT LOCALLY-----------------------------------
 
-1) Clone the contents of this repository
+1) Clone (download) the contents of this repository
 2) Navigate to the location of the downloaded files in a terminal window (inside the tacos-website folder)
 3) Enter the command: mvn clean install
 4) Wait for installation of packages to complete
 5) Enter the command: mvn spring-boot:run
-6) Open the website in a Web Browser by navigating to localhost:8080
+6) Open the website in a Web Browser by going to the URL: localhost:8080
