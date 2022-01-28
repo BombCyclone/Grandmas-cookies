@@ -13,7 +13,9 @@ Java Development Kit: https://www.oracle.com/java/technologies/javase/jdk17-arch
 Apache Maven: https://maven.apache.org/download.cgi
 
 You can check that your computer has these packages installed by entering the following in a terminal/command line:
+
 java --version
+
 mvn -v
 
 RUNNING THE PROJECT LOCALLY
