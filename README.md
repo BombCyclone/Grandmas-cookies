@@ -23,7 +23,7 @@ mvn -v
 
 This is a Spring Boot project. Spring Boot is an open source Java-based framework used to create microservices.
 If you are new to Spring Boot, you can visit https://www.tutorialspoint.com/spring_boot/index.htm to learn more
-information on how to use Spring Boot to create a web application.
+on how to use Spring Boot to create a web application.
 
 
 -----------------------------------RUNNING THE PROJECT LOCALLY-----------------------------------
