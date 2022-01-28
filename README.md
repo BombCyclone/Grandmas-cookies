@@ -9,6 +9,7 @@ SETUP INSTRUCTIONS
 In order to run this project, you need the following local installations on your computer:
 
 Java Development Kit: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+
 Apache Maven: https://maven.apache.org/download.cgi
 
 You can check that your computer has these packages installed by entering the following in a terminal/command line:
