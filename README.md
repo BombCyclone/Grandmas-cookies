@@ -5,7 +5,7 @@ This repository hosts the code for a website to be used by the TACOS organizatio
 
 
 
------------------------------------SETUP INSTRUCTIONS-----------------------------------
+---------------------------------------SETUP INSTRUCTIONS----------------------------------------
 
 In order to run this project, the following local installations need to be on your computer:
 
