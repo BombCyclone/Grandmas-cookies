@@ -8,6 +8,6 @@ public class AppController {
     
     @GetMapping("")
 	public String viewIndex() {
-		return "../static/index.html";
+		return "/index";
 	}
 }
