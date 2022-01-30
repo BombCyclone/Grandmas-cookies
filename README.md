@@ -3,6 +3,7 @@ IT 326 Project
 
 This repository hosts the code for a website to be used by the TACOS organization to schedule and manage technical assistance tickets.
 
+The URL for the production website is https://isutacos.azurewebsites.net
 
 
 ---------------------------------------SETUP INSTRUCTIONS----------------------------------------
@@ -19,7 +20,11 @@ java --version
 
 mvn -v
 
-------------------------------------------SIDE NOTE----------------------------------------------
+------------------------------------------SIDE NOTES----------------------------------------------
+
+Any commits to the main branch of this repository will automatically trigger a pipeline to deploy changes
+to the production version of the website via Microsoft Azure Cloud. Be cautious when committing
+to main or merging your branch.
 
 This is a Spring Boot project. Spring Boot is an open source Java-based framework used to create microservices.
 If you are new to Spring Boot, you can visit https://www.tutorialspoint.com/spring_boot/index.htm to learn more
