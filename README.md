@@ -9,7 +9,7 @@ This repository hosts the code for a website to be used by the TACOS organizatio
 
 In order to run this project, the following local installations need to be on your computer:
 
-Java Development Kit: https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html
+Java Development Kit: https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html
 
 Apache Maven: https://maven.apache.org/download.cgi
 
@@ -29,7 +29,7 @@ on how to use Spring Boot to create a web application.
 -----------------------------------RUNNING THE PROJECT LOCALLY-----------------------------------
 
 1) Clone (download) the contents of this repository
-2) Navigate to the location of the downloaded files in a terminal window (inside the tacos-website folder)
+2) Navigate to the location of the downloaded files in a terminal window
 3) Enter the command: mvn clean install
 4) Wait for installation of packages to complete
 5) Enter the command: mvn spring-boot:run
