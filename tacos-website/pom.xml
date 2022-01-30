@@ -14,7 +14,7 @@
 	<name>tacos-website</name>
 	<description>IT 326 Website Project</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
