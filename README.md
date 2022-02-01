@@ -5,6 +5,10 @@ This repository hosts the code for a website to be used by the TACOS organizatio
 
 The URL for the production website is https://isutacos.azurewebsites.net
 
+We will use the Gitflow strategy for managing the repository new code commits.
+It is suggested that you install git-flow on your computer for this, 
+more information here: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
+
 
 ---------------------------------------SETUP INSTRUCTIONS----------------------------------------
 
