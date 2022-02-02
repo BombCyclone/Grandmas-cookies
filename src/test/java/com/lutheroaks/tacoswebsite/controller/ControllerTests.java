@@ -12,6 +12,6 @@ public class ControllerTests {
 	void indexPageLoads() {
 		AppController controller = new AppController();
 		String retVal = controller.viewIndex();
-		assertEquals(retVal, "/index");
+		assertEquals(retVal, "index");
 	}
 }
