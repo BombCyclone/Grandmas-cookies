@@ -1,7 +1,6 @@
 package com.lutheroaks.tacoswebsite.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import com.lutheroaks.controller.AppController;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
