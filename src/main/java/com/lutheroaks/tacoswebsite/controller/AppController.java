@@ -3,7 +3,6 @@ package com.lutheroaks.tacoswebsite.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AppController {
@@ -18,5 +17,9 @@ public class AppController {
 		return "request";
 	}
 
+	@GetMapping("/testurl")
+	public String viewTest() {
+		return "test";
+	}
 
 }
