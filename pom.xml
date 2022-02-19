@@ -48,31 +48,62 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+                    <execution>
+                        <id>start-spring-boot</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>start</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>stop-spring-boot</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>stop</goal>
+                        </goals>
+                    </execution>
+                </executions>
 			</plugin>
 			<plugin>
 			  <groupId>org.jacoco</groupId>
 			  <artifactId>jacoco-maven-plugin</artifactId>
 			  <version>0.8.7</version>
-			  <configuration>
-			  	<excludes>
-			  		<exclude>com/lutheroaks/tacoswebsite/*</exclude>
-			  	</excludes>
-			  </configuration>
 			  <executions>
-			  	<execution>
-			      	<id>prepare-agent</id>
-			            <goals>
-			             <goal>prepare-agent</goal>
-			            </goals>
-			      </execution>
-			      <execution>
-			            <id>report</id>
-			            <phase>test</phase>
-			               <goals>
-			               <goal>report</goal>
-			               </goals>
-			        </execution>
-			    </executions>
+				<execution>
+				  <goals>
+					<goal>prepare-agent</goal>
+				  </goals>
+				</execution>
+				<execution>
+				  <id>post-unit-test</id>
+				  <phase>test</phase>
+				  <goals>
+					<goal>report</goal>
+				  </goals>
+				</execution>
+				<execution>
+				  <id>coverage-validation</id>
+				  <goals>
+					<goal>check</goal>
+				  </goals>
+				  <phase>test</phase>
+				  <configuration>
+					<rules>
+					  <rule>
+						<limits>
+						  <limit>
+							<counter>INSTRUCTION</counter>
+							<value>COVEREDRATIO</value>
+							<minimum>0.90</minimum>
+						  </limit>
+						</limits>
+					  </rule>
+					</rules>
+					<haltOnFailure>true</haltOnFailure>
+				  </configuration>
+				</execution>
+				</executions>
 			 </plugin>
 		</plugins>
 	</build>
