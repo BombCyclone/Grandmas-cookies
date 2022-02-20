@@ -227,7 +227,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
+              <a class="dropdown-item d-flex align-items-center" th:href="@{/faq}">
                 <em class="bi bi-question-circle"></em>
                 <span>Need Help?</span>
               </a>
@@ -264,8 +264,8 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" th:href="@{/index}">
-          <em class="bi bi-journal-text"></em><span>Submit Form</span><em class="bi ms-auto"></em>
+        <a class="nav-link collapsed" th:href="@{/ticket-form}">
+          <em class="bi bi-journal-text"></em><span>Submit Request Form</span><em class="bi ms-auto"></em>
         </a>
       </li><!-- End Forms Nav -->
 
@@ -277,9 +277,9 @@
       </li><!-- End Active Tickets Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" th:href="@{/profile}">
+        <a class="nav-link collapsed" th:href="@{/archived-tickets}">
           <em class="bi bi-layout-text-window-reverse"></em>
-          <span>All Tickets</span>
+          <span>Archived Tickets</span>
         </a>
       </li><!-- End All Tickets Page Nav -->
 
@@ -291,7 +291,7 @@
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-faq.html">
+        <a class="nav-link collapsed" th:href="@{/faq}">
           <em class="bi bi-question-circle"></em>
           <span>FAQ</span>
         </a>
@@ -305,18 +305,25 @@
       </li><!-- End Contact Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-register.html">
+        <a class="nav-link collapsed" th:href="@{/register}">
           <em class="bi bi-card-list"></em>
           <span>Register</span>
         </a>
       </li><!-- End Register Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-login.html">
+        <a class="nav-link collapsed" th:href="@{/login}">
           <em class="bi bi-box-arrow-in-right"></em>
-          <span>Login</span>
+          <span>Log In</span>
         </a>
       </li><!-- End Login Page Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#">
+          <em class="bi bi-box-arrow-in-right"></em>
+          <span>Sign Out</span>
+        </a>
+      </li><!-- End Sign Out Page Nav -->
 
     </ul>
 

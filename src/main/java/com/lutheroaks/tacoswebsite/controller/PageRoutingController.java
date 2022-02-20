@@ -13,19 +13,44 @@ public class PageRoutingController {
 		return "index";
 	}
 
-	@GetMapping("/profile")
-	public String viewProfile() {
-		return "profile";
-	}
-
-	@GetMapping("/contactus")
-	public String contactUs() {
-		return "contactus";
+	@GetMapping("/ticket-form")
+	public String viewTicketForm() {
+		return "ticket-form";
 	}
 
 	@GetMapping("/active-tickets")
 	public String viewActiveTickets() {
 		return "active-tickets";
+	}
+
+	@GetMapping("/archived-tickets")
+	public String viewArchivedTickets() {
+		return "archived-tickets";
+	}
+
+	@GetMapping("/profile")
+	public String viewProfile() {
+		return "profile";
+	}
+
+	@GetMapping("/faq")
+	public String viewFaq() {
+		return "faq";
+	}
+
+	@GetMapping("/contactus")
+	public String viewContactUs() {
+		return "contactus";
+	}
+
+	@GetMapping("/register")
+	public String viewRegistration() {
+		return "register";
+	}
+
+	@GetMapping("/login")
+	public String viewLogin() {
+		return "login";
 	}
 
 }
