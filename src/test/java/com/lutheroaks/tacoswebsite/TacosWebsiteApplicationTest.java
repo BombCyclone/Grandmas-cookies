@@ -6,12 +6,9 @@ import org.junit.jupiter.api.Test;
 
 @SpringBootTest
 public class TacosWebsiteApplicationTest {
-
-   @Autowired
-   private TacosWebsiteApplication application;
    
    @Test
    public void mainMethodExists() {
-       application.main(new String[] {});
+       TacosWebsiteApplication.main(new String[] {});
    }
 }
