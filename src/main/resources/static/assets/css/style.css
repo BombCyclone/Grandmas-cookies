@@ -156,9 +156,6 @@ h1, h2, h3, h4, h5, h6 {
   100% {
     opacity: 1;
   }
-  0% {
-    opacity: 0;
-  }
 }
 @keyframes dropdown-animate {
   0% {
@@ -393,7 +390,6 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 .header .search-form input {
-  border: 0;
   font-size: 14px;
   color: #012970;
   border: 1px solid rgba(1, 41, 112, 0.2);
@@ -642,7 +638,6 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 14px;
   font-weight: 600;
   color: #012970;
-  transition: 0.3;
   padding: 10px 0 10px 40px;
   transition: 0.3s;
 }
@@ -984,7 +979,6 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 0;
   box-shadow: none;
   font-size: 14px;
-  border-radius: 0;
 }
 .contact .php-email-form input:focus, .contact .php-email-form textarea:focus {
   border-color: #4154f1;
