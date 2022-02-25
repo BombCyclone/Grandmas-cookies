@@ -1,12 +1,12 @@
 spring:
     datasource:
-    url:
-    username:
-    password:
-jpa:
-    show-sql: true
-    hibernate:
-        ddl-auto: update
-        dialect: org.hibernate.dialect.SQLServer2012Dialect
+        url: jdbc:sqlserver://isutacos.database.windows.net:1433;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+        username: isutacos
+        password: Thisisourdatabase!
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
 server:
-    port: 9191
+    port: 8080
+

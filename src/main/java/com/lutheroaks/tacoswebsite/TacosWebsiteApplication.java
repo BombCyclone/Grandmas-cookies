@@ -17,12 +17,12 @@ public class TacosWebsiteApplication {
 	@Autowired
 	private MemberRepo repository;
 
-	@PostMapping("/product")
+	@PostMapping("/member")
 	public Member addMember(@RequestBody Member member) {
 		return repository.save(member);
 	}
 
-	@GetMapping("/products")
+	@GetMapping("/members")
 	public List<Member> getMembers() {
 		return repository.findAll();
 	}
