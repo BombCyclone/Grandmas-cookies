@@ -1,4 +1,4 @@
-package com.lutheroaks.tacoswebsite.controller;
+package com.lutheroaks.tacoswebsite.controllers.routing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
