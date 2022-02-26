@@ -1,4 +1,4 @@
-package com.lutheroaks.tacoswebsite;
+package com.lutheroaks.tacoswebsite.member;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

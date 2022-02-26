@@ -1,4 +1,4 @@
-package com.lutheroaks.tacoswebsite.controller;
+package com.lutheroaks.tacoswebsite.controllers.routing;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
