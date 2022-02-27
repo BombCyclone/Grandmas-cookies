@@ -1,48 +1,43 @@
 package com.lutheroaks.tacoswebsite.controller;
 
-import static org.mockito.ArgumentMatchers.any;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.exceptions.base.MockitoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.junit.jupiter.api.Test;
-import com.lutheroaks.tacoswebsite.controller.ContactController;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class ContactControllerTest {
 
     @Autowired
     private ContactController controller;
-    private EmailServiceImpl emailServiceImpl;
-    private JavaMailSender javaMailSender;
+    @Mock
+    JavaMailSender mailSender;
+    @Mock
     private MimeMessage mimeMessage;
-    @BeforeEach
-    public void before() {
-        SimpleMailMessage newSimpleMailMessage = new SimpleMailMessage();
-        javaMailSender = Mockito.mock(JavaMailSender.class);
-        when(javaMailSender.send(any())).thenReturn(mimeMessage);
-        emailServiceImpl = new EmailService(javaMailSender);
-    }
+
     @Test
-    public void emailSent(){
-        String testName = "Tester";
-        String testMessage = "Test message";
+    public void sendEmailSuccessTest() throws MessagingException{
+        // mock the parameters for the send email method
         HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
-        newReq.setAttribute("name", testName);
-        newReq.setAttribute("message", testMessage);
-        JavaMailSender mockSender = Mockito.mock(JavaMailSender.class);
-        
-        when(mockSender.send(any())).thenReturn(null);
-        String retVal = controller.sendMail(newReq);
-
-        //assertEquals("index", retVal)
+        // mock the returns of the name and message fields in the email to be sent
+        Mockito.when(newReq.getParameter("message")).thenReturn("test message");
+        Mockito.when(newReq.getParameter("name")).thenReturn("Dorothy Jenkins");
+        // don't actually send an email when the send is called
+        Mockito.doNothing().when(mailSender).send(mimeMessage);
+        // call the method in the controller
+        String retVal = controller.sendEmail(newReq);
+        // assert the expected result
+        assertEquals("index", retVal);
     }
-
-    
 }

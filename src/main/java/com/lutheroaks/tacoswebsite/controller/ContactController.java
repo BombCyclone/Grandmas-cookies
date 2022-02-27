@@ -1,31 +1,39 @@
 package com.lutheroaks.tacoswebsite.controller;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
+
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ContactController {
+
     @Autowired
-	private JavaMailSender javaMailSender;
-	@PostMapping("/contact") //is called after someone inputs feedback
-	public String sendMail(HttpServletRequest request) {
+	private JavaMailSender mailSender;
+	
+	// This is called when the submit button is clicked on the Contact Us Page
+	@PostMapping("/contact")
+	public String sendEmail(HttpServletRequest request) throws MessagingException {
+		// create the mimeMessage object to be sent
+		MimeMessage mimeMessage = mailSender.createMimeMessage();
+		MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+		// get the requester's name and message
 		String message = request.getParameter("message");
-		System.out.println(message);
 		String name = request.getParameter("name");
-		System.out.println(name);
-		SimpleMailMessage email = new SimpleMailMessage();
-        email.setFrom("tacosemailservice@gmail.com");
-        email.setTo("jdkata1@ilstu.edu");
-        email.setSubject("TACOS Contact Us Request from " + name);
-        email.setText(message);
-        javaMailSender.send(email);
-        System.out.println("Sent message successfully");
-		//javaMailSender.sendEmail("jdkata1@ilstu.edu", "This is the body", "Subject");
+		// set the email message parameters
+        messageHelper.setFrom("tacosemailservice@gmail.com");
+        messageHelper.setTo("njande2@ilstu.edu");
+        messageHelper.setSubject("TACOS Contact Us Request from " + name);
+        messageHelper.setText(message);
+		// send the email
+        mailSender.send(mimeMessage);
+		// return to the homepage
 		return "index";
 	}
 }
