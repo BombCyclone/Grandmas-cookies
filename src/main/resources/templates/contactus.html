@@ -329,85 +329,34 @@
 
   </aside><!-- End Sidebar-->
 
-  <main id="main" class="main">
+  <main id="main" class="main"><!-- Main Content Starts Here -->
 
     <div class="pagetitle">
-      <h1>Contact</h1>
-      <nav aria-label="Secondary">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a th:href="@{/index}">Home</a></li>
-          <li class="breadcrumb-item">Pages</li>
-          <li class="breadcrumb-item active">Contact</li>
-        </ol>
-      </nav>
+      <h1>Contact Us</h1>
     </div><!-- End Page Title -->
-
-    <section class="section contact">
-
-      <div class="row gy-4">
-
-        <div class="col-xl-6">
-
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="info-box card">
-                <em  class="bi bi-geo-alt"></em> 
-                <h3>Address</h3>
-                <p>A108 Adam Street,<br>New York, NY 535022</p>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="info-box card">
-                <em  class="bi bi-telephone"></em> 
-                <h3>Call Us</h3>
-                <p>+1 5589 55488 55<br>+1 6678 254445 41</p>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="info-box card">
-                <em  class="bi bi-envelope"></em> 
-                <h3>Email Us</h3>
-                <p>info@example.com<br>contact@example.com</p>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="info-box card">
-                <em  class="bi bi-clock"></em> 
-                <h3>Open Hours</h3>
-                <p>Monday - Friday<br>9:00AM - 05:00PM</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="col-xl-6">
+      <p> Want to get in touch with TACOS?</p>
+      <p>Go ahead and right us a message below, and a TACOS member will read it as soon as possible! </p>
+        <div class="col-xl-12">
           <div class="card p-4">
-            <form action="forms/contact.php" method="post" class="php-email-form">
+            <br/>
+            <form id="contact-form" name="contact-form" action="/contact" method="POST" enctype="multipart/form-data">
               <div class="row gy-4">
 
-                <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required>
+                <div class="row mb-3">
+                  <label for="Your Name" class="col-sm-2 col-form-label">Your Name</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="name" id="name">
+                  </div>
                 </div>
+                <div class="row mb-3">
+                  <label for="Your Message" class="col-sm-2 col-form-label">Your Message</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" name="message" id="message" ></textarea>
+                  </div>
 
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required>
                 </div>
-
-                <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required>
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="6" placeholder="Message" required></textarea>
-                </div>
-
-                <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
+                <button class="btn btn-primary"  type="submit" value="Submit" name="submit" 
+                onclick="alert('Thanks for your feedback! Returning to Home Page.')">Send Message</button>
                 </div>
 
               </div>
