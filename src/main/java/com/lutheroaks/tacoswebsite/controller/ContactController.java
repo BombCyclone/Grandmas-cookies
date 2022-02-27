@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class ContactController {
 
-    @Autowired
 	private JavaMailSender mailSender;
+
+    @Autowired
+	public ContactController(JavaMailSender mailSender){
+		this.mailSender = mailSender;
+	}
 	
 	// This is called when the submit button is clicked on the Contact Us Page
 	@PostMapping("/contact")
@@ -26,9 +30,14 @@ public class ContactController {
 		// get the requester's name and message
 		String message = request.getParameter("message");
 		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		// add the requester's email to the message if it was provided
+		if(email != null){
+			message += "\n\nI can be reached at: " + email;
+		}
 		// set the email message parameters
         messageHelper.setFrom("tacosemailservice@gmail.com");
-        messageHelper.setTo("jdkata1@ilstu.edu");
+        messageHelper.setTo("aeheis1@ilstu.edu");
         messageHelper.setSubject("TACOS Contact Us Request from " + name);
         messageHelper.setText(message);
 		// send the email
