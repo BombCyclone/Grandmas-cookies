@@ -2,15 +2,14 @@ package com.lutheroaks.tacoswebsite.controller;
 
 
 import javax.mail.MessagingException;
+import javax.mail.Session;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.exceptions.base.MockitoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,13 +17,22 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 public class ContactControllerTest {
-
+    
     @Autowired
     private ContactController controller;
     @Mock
-    JavaMailSender mailSender;
+    private JavaMailSender javaMailSender;
     @Mock
     private MimeMessage mimeMessage;
+
+    // set up a null session so that the test email messages aren't sent
+    @BeforeEach
+    public void mockSetup() {
+        mimeMessage = new MimeMessage((Session)null);
+        javaMailSender = Mockito.mock(JavaMailSender.class);
+        Mockito.when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        controller = new ContactController(javaMailSender);
+    }
 
     @Test
     public void sendEmailSuccessTest() throws MessagingException{
@@ -33,8 +41,7 @@ public class ContactControllerTest {
         // mock the returns of the name and message fields in the email to be sent
         Mockito.when(newReq.getParameter("message")).thenReturn("test message");
         Mockito.when(newReq.getParameter("name")).thenReturn("Dorothy Jenkins");
-        // don't actually send an email when the send is called
-        Mockito.doNothing().when(mailSender).send(mimeMessage);
+        Mockito.when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
         // call the method in the controller
         String retVal = controller.sendEmail(newReq);
         // assert the expected result
