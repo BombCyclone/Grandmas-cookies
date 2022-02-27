@@ -28,7 +28,7 @@ public class ContactController {
 		String name = request.getParameter("name");
 		// set the email message parameters
         messageHelper.setFrom("tacosemailservice@gmail.com");
-        messageHelper.setTo("njande2@ilstu.edu");
+        messageHelper.setTo("jdkata1@ilstu.edu");
         messageHelper.setSubject("TACOS Contact Us Request from " + name);
         messageHelper.setText(message);
 		// send the email
