@@ -35,13 +35,26 @@ public class ContactControllerTest {
     }
 
     @Test
-    public void sendEmailSuccessTest() throws MessagingException{
+    public void sendEmailSuccessAddressSpecifiedTest() throws MessagingException{
         // mock the parameters for the send email method
         HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
         // mock the returns of the name and message fields in the email to be sent
         Mockito.when(newReq.getParameter("message")).thenReturn("test message");
         Mockito.when(newReq.getParameter("name")).thenReturn("Dorothy Jenkins");
         Mockito.when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        // call the method in the controller
+        String retVal = controller.sendEmail(newReq);
+        // assert the expected result
+        assertEquals("index", retVal);
+    }
+
+    @Test
+    public void sendEmailSuccessNoAddressTest() throws MessagingException{
+        // mock the parameters for the send email method
+        HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
+        // mock the returns of the name and message fields in the email to be sent
+        Mockito.when(newReq.getParameter("message")).thenReturn("test message");
+        Mockito.when(newReq.getParameter("name")).thenReturn("Dorothy Jenkins");
         // call the method in the controller
         String retVal = controller.sendEmail(newReq);
         // assert the expected result
