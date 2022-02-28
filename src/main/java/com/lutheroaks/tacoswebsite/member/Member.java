@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+// This class contains the attributes and getters/setters for the Member table in the database
 @Entity
 @Table(name = "Member")
 @Data
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Member {
 
+    // memberid is the key for each row
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int memberid;

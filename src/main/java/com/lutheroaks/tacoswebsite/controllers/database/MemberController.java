@@ -1,4 +1,4 @@
-package com.lutheroaks.tacoswebsite.controllers.sql;
+package com.lutheroaks.tacoswebsite.controllers.database;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +14,7 @@ public class MemberController {
 	@Autowired
 	private MemberRepo repository;
 
+	// this method adds a new row to the member table
 	@PostMapping("/member")
 	public String addMember(String fname, String lname, String email) {
 		Member toAdd = new Member(fname, lname, email);
@@ -21,6 +22,7 @@ public class MemberController {
 		return "A new member was added!";
 	}
 
+	// this method returns a list of all rows in the member table
 	@GetMapping("/member")
 	public List<Member> getMembers() {
 		return repository.findAll();
