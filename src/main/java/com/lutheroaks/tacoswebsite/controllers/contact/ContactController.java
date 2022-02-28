@@ -1,4 +1,4 @@
-package com.lutheroaks.tacoswebsite.controller;
+package com.lutheroaks.tacoswebsite.controllers.contact;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
