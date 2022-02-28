@@ -11,8 +11,12 @@ import com.lutheroaks.tacoswebsite.member.MemberRepo;
 @RestController
 public class MemberController {
 	
-	@Autowired
 	private MemberRepo repository;
+
+	@Autowired
+	public MemberController(MemberRepo repository){
+		this.repository = repository;
+	}
 
 	// this method adds a new row to the member table
 	@PostMapping("/member")
