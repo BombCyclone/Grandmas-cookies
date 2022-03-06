@@ -2,7 +2,7 @@
 fetch('/member', {method: 'GET'})
 .then(data=>{return data.json()})
 .then(res=>{
-    // the response data is the members to be displayed, call the buildtable method
+    // the response data are the members to be displayed, call the buildtable method
     buildTable(res);
 })
 .catch(error=>console.log)
@@ -22,13 +22,25 @@ function buildTable(data){
                     </tr>`
         table.innerHTML += row
     }
-    // loadScript("assets/vendor/simple-datatables/simple-datatables.js");
+    addscripts();
 }
 
-// function loadScript(src){
-//     let script = document.createElement('script');
-//     script.src = src;
-//     script.async = false;
-//     document.body.append(script);
-//     console.log("script was added");
-// }
+// add other NiceAdmin Scripts to the page after the table content has been rendered
+function addscripts(){
+    loadScript("assets/vendor/apexcharts/apexcharts.min.js");
+    loadScript("assets/vendor/bootstrap/js/bootstrap.bundle.min.js");
+    loadScript("assets/vendor/chart.js/chart.min.js");
+    loadScript("assets/vendor/echarts/echarts.min.js")
+    loadScript("assets/vendor/quill/quill.min.js");
+    loadScript("assets/vendor/simple-datatables/simple-datatables.js");
+    loadScript("assets/vendor/tinymce/tinymce.min.js");
+    loadScript("assets/js/main.js");
+}
+
+// loads the script and add to the window
+function loadScript(src){
+    let script = document.createElement('script');
+    script.src = src;
+    script.async = false;
+    document.body.append(script);
+}
