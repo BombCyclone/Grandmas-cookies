@@ -25,9 +25,9 @@ public class PageRoutingController {
 		return "active-tickets";
 	}
 
-	@GetMapping("/archived-tickets")
+	@GetMapping("/member-table")
 	public String viewArchivedTickets() {
-		return "archived-tickets";
+		return "member-table";
 	}
 
 	@GetMapping("/profile")

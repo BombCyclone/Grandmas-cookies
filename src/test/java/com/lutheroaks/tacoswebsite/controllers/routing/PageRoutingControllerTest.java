@@ -33,7 +33,7 @@ public class PageRoutingControllerTest {
 	@Test
 	public void archivedTicketsPageIsReturned() {
 		String retVal = controller.viewArchivedTickets();
-		assertEquals("archived-tickets", retVal);
+		assertEquals("member-table", retVal);
 	}
 
 	@Test
