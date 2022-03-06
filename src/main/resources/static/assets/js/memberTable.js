@@ -13,7 +13,6 @@ function buildTable(data){
     var table = document.getElementById('memberTable');
     // for each object in the data array, return a table row
     for(let member of data){
-        console.log(member);
         var row =   `<tr>
                         <td>${member.memberid}</td>
                         <td>${member.firstname}</td>
