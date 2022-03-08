@@ -345,19 +345,19 @@
                 <div class="row mb-3">
                   <label for="Your Name" class="col-sm-2 col-form-label">Your Name</label>
                   <div class="col-sm-10">
-                    <input type="text" class="form-control" name="name" id="name">
+                    <input type="text" class="form-control" name="name" id="name" required minlength = "3" maxlength = "30">
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label for="Your Email (Optional)" class="col-sm-2 col-form-label">Your Email (Optional)</label>
                   <div class="col-sm-10">
-                    <input type="email" class="form-control" name="email" id="email">
+                    <input type="email" class="form-control" name="email" id="email" pattern = "([0-9a-z-A-Z]{2,20}\@[a-zA-Z]{2,20}\.[a-z]{1,3})" maxlength = "60">
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label for="Questions/Comments" class="col-sm-2 col-form-label">Questions/Comments</label>
                   <div class="col-sm-10">
-                    <textarea class="form-control" name="message" id="message" ></textarea>
+                    <textarea class="form-control" name="message" id="message" required minlength = "10" maxlength = "400"></textarea>
                   </div>
                 </div>
                 <div class="d-flex justify-content-center">
