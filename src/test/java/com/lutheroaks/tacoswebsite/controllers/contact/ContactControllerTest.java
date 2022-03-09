@@ -40,7 +40,8 @@ public class ContactControllerTest {
         HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
         // mock the returns of the name and message fields in the email to be sent
         Mockito.when(newReq.getParameter("message")).thenReturn("test message");
-        Mockito.when(newReq.getParameter("name")).thenReturn("Dorothy Jenkins");
+        Mockito.when(newReq.getParameter("fname")).thenReturn("Dorothy");
+        Mockito.when(newReq.getParameter("lname")).thenReturn("Jenkins");
         Mockito.when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
         // call the method in the controller
         String retVal = controller.sendEmail(newReq);
@@ -54,7 +55,8 @@ public class ContactControllerTest {
         HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
         // mock the returns of the name and message fields in the email to be sent
         Mockito.when(newReq.getParameter("message")).thenReturn("test message");
-        Mockito.when(newReq.getParameter("name")).thenReturn("Dorothy Jenkins");
+        Mockito.when(newReq.getParameter("fname")).thenReturn("Dorothy");
+        Mockito.when(newReq.getParameter("lname")).thenReturn("Jenkins");
         // call the method in the controller
         String retVal = controller.sendEmail(newReq);
         // assert the expected result
