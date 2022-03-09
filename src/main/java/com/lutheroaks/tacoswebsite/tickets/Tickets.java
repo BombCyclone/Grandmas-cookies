@@ -1,13 +1,16 @@
 package com.lutheroaks.tacoswebsite.tickets;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
@@ -47,26 +50,23 @@ public class Tickets {
     @Column(nullable = false, length = 50)
     @NonNull private String techType;
     
-    @Getter
-    @OrderColumn
     @Column(nullable = false, length = 10)
-    @NonNull private String[] comments;
+    @ElementCollection(targetClass = String.class)
+    @NonNull private List<String> comments;
 
-    @Getter
+    @OrderColumn
     @Column(nullable = false, length = 50)
     @NonNull private Date timestamp;
 
-    @Getter
-    @OrderColumn
     @Column(nullable = false, length = 3)
-    @NonNull private Member[] assignedMembers;
+    @ElementCollection(targetClass = Member.class)
+    @NonNull private List<Member> assignedMembers;
 
-    // @Getter
-    // @Column(nullable = false, length = 1)
-    // @NonNull private Resident resident;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name="associatedTickets")
+    @NonNull private Resident resident;
 
-    @Getter
-    @OrderColumn
     @Column(nullable = false, length = 50)
-    @NonNull private String[] tags;
+    @ElementCollection(targetClass = String.class)
+    @NonNull private List<String> tags;
 }
