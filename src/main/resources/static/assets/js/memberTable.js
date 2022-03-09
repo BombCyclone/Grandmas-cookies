@@ -5,7 +5,7 @@ fetch('/member', {method: 'GET'})
     // the response data are the members to be displayed, call the buildtable method
     buildTable(res);
 })
-.catch(error=>console.log)
+.catch(error=>console.log(error))
 
 // used to display the rows from members to the webpage
 function buildTable(data){
