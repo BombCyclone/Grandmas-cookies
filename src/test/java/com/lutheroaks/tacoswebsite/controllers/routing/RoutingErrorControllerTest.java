@@ -1,6 +1,5 @@
-package com.lutheroaks.tacoswebsite.controller;
+package com.lutheroaks.tacoswebsite.controllers.routing;
 
-import com.lutheroaks.tacoswebsite.controller.RoutingErrorController;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

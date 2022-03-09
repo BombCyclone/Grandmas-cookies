@@ -1,4 +1,4 @@
-package com.lutheroaks.tacoswebsite.controller;
+package com.lutheroaks.tacoswebsite.controllers.contact;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -37,7 +37,7 @@ public class ContactController {
 		}
 		// set the email message parameters
         messageHelper.setFrom("tacosemailservice@gmail.com");
-        messageHelper.setTo("njande2@ilstu.edu");
+        messageHelper.setTo("aeheis1@ilstu.edu");
         messageHelper.setSubject("TACOS Contact Us Request from " + name);
         messageHelper.setText(message);
 		// send the email
