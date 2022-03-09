@@ -14,21 +14,21 @@ public class ResidentController {
     private ResidentRepo repository;
 
     @Autowired
-    private ResidentController(ResidentRepo repository){
+    public ResidentController(ResidentRepo repository){
         this.repository = repository;
     }
 
     // this method adds a new row to the member table
 	@PostMapping("/resident")
-	public String addResident(String fname, String lname, int roomNum) {
-		Resident toAdd = new Resident(fname, lname, roomNum);
+	public String addResident(String firstName, String lastName, int roomNum) {
+		Resident toAdd = new Resident(firstName, lastName, roomNum);
 		repository.save(toAdd);
 		return "A new resident was added!";
 	}
 
 	// this method returns a list of all rows in the member table
 	@GetMapping("/resident")
-	public List<Resident> getResident() {
+	public List<Resident> getResidents() {
 		return repository.findAll();
 	}
     

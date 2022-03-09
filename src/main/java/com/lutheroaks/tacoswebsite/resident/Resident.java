@@ -31,11 +31,11 @@ public class Resident {
     private int residentid;
 
     @Column(nullable = false, unique = false, length = 50)
-    @NonNull private String fname;
+    @NonNull private String firstName;
 
     @OrderColumn
     @Column(nullable = false, unique = false, length = 50)
-    @NonNull private String lname;
+    @NonNull private String lastName;
 
     @Column(nullable = false, unique = true, length = 50)
     final int roomNum;
