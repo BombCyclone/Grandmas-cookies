@@ -2,6 +2,7 @@ package com.lutheroaks.tacoswebsite.member;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -11,13 +12,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.lutheroaks.tacoswebsite.bio.Bio;
 import com.lutheroaks.tacoswebsite.tickets.Tickets;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -31,29 +33,33 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class Member {
 
-    // memberid is the key for each row
+    // memberId is the key for each row
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    private int memberid;
+    private int memberId;
 
-    @Getter
     @Column(nullable = false, unique = false, length = 50)
-    @NonNull private String firstname;
+    @NonNull private String firstName;
 
-    @Getter
     @Column(nullable = false, unique = false, length = 50)
-    @NonNull private String lastname;
+    @NonNull private String lastName;
 
-    @Getter
     @Column(nullable = false, unique = true, length = 50)
     @NonNull String email;
 
     @ManyToMany
     @JoinTable(
         name = "Ticket_Member_Assignments", 
-        joinColumns = @JoinColumn(name = "memberid"), 
+        joinColumns = @JoinColumn(name = "memberId"), 
         inverseJoinColumns = @JoinColumn(name = "ticketNum"))
     @ElementCollection(targetClass = Tickets.class)
     private Set<Tickets> associatedTickets;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "member_bio", 
+      joinColumns = 
+        { @JoinColumn(name = "memberId", referencedColumnName = "memberId") },
+      inverseJoinColumns = 
+        { @JoinColumn(name = "bioId", referencedColumnName = "bioId") })
+    private Bio biography;
 }
