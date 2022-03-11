@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
@@ -58,6 +59,7 @@ public class Tickets {
     @Column(nullable = false, length = 50)
     @NonNull private Date timestamp;
 
+    @ManyToMany(mappedBy = "associatedTickets")
     @Column(nullable = false, length = 3)
     @ElementCollection(targetClass = Member.class)
     @NonNull private List<Member> assignedMembers;

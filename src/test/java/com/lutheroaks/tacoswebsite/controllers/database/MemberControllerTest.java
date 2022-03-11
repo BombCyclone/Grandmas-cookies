@@ -3,10 +3,13 @@ package com.lutheroaks.tacoswebsite.controllers.database;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.lutheroaks.tacoswebsite.member.Member;
 import com.lutheroaks.tacoswebsite.member.MemberRepo;
+import com.lutheroaks.tacoswebsite.tickets.Tickets;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,7 +45,8 @@ public class MemberControllerTest {
     public void getMembersTest(){
         // mockList will be returned by the findAll method
         List<Member> mockList = new ArrayList<Member>();
-        Member fakeMember = new Member(1, "Herbert", "Malcolm", "idonthaveanemail@fakemail.com");
+        Set<Tickets> associatedTickets = new HashSet<>();
+        Member fakeMember = new Member(1, "Herbert", "Malcolm", "idonthaveanemail@fakemail.com", associatedTickets);
         mockList.add(fakeMember);
         // return the mockList instead of querying the database
         Mockito.when(repository.findAll()).thenReturn(mockList);

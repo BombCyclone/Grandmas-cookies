@@ -1,4 +1,4 @@
-// call the get mapping to add the data to members
+// call the get mapping from the controller to retrive data from the database
 fetch('/member', {method: 'GET'})
 .then(data=>{return data.json()})
 .then(res=>{
