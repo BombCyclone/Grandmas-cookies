@@ -20,8 +20,8 @@ public class MemberController {
 
 	// this method adds a new row to the member table
 	@PostMapping("/member")
-	public String addMember(String fname, String lname, String email) {
-		Member toAdd = new Member(fname, lname, email);
+	public String addMember(String firstName, String lastName, String email) {
+		Member toAdd = new Member(firstName, lastName, email);
 		repository.save(toAdd);
 		return "A new member was added!";
 	}
