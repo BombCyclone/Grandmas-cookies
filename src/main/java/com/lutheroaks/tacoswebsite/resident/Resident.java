@@ -28,7 +28,7 @@ public class Resident {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int residentid;
+    private int residentId;
 
     @Column(nullable = false, unique = false, length = 50)
     @NonNull private String firstName;
