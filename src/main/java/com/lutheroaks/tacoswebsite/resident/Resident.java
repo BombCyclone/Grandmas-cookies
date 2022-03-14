@@ -36,6 +36,9 @@ public class Resident {
     @OrderColumn
     @Column(nullable = false, unique = false, length = 50)
     @NonNull private String lastName;
+    
+    @Column(nullable = false, unique = true, length = 50)
+    final int roomNum;
 
     @OneToMany(mappedBy = "resident", fetch=FetchType.LAZY)
     @ElementCollection(targetClass = Tickets.class)
