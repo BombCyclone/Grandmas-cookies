@@ -13,9 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
+import com.lutheroaks.tacoswebsite.comment.Comment;
 import com.lutheroaks.tacoswebsite.member.Member;
 import com.lutheroaks.tacoswebsite.resident.Resident;
 
@@ -47,10 +49,6 @@ public class Tickets {
 
     @Column(nullable = false, length = 50)
     @NonNull private String techType;
-    
-    @Column(nullable = false, length = 10)
-    @ElementCollection(targetClass = String.class)
-    @NonNull private List<String> comments;
 
     @OrderColumn
     @Column(nullable = false, length = 50)
@@ -68,4 +66,8 @@ public class Tickets {
     @Column(nullable = false, length = 50)
     @ElementCollection(targetClass = String.class)
     @NonNull private List<String> tags;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name="comments")
+    @NonNull private List<Comment> comments;
 }

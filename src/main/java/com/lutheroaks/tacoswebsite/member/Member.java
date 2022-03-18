@@ -1,21 +1,25 @@
 package com.lutheroaks.tacoswebsite.member;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.lutheroaks.tacoswebsite.bio.Bio;
+import com.lutheroaks.tacoswebsite.comment.Comment;
 import com.lutheroaks.tacoswebsite.tickets.Tickets;
 
 import lombok.AllArgsConstructor;
@@ -62,4 +66,10 @@ public class Member {
       inverseJoinColumns = 
         { @JoinColumn(name = "bioId", referencedColumnName = "bioId") })
     private Bio biography;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(nullable = false, name="comments")
+    @NonNull private List<Comment> comments;
+
+
 }

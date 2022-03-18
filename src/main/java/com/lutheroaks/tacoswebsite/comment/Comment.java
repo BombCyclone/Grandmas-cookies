@@ -1,5 +1,6 @@
 package com.lutheroaks.tacoswebsite.comment;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -22,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Table(name = "Comment")
 @RequiredArgsConstructor
-public class Comment {
+public class Comment implements Serializable {
 
     @Column(nullable = false, unique = false, length = 300)
     @NonNull private String content;
@@ -33,12 +34,12 @@ public class Comment {
     @Id
     @ManyToOne
     @JoinColumn(name="ticket_num")
-    private Tickets ticketNum;
+    private transient Tickets ticketNum;
 
     @Id
     @ManyToOne
     @JoinColumn(name="memberId")
-    private Member memberId;
+    private transient Member memberId;
 
 }
 
