@@ -28,6 +28,7 @@ public class MemberControllerTest {
         controller = new MemberController(repository);
     }
     
+    /*
     @Test
     public void addMemberTest(){
         // we don't actually want to save to our database here, just return null
@@ -37,7 +38,8 @@ public class MemberControllerTest {
         // make sure the return type matches the expected string
         assertEquals("A new member was added!", retVal);
     }
-
+    */
+    
     @Test
     public void getMembersTest(){
         // mockList will be returned by the findAll method
