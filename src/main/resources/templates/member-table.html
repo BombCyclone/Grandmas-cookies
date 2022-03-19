@@ -357,7 +357,42 @@
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->
+            </div>  
+          </div>    
+          <div class="card">
+            <div class="card-body">
+              <br/>
 
+              <div class="pagetitle">
+                <h1>Add New Member</h1>  
+              </div><!-- end add new member -->
+
+              <!-- Add New Member Form -->
+              <form id="add-member-form" name="add-member-form" action="/member" method="POST" enctype="multipart/form-data" >
+                <div class="row mb-3 justify-content-center">
+                  <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+                  <div class="col-sm-6 col-md-4">
+                    <input type="text" class="form-control" id="fname" name="fname" minlength = "3" maxlength = "30" required></input>
+                  </div>
+                </div>
+                <div class="row mb-3 justify-content-center">
+                  <label for="lastName" class="col-sm-2 col-form-label" >Last Name</label>
+                  <div class="col-sm-6 col-md-4">
+                    <input type="text" class="form-control" id="lname" name="lname" minlength = "3" maxlength = "30" required></input>
+                  </div>
+                </div>
+                <div class="row mb-3 justify-content-center">
+                  <label for="email" class="col-sm-2 col-form-label">Email</label>
+                  <div class="col-sm-6 col-md-4">
+                    <input class="form-control" id="email" name="email" type="email" minlength="4" maxlength = "60" required></input>
+                  </div>
+                
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+              </form><!-- End Horizontal Form -->
             </div>
           </div>
 
