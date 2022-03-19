@@ -1,9 +1,12 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import com.lutheroaks.tacoswebsite.member.Member;
 import com.lutheroaks.tacoswebsite.member.MemberRepo;
@@ -28,18 +31,37 @@ public class MemberControllerTest {
         controller = new MemberController(repository);
     }
     
-    /*
+
     @Test
-    public void addMemberTest(){
+    public void addMemberTestMemberAlreadyExists(){
         // we don't actually want to save to our database here, just return null
         Mockito.doReturn(null).when(repository).save(Mockito.any(Member.class));
-        // call the method to test
-        String retVal = controller.addMember("Rupert", "Thompson", "getoffmylawn@noemail.com");
-        // make sure the return type matches the expected string
-        assertEquals("A new member was added!", retVal);
+        HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
+        // mock adding a new member 
+        Mockito.when(newReq.getParameter("fname")).thenReturn("Dorothy");
+        Mockito.when(newReq.getParameter("lname")).thenReturn("Jenkins");
+        Mockito.when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        List<Object> mockReturn = new ArrayList<>();
+        Object emailToAdd = new Object();
+        mockReturn.add(emailToAdd);
+        Mockito.when(repository.findMemberByEmail(anyString())).thenReturn(mockReturn);
+        String retVal = controller.addMember(newReq);
+        assertEquals("Member already in system", retVal);
     }
-    */
-    
+
+    @Test
+    public void addMemberTestMemberDNE(){
+        HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
+        // mock adding a new member 
+        Mockito.when(newReq.getParameter("fname")).thenReturn("Dorothy");
+        Mockito.when(newReq.getParameter("lname")).thenReturn("Jenkins");
+        Mockito.when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        List<Object> mockReturn = new ArrayList<>();
+
+        Mockito.when(repository.findMemberByEmail(anyString())).thenReturn(mockReturn);
+        String retVal = controller.addMember(newReq);
+        assertEquals("a new member was added!", retVal);
+    }
     @Test
     public void getMembersTest(){
         // mockList will be returned by the findAll method
@@ -55,4 +77,5 @@ public class MemberControllerTest {
         assertEquals("idonthaveanemail@fakemail.com", retVal.get(0).getEmail());
         assertEquals(1, retVal.get(0).getMemberId());
     }
+
 }

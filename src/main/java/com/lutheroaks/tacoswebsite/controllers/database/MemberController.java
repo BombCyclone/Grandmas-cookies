@@ -20,20 +20,7 @@ public class MemberController {
 	public MemberController(MemberRepo repository){
 		this.repository = repository;
 	}
-/*
-	// this method adds a new row to the member table
-	@PostMapping("/member")
-	public String addMember(String firstName, String lastName, String email) {
-		//check for duplicate member by email
-		if (repository.findMemberByEmail(email).isEmpty()) {
-			Member toAdd = new Member(firstName, lastName, email);
-			repository.save(toAdd);
-			return "A new member was added!";
-		} else {
-			return "Member already in system";
-		}
-	}
-*/
+
 	@PostMapping("/member")
 	public String addMember(HttpServletRequest request){
 		String fName = request.getParameter("fname");
