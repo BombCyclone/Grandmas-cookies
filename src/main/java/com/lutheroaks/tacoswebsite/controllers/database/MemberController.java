@@ -1,6 +1,9 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,22 +21,26 @@ public class MemberController {
 		this.repository = repository;
 	}
 
-	// this method adds a new row to the member table
 	@PostMapping("/member")
-	public String addMember(String firstName, String lastName, String email) {
-		//check for duplicate member by email
+	public String addMember(HttpServletRequest request){
+		String fName = request.getParameter("fname");
+		String lName = request.getParameter("lname");
+		String email = request.getParameter("email");
 		if (repository.findMemberByEmail(email).isEmpty()) {
-			Member toAdd = new Member(firstName, lastName, email);
+			Member toAdd = new Member();
+			toAdd.setFirstName(fName);
+			toAdd.setLastName(lName);
+			toAdd.setEmail(email);
 			repository.save(toAdd);
-			return "A new member was added!";
-		} else {
+			return "a new member was added!";
+		}else{
 			return "Member already in system";
 		}
 	}
-
 	// this method returns a list of all rows in the member table
 	@GetMapping("/member")
 	public List<Member> getMembers() {
 		return repository.findAll();
 	}
+	
 }
