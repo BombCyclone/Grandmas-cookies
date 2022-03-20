@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.javamail.JavaMailSender;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class ContactControllerTest {
@@ -30,7 +31,7 @@ public class ContactControllerTest {
     public void mockSetup() {
         mimeMessage = new MimeMessage((Session)null);
         javaMailSender = Mockito.mock(JavaMailSender.class);
-        Mockito.when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
+        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
         controller = new ContactController(javaMailSender);
     }
 
@@ -39,10 +40,10 @@ public class ContactControllerTest {
         // mock the parameters for the send email method
         HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
         // mock the returns of the name and message fields in the email to be sent
-        Mockito.when(newReq.getParameter("message")).thenReturn("test message");
-        Mockito.when(newReq.getParameter("fname")).thenReturn("Dorothy");
-        Mockito.when(newReq.getParameter("lname")).thenReturn("Jenkins");
-        Mockito.when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        when(newReq.getParameter("message")).thenReturn("test message");
+        when(newReq.getParameter("fname")).thenReturn("Dorothy");
+        when(newReq.getParameter("lname")).thenReturn("Jenkins");
+        when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
         // call the method in the controller
         String retVal = controller.sendEmail(newReq);
         // assert the expected result
@@ -54,9 +55,9 @@ public class ContactControllerTest {
         // mock the parameters for the send email method
         HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
         // mock the returns of the name and message fields in the email to be sent
-        Mockito.when(newReq.getParameter("message")).thenReturn("test message");
-        Mockito.when(newReq.getParameter("fname")).thenReturn("Dorothy");
-        Mockito.when(newReq.getParameter("lname")).thenReturn("Jenkins");
+        when(newReq.getParameter("message")).thenReturn("test message");
+        when(newReq.getParameter("fname")).thenReturn("Dorothy");
+        when(newReq.getParameter("lname")).thenReturn("Jenkins");
         // call the method in the controller
         String retVal = controller.sendEmail(newReq);
         // assert the expected result
