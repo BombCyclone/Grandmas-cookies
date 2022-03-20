@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
-import com.lutheroaks.tacoswebsite.tickets.Tickets;
+import com.lutheroaks.tacoswebsite.ticket.Ticket;
 
 import lombok.Data;
 import lombok.NonNull;
@@ -41,7 +41,7 @@ public class Resident {
     final int roomNum;
 
     @OneToMany(mappedBy = "resident", fetch=FetchType.LAZY)
-    @ElementCollection(targetClass = Tickets.class)
-    private Set<Tickets> associatedTickets;
+    @ElementCollection(targetClass = Ticket.class)
+    private Set<Ticket> associatedTickets;
 }
 

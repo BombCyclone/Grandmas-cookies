@@ -66,7 +66,12 @@ public class MemberControllerTest {
     public void getMembersTest(){
         // mockList will be returned by the findAll method
         List<Member> mockList = new ArrayList<Member>();
-        Member fakeMember = new Member(1, "Herbert", "Malcolm", "idonthaveanemail@fakemail.com", null, null);
+        //Member fakeMember = new Member(1, "Herbert", "Malcolm", "idonthaveanemail@fakemail.com", null, null);
+        Member fakeMember = new Member();
+        fakeMember.setMemberId(1);
+        fakeMember.setFirstName("Herbert");
+        fakeMember.setLastName("Malcolm");
+        fakeMember.setEmail("idonthaveanemail@fakemail.com");
         mockList.add(fakeMember);
         // return the mockList instead of querying the database
         Mockito.when(repository.findAll()).thenReturn(mockList);
