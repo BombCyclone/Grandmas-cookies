@@ -1,7 +1,11 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,42 +35,41 @@ public class MemberControllerTest {
         controller = new MemberController(repository);
     }
     
-
     @Test
-    public void addMemberTestMemberAlreadyExists(){
+    public void addMemberDoesNotPreviouslyExist(){
         // we don't actually want to save to our database here, just return null
-        Mockito.doReturn(null).when(repository).save(Mockito.any(Member.class));
+        doReturn(null).when(repository).save(any(Member.class));
         HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
         // mock adding a new member 
-        Mockito.when(newReq.getParameter("fname")).thenReturn("Dorothy");
-        Mockito.when(newReq.getParameter("lname")).thenReturn("Jenkins");
-        Mockito.when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        when(newReq.getParameter("fname")).thenReturn("Dorothy");
+        when(newReq.getParameter("lname")).thenReturn("Jenkins");
+        when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        List<Object> mockReturn = new ArrayList<>();
+
+        when(repository.findMemberByEmail(anyString())).thenReturn(mockReturn);
+        String retVal = controller.addMember(newReq);
+        assertEquals("a new member was added!", retVal);
+    }
+
+    @Test
+    public void addMemberAlreadyExists(){
+        HttpServletRequest  newReq = mock(HttpServletRequest.class);
+        // mock adding a new member 
+        when(newReq.getParameter("fname")).thenReturn("Dorothy");
+        when(newReq.getParameter("lname")).thenReturn("Jenkins");
+        when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
         List<Object> mockReturn = new ArrayList<>();
         Object emailToAdd = new Object();
         mockReturn.add(emailToAdd);
-        Mockito.when(repository.findMemberByEmail(anyString())).thenReturn(mockReturn);
+        when(repository.findMemberByEmail(anyString())).thenReturn(mockReturn);
         String retVal = controller.addMember(newReq);
         assertEquals("Member already in system", retVal);
     }
 
     @Test
-    public void addMemberTestMemberDNE(){
-        HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
-        // mock adding a new member 
-        Mockito.when(newReq.getParameter("fname")).thenReturn("Dorothy");
-        Mockito.when(newReq.getParameter("lname")).thenReturn("Jenkins");
-        Mockito.when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
-        List<Object> mockReturn = new ArrayList<>();
-
-        Mockito.when(repository.findMemberByEmail(anyString())).thenReturn(mockReturn);
-        String retVal = controller.addMember(newReq);
-        assertEquals("a new member was added!", retVal);
-    }
-    @Test
     public void getMembersTest(){
         // mockList will be returned by the findAll method
         List<Member> mockList = new ArrayList<Member>();
-        //Member fakeMember = new Member(1, "Herbert", "Malcolm", "idonthaveanemail@fakemail.com", null, null);
         Member fakeMember = new Member();
         fakeMember.setMemberId(1);
         fakeMember.setFirstName("Herbert");
@@ -74,7 +77,7 @@ public class MemberControllerTest {
         fakeMember.setEmail("idonthaveanemail@fakemail.com");
         mockList.add(fakeMember);
         // return the mockList instead of querying the database
-        Mockito.when(repository.findAll()).thenReturn(mockList);
+        when(repository.findAll()).thenReturn(mockList);
         List<Member> retVal = controller.getMembers();
         // make sure that the returned data is our mockList
         assertEquals("Herbert", retVal.get(0).getFirstName());
