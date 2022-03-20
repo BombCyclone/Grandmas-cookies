@@ -1,4 +1,4 @@
-package com.lutheroaks.tacoswebsite.tickets;
+package com.lutheroaks.tacoswebsite.ticket;
 
 import java.sql.Date;
 import java.util.List;
@@ -27,14 +27,14 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-// This class contains the attributes and getters/setters for the Tickets table in the database
+// This class contains the attributes and getters/setters for the Ticket table in the database
 @Entity
-@Table(name = "Tickets")
+@Table(name = "Ticket")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @RequiredArgsConstructor
-public class Tickets {
+public class Ticket {
 
     // Ticketid is the key for each row
     @Id
@@ -67,7 +67,6 @@ public class Tickets {
     @ElementCollection(targetClass = String.class)
     @NonNull private List<String> tags;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name="comments")
-    @NonNull private List<Comment> comments;
+    @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY)
+    @NonNull protected List<Comment> comments;
 }

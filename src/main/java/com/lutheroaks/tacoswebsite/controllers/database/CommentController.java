@@ -22,7 +22,8 @@ public class CommentController {
     // this method adds a new row to the comment table
 	@PostMapping("/comment")
 	public String addComment(String content) {
-			Comment toAdd = new Comment(content);
+			Comment toAdd = new Comment();
+			toAdd.setContent(content);
 			repository.save(toAdd);
 			return "A new comment was added!";
 	}

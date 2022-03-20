@@ -1,45 +1,49 @@
 package com.lutheroaks.tacoswebsite.comment;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
 import com.lutheroaks.tacoswebsite.member.Member;
-import com.lutheroaks.tacoswebsite.tickets.Tickets;
+import com.lutheroaks.tacoswebsite.ticket.Ticket;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 // This class contains the attributes and getters/setters for the Comment table in the database
 @Entity
-@Data
 @Table(name = "Comment")
+@IdClass(CommentKey.class)
+@Data
 @RequiredArgsConstructor
-public class Comment implements Serializable {
+@NoArgsConstructor
+public class Comment {
 
     @Column(nullable = false, unique = false, length = 300)
     @NonNull private String content;
 
-    @Column(nullable = false, unique = false, length = 300, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Timestamp timeStamp;
+    @Id
+    @Column(nullable = false, unique = false, length = 300)
+    @NonNull Date timeStamp;
 
     @Id
     @ManyToOne
-    @JoinColumn(name="ticket_num")
-    private transient Tickets ticketNum;
+    @JoinColumn(name="ticket", nullable = false)
+    @NonNull private Ticket ticket;
 
     @Id
     @ManyToOne
-    @JoinColumn(name="memberId")
-    private transient Member memberId;
+    @JoinColumn(name="member", nullable = false)
+    @NonNull private Member member;
 
 }
 

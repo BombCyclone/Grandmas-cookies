@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 import com.lutheroaks.tacoswebsite.bio.Bio;
 import com.lutheroaks.tacoswebsite.comment.Comment;
-import com.lutheroaks.tacoswebsite.tickets.Tickets;
+import com.lutheroaks.tacoswebsite.ticket.Ticket;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -56,8 +56,8 @@ public class Member {
         name = "Ticket_Member_Assignments", 
         joinColumns = @JoinColumn(name = "memberId"), 
         inverseJoinColumns = @JoinColumn(name = "ticketNum"))
-    @ElementCollection(targetClass = Tickets.class)
-    private Set<Tickets> associatedTickets;
+    @ElementCollection(targetClass = Ticket.class)
+    private Set<Ticket> associatedTickets;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "member_bio", 
@@ -67,9 +67,8 @@ public class Member {
         { @JoinColumn(name = "bioId", referencedColumnName = "bioId") })
     private Bio biography;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false, name="comments")
-    @NonNull private List<Comment> comments;
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @NonNull protected List<Comment> comments;
 
 
 }
