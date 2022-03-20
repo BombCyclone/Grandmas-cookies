@@ -21,6 +21,10 @@ function buildTable(data){
                     </tr>`
         table.innerHTML += row
     }
+
+    // Hide the loading spinner now that the rows have been added
+    var spinner = document.getElementById('spinner');
+    spinner.style.visibility = "hidden";
     addscripts();
 }
 
