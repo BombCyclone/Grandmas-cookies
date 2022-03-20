@@ -48,7 +48,7 @@ public class ContactController {
 			return "index";
 		}
 		catch (Exception e){
-			return "contactus";
+			return "error";
 		}
 	}
 }

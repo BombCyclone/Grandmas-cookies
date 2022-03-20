@@ -368,7 +368,7 @@
               </div><!-- end add new member -->
 
               <!-- Add New Member Form -->
-              <form id="add-member-form" name="add-member-form" action="/member" method="POST" enctype="multipart/form-data" >
+              <form id="add-member-form" name="add-member-form" action="/member" method="POST" enctype="multipart/form-data" onSubmit="alert('Adding new member! \n(Will redirect to error page if provided email already exists)')">
                 <div class="row mb-3 justify-content-center">
                   <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
                   <div class="col-sm-6 col-md-4">
