@@ -1,8 +1,10 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,19 +24,22 @@ public class MemberController {
 	}
 
 	@PostMapping("/member")
-	public String addMember(HttpServletRequest request){
+	public void addMember(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		String fName = request.getParameter("fname");
 		String lName = request.getParameter("lname");
 		String email = request.getParameter("email");
+		// if empty, add to table and refresh page
 		if (repository.findMemberByEmail(email).isEmpty()) {
 			Member toAdd = new Member();
 			toAdd.setFirstName(fName);
 			toAdd.setLastName(lName);
 			toAdd.setEmail(email);
 			repository.save(toAdd);
-			return "a new member was added!";
-		}else{
-			return "Member already in system";
+			response.sendRedirect("member-table");
+		}
+		// if user already exists or something went wrong
+		else{
+			response.sendRedirect("error");
 		}
 	}
 	// this method returns a list of all rows in the member table

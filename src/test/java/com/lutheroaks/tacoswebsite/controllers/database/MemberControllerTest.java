@@ -3,14 +3,19 @@ package com.lutheroaks.tacoswebsite.controllers.database;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.member.Member;
 import com.lutheroaks.tacoswebsite.member.MemberRepo;
@@ -36,34 +41,41 @@ public class MemberControllerTest {
     }
     
     @Test
-    public void addMemberDoesNotPreviouslyExist(){
+    public void addMemberDoesNotPreviouslyExist() throws IOException{
         // we don't actually want to save to our database here, just return null
         doReturn(null).when(repository).save(any(Member.class));
-        HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
+        HttpServletRequest  request = Mockito.mock(HttpServletRequest.class);
+        HttpServletResponse  response = Mockito.mock(HttpServletResponse.class);
+        doNothing().when(response).sendRedirect(anyString());
         // mock adding a new member 
-        when(newReq.getParameter("fname")).thenReturn("Dorothy");
-        when(newReq.getParameter("lname")).thenReturn("Jenkins");
-        when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        when(request.getParameter("fname")).thenReturn("Dorothy");
+        when(request.getParameter("lname")).thenReturn("Jenkins");
+        when(request.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        // return an empty list when findMemberByEmail is called
         List<Object> mockReturn = new ArrayList<>();
-
         when(repository.findMemberByEmail(anyString())).thenReturn(mockReturn);
-        String retVal = controller.addMember(newReq);
-        assertEquals("a new member was added!", retVal);
+        controller.addMember(request, response);
+        // confirm that the form would have successfully added the member and refreshed the page
+        verify(response, times(1)).sendRedirect("member-table");
     }
 
     @Test
-    public void addMemberAlreadyExists(){
-        HttpServletRequest  newReq = mock(HttpServletRequest.class);
+    public void addMemberAlreadyExists() throws IOException{
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = Mockito.mock(HttpServletResponse.class);
+        doNothing().when(response).sendRedirect(anyString());
         // mock adding a new member 
-        when(newReq.getParameter("fname")).thenReturn("Dorothy");
-        when(newReq.getParameter("lname")).thenReturn("Jenkins");
-        when(newReq.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        when(request.getParameter("fname")).thenReturn("Dorothy");
+        when(request.getParameter("lname")).thenReturn("Jenkins");
+        when(request.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        // create a non empty list to be returned in the findMemberByEmail call
         List<Object> mockReturn = new ArrayList<>();
         Object emailToAdd = new Object();
         mockReturn.add(emailToAdd);
         when(repository.findMemberByEmail(anyString())).thenReturn(mockReturn);
-        String retVal = controller.addMember(newReq);
-        assertEquals("Member already in system", retVal);
+        controller.addMember(request, response);
+        // confirm that we would have been routed to the error page
+        verify(response, times(1)).sendRedirect("error");
     }
 
     @Test
