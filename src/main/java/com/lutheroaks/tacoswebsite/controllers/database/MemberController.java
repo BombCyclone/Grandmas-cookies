@@ -28,8 +28,8 @@ public class MemberController {
 		String fName = request.getParameter("fname");
 		String lName = request.getParameter("lname");
 		String email = request.getParameter("email");
-		// if empty, add to table and refresh page
-		if (repository.findMemberByEmail(email).isEmpty()) {
+		// if no member is found in the table by the given email, we can create the new member
+		if (repository.findMemberByEmail(email) == null) {
 			Member toAdd = new Member();
 			toAdd.setFirstName(fName);
 			toAdd.setLastName(lName);

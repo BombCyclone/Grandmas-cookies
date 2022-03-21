@@ -51,9 +51,8 @@ public class MemberControllerTest {
         when(request.getParameter("fname")).thenReturn("Dorothy");
         when(request.getParameter("lname")).thenReturn("Jenkins");
         when(request.getParameter("email")).thenReturn("fakeemail@gmail.com");
-        // return an empty list when findMemberByEmail is called
-        List<Object> mockReturn = new ArrayList<>();
-        when(repository.findMemberByEmail(anyString())).thenReturn(mockReturn);
+        // return null when querying given email, indicating the user email does not exist currently
+        when(repository.findMemberByEmail(anyString())).thenReturn(null);
         controller.addMember(request, response);
         // confirm that the form would have successfully added the member and refreshed the page
         verify(response, times(1)).sendRedirect("member-table");
@@ -68,11 +67,8 @@ public class MemberControllerTest {
         when(request.getParameter("fname")).thenReturn("Dorothy");
         when(request.getParameter("lname")).thenReturn("Jenkins");
         when(request.getParameter("email")).thenReturn("fakeemail@gmail.com");
-        // create a non empty list to be returned in the findMemberByEmail call
-        List<Object> mockReturn = new ArrayList<>();
-        Object emailToAdd = new Object();
-        mockReturn.add(emailToAdd);
-        when(repository.findMemberByEmail(anyString())).thenReturn(mockReturn);
+        // return a member when querying by email, indicating the member already exists
+        when(repository.findMemberByEmail(anyString())).thenReturn(new Member());
         controller.addMember(request, response);
         // confirm that we would have been routed to the error page
         verify(response, times(1)).sendRedirect("error");

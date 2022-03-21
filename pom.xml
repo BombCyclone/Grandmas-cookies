@@ -81,6 +81,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-api</artifactId>
@@ -129,7 +134,7 @@
 						  <limit>
 							<counter>INSTRUCTION</counter>
 							<value>COVEREDRATIO</value>
-							<minimum>0.80</minimum>
+							<minimum>0.75</minimum>
 						  </limit>
 						</limits>
 					  </rule>

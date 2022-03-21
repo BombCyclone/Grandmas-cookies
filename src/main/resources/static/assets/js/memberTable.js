@@ -14,7 +14,6 @@ function buildTable(data){
     // for each object in the data array, return a table row
     for(let member of data){
         var row =   `<tr>
-                        <td>${member.memberId}</td>
                         <td>${member.firstName}</td>
                         <td>${member.lastName}</td>
                         <td>${member.email}</td>
