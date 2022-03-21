@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import com.lutheroaks.tacoswebsite.bio.Bio;
 import com.lutheroaks.tacoswebsite.comment.Comment;
@@ -51,7 +52,7 @@ public class Member {
     @Column(unique = true, length = 50)
     @NonNull String email;
 
-    @Column(unique = false, length = 50)
+    @Column(unique = false, length = 255)
     @NonNull String password;
 
     @ManyToMany
@@ -73,5 +74,9 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     @NonNull protected List<Comment> comments;
 
+    @Column(unique = false, length = 50)
+    private String role;
+    
+    private boolean enabled;
 
 }
