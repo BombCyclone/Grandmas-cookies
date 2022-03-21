@@ -61,7 +61,10 @@ public class ResidentControllerTest {
     public void getResidentsTest(){
         // mockList will be returned by the findAll method
         List<Resident> mockList = new ArrayList<Resident>();
-        Resident fakeResident = new Resident("Gloria", "Simpson", 327);
+        Resident fakeResident = new Resident();
+        fakeResident.setFirstName("Gloria");
+        fakeResident.setLastName("Simpson");
+        fakeResident.setRoomNum(327);
         mockList.add(fakeResident);
         // return the mockList instead of querying the database
         when(repository.findAll()).thenReturn(mockList);

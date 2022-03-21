@@ -23,7 +23,10 @@ public class ResidentController {
 	public String addResident(String firstName, String lastName, Integer roomNum) {
 		//check for duplicate resident via first AND last name
 		if (repository.findResidentByName(firstName, lastName).isEmpty()) {
-			Resident toAdd = new Resident(firstName, lastName, roomNum);
+			Resident toAdd = new Resident();
+			toAdd.setFirstName(firstName);
+			toAdd.setLastName(lastName);
+			toAdd.setRoomNum(roomNum);
 			repository.save(toAdd);
 			return "A new resident was added!";
 		} else {

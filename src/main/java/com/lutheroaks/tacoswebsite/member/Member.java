@@ -52,7 +52,7 @@ public class Member {
     @Column(unique = true, length = 50)
     @NonNull String email;
 
-    @Column(unique = false, length = 50)
+    @Column(unique = false, length = 255)
     @NonNull String password;
 
     @ManyToMany
@@ -77,5 +77,9 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     @NonNull protected List<KBPost> kbPosts;
 
+    @Column(unique = false, length = 50)
+    private String role;
+    
+    private boolean enabled;
 
 }
