@@ -1,8 +1,6 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +19,8 @@ public class KbpostController {
 
     @PostMapping("/kbpost")
 	public String addKBPost(String title, String content) {
-			KBPost toAdd = new KBPost(title, content);
+			KBPost toAdd = new KBPost();
+            toAdd.setTitle(title);
 			toAdd.setContent(content);
 			repository.save(toAdd);
 			return "A new post was added!";
