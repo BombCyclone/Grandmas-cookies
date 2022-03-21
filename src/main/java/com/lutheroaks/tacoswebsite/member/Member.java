@@ -20,6 +20,7 @@ import javax.persistence.Table;
 
 import com.lutheroaks.tacoswebsite.bio.Bio;
 import com.lutheroaks.tacoswebsite.comment.Comment;
+import com.lutheroaks.tacoswebsite.kb.KBPost;
 import com.lutheroaks.tacoswebsite.ticket.Ticket;
 
 import lombok.AllArgsConstructor;
@@ -69,6 +70,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     @NonNull protected List<Comment> comments;
+
+    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    @NonNull protected List<KBPost> kbPosts;
 
 
 }
