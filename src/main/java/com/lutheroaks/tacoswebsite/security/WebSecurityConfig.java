@@ -42,14 +42,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override  
     protected void configure(final HttpSecurity http)throws Exception {
         http
-        .authorizeRequests()
-        .antMatchers("/login")
-        .permitAll()
-        .anyRequest()
-        .authenticated()
-        .and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-        .httpBasic();  
+            .authorizeRequests()
+            .antMatchers("/login").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .httpBasic();  
+
+        /* 
+        csrf prevents users from modifying state through requests like 'PUT'
+        In the future, implement csrf protection for greater application security
+        */
+        http.csrf().disable();
     }
 }
