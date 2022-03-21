@@ -74,7 +74,7 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     @NonNull protected List<Comment> comments;
 
-    @OneToOne(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     @NonNull protected List<KBPost> kbPosts;
 
 

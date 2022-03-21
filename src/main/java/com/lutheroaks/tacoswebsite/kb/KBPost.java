@@ -36,7 +36,7 @@ public class KBPost {
     private int postNum;
 
     @Id
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="member", nullable = false)
     @NonNull private Member member;
 
