@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import com.lutheroaks.tacoswebsite.ticket.Ticket;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -24,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @Table(name = "Resident")
 @RequiredArgsConstructor
+@NoArgsConstructor
 public class Resident {
     
     @Id
@@ -38,7 +40,7 @@ public class Resident {
     @NonNull private String lastName;
     
     @Column(nullable = false, unique = true, length = 50)
-    final int roomNum;
+    int roomNum;
 
     @OneToMany(mappedBy = "resident", fetch=FetchType.LAZY)
     @ElementCollection(targetClass = Ticket.class)
