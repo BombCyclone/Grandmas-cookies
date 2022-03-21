@@ -25,6 +25,7 @@ function buildTable(data){
     // Hide the loading spinner now that the rows have been added
     var spinner = document.getElementById('spinner');
     spinner.style.visibility = "hidden";
+    spinner.style.height = 0;
     addscripts();
 }
 
