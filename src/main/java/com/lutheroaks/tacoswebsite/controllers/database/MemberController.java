@@ -34,6 +34,7 @@ public class MemberController {
 			toAdd.setFirstName(fName);
 			toAdd.setLastName(lName);
 			toAdd.setEmail(email);
+			toAdd.setPassword("tacos");
 			repository.save(toAdd);
 			response.sendRedirect("member-table");
 		}

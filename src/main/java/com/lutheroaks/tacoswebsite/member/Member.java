@@ -42,14 +42,17 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int memberId;
 
-    @Column(nullable = false, unique = false, length = 50)
+    @Column(unique = false, length = 50)
     @NonNull private String firstName;
 
-    @Column(nullable = false, unique = false, length = 50)
+    @Column(unique = false, length = 50)
     @NonNull private String lastName;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(unique = true, length = 50)
     @NonNull String email;
+
+    @Column(unique = false, length = 50)
+    @NonNull String password;
 
     @ManyToMany
     @JoinTable(
