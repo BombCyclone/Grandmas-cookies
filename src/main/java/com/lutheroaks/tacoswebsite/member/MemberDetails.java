@@ -3,14 +3,16 @@ package com.lutheroaks.tacoswebsite.member;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class MemberDetails implements UserDetails {
 
-    private Member member;
+    private transient Member member;
 
+    @Autowired
     public MemberDetails(Member member) {
         this.member = member;
     }
