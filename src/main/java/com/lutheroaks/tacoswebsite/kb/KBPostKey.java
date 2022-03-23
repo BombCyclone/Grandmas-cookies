@@ -9,9 +9,11 @@ import com.lutheroaks.tacoswebsite.member.Member;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
 public class KBPostKey implements Serializable {
     

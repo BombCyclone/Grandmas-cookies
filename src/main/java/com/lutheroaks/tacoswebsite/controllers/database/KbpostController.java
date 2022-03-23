@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Date;
+
 import com.lutheroaks.tacoswebsite.kb.KBPost;
 import com.lutheroaks.tacoswebsite.kb.KBPostRepo;
 
@@ -22,6 +24,7 @@ public class KbpostController {
 			KBPost toAdd = new KBPost();
             toAdd.setTitle(title);
 			toAdd.setContent(content);
+            toAdd.setTimeStamp(new Date(0));
 			repository.save(toAdd);
 			return "A new post was added!";
 	}
