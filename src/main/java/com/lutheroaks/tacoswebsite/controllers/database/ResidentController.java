@@ -1,6 +1,8 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
 import java.util.List;
+
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,6 +12,9 @@ import com.lutheroaks.tacoswebsite.resident.ResidentRepo;
 
 @RestController
 public class ResidentController {
+
+	// for logging information to console
+	Logger logger = org.slf4j.LoggerFactory.getLogger(ResidentController.class);
 
     private ResidentRepo repository;
 
@@ -21,16 +26,22 @@ public class ResidentController {
     // this method adds a new row to the member table
 	@PostMapping("/resident")
 	public String addResident(String firstName, String lastName, Integer roomNum) {
-		//check for duplicate resident via first AND last name
-		if (repository.findResidentByName(firstName, lastName).isEmpty()) {
-			Resident toAdd = new Resident();
-			toAdd.setFirstName(firstName);
-			toAdd.setLastName(lastName);
-			toAdd.setRoomNum(roomNum);
-			repository.save(toAdd);
-			return "A new resident was added!";
-		} else {
-			return "Resident already in system";
+		try{
+			//check for duplicate resident with matching first and last name
+			if (repository.findResidentByName(firstName.toUpperCase(), lastName.toUpperCase()).isEmpty()) {
+				Resident toAdd = new Resident();
+				toAdd.setFirstName(firstName);
+				toAdd.setLastName(lastName);
+				toAdd.setRoomNum(roomNum);
+				repository.save(toAdd);
+				return "A new resident was added!";
+			} else {
+				return "Resident already in system";
+			}
+		}
+		catch(Exception e){
+			logger.error("An error occurred while adding a Resident: ", e);
+			return "An exception occurred";
 		}
 	}
 

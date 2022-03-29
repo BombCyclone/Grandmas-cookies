@@ -1,7 +1,7 @@
 package com.lutheroaks.tacoswebsite.comment;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Embeddable;
 
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class CommentKey implements Serializable {
     
-    private Date timeStamp;
+    private Timestamp timeStamp;
 
     private transient Ticket ticket;
 
