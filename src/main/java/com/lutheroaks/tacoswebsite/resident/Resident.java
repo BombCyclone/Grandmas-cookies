@@ -39,7 +39,7 @@ public class Resident {
     @Column(nullable = false, unique = false, length = 50)
     @NonNull private String lastName;
     
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(nullable = false, unique = false, length = 50)
     int roomNum;
 
     @OneToMany(mappedBy = "resident", fetch=FetchType.LAZY)

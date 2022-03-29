@@ -1,6 +1,6 @@
 package com.lutheroaks.tacoswebsite.ticket;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -52,7 +52,7 @@ public class Ticket {
 
     @OrderColumn
     @Column(nullable = false, length = 50)
-    @NonNull private Date timestamp;
+    @NonNull private Timestamp timestamp;
 
     @ManyToMany(mappedBy = "associatedTickets")
     @Column(nullable = false, length = 3)
