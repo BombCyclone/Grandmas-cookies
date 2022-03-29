@@ -1,6 +1,6 @@
 package com.lutheroaks.tacoswebsite.comment;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.member.Member;
 import com.lutheroaks.tacoswebsite.ticket.Ticket;
 
@@ -28,15 +28,16 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 public class Comment {
 
-    @Column(nullable = false, unique = false, length = 300)
+    @Column(nullable = false, unique = false, length = 2000)
     @NonNull private String content;
 
     @Id
-    @Column(nullable = false, unique = false, length = 300)
-    @NonNull Date timeStamp;
+    @Column(nullable = false, unique = false, length = 100)
+    @NonNull Timestamp timeStamp;
 
     @Id
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="ticket", nullable = false)
     @NonNull private Ticket ticket;
 
