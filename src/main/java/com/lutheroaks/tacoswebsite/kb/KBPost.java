@@ -1,6 +1,6 @@
 package com.lutheroaks.tacoswebsite.kb;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -51,6 +51,6 @@ public class KBPost {
 
     @Id
     @Column(nullable = false, unique = false, length = 300)
-    @NonNull Date timeStamp;
+    @NonNull Timestamp timeStamp;
     
 }

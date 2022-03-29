@@ -34,7 +34,10 @@ public class MemberController {
 			toAdd.setFirstName(fName);
 			toAdd.setLastName(lName);
 			toAdd.setEmail(email);
-			toAdd.setPassword("tacos");
+			// this is the encrypted form of the password: "tacos"
+			toAdd.setPassword("$2a$10$ga75bkq0QgV63EvFY1iX6.6L0Y7wxdi2yOLAlqklRcmZutMu2ohJy");
+			toAdd.setRole("ROLE_ADMIN");
+			toAdd.setEnabled(true);
 			repository.save(toAdd);
 			response.sendRedirect("member-table");
 		}

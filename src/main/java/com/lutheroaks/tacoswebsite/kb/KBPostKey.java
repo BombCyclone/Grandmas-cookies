@@ -1,7 +1,7 @@
 package com.lutheroaks.tacoswebsite.kb;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Embeddable;
 
@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class KBPostKey implements Serializable {
     
-    private Date timeStamp;
+    private Timestamp timeStamp;
 
     private transient Member member;
 }
