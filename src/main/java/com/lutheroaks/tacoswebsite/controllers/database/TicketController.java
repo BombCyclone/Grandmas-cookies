@@ -44,7 +44,7 @@ public class TicketController {
 	}
 	
 	// This is called when the submit button is clicked on the Submit Ticket Page
-	@PostMapping("/sumbit-ticket")
+	@PostMapping("/submit_ticket")
 	public void submitTicket(HttpServletRequest request, HttpServletResponse response) throws MessagingException, IOException {
 		/**
 		 * There are 3 steps to submitting a ticket
@@ -54,14 +54,21 @@ public class TicketController {
 		 * 2) Create a new Ticket object and save to the table
 		 * 3) Send a confirmation email confirming submission successful
 		 */
+	//	String message = request.getParameter("message");
+	//	System.out.println("Message: " + message);
 
 		try{
 			// Get the parameters from the request
 			String message = request.getParameter("message");
+			System.out.println("Message: " + message);
 			String fname = request.getParameter("fname");
+			System.out.println("fname" + fname);
 			String lname = request.getParameter("lname");
+			System.out.println("lname " + lname);
 			String fullName = fname + " " + lname;
+			System.out.println("fname" + fname);
 			String email = request.getParameter("email");
+			System.out.println("email " + email);
 			int roomNum = Integer.parseInt(request.getParameter("roomNumber"));
 
 			// Step 1 - Search for resident and resolve to variable
