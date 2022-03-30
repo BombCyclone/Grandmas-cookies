@@ -12,9 +12,7 @@ import com.lutheroaks.tacoswebsite.resident.ResidentRepo;
 import org.slf4j.Logger;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
 
-@Component
 public class TicketHelpers {
 
     // for logging information to console
@@ -29,7 +27,7 @@ public class TicketHelpers {
 			messageHelper.setFrom("tacosemailservice@gmail.com");
 			messageHelper.setTo(email);
 			messageHelper.setSubject("TACOS ticket submission confirmation email");
-			messageHelper.setText("Thank you" + name + "your ticket has been submitted and will be resolved soon.\n" + "Ticket message: \n" + message);
+			messageHelper.setText(name + ", thank you for contacting ISU Tacos.\n\nYour ticket has been submitted and will be in contact soon.\n\n" + "Ticket message: \n" + message);
 			// send the email
 			mailSender.send(mimeMessage);
             return true;

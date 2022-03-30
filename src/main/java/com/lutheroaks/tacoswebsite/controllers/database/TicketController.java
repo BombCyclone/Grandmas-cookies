@@ -73,6 +73,7 @@ public class TicketController {
 
 			// Step 1 - Search for resident and resolve to variable
 			Resident ticketResident = helper.findResident(fname, lname, roomNum, residentRepo);
+			residentRepo.save(ticketResident);
 
 			// Step 2 - Create new ticket and set fields
 			Ticket ticket = new Ticket();
@@ -99,7 +100,7 @@ public class TicketController {
 				response.sendRedirect("index");
 			}
 			else{
-				logger.info("Something went wrong while adding a ticket");
+				logger.info("Something went wrong while sending the confirmation email");
 				response.sendRedirect("error");
 			}
 		}
