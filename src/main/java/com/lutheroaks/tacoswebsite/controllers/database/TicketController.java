@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,25 +56,19 @@ public class TicketController {
 		 * 2) Create a new Ticket object and save to the table
 		 * 3) Send a confirmation email confirming submission successful
 		 */
-	//	String message = request.getParameter("message");
-	//	System.out.println("Message: " + message);
 
 		try{
 			// Get the parameters from the request
 			String message = request.getParameter("message");
-			System.out.println("Message: " + message);
 			String fname = request.getParameter("fname");
-			System.out.println("fname" + fname);
 			String lname = request.getParameter("lname");
-			System.out.println("lname " + lname);
 			String fullName = fname + " " + lname;
-			System.out.println("fname" + fname);
 			String email = request.getParameter("email");
-			System.out.println("email " + email);
 			int roomNum = Integer.parseInt(request.getParameter("roomNumber"));
 
 			// Step 1 - Search for resident and resolve to variable
 			Resident ticketResident = helper.findResident(fname, lname, roomNum, residentRepo);
+			// save the returned resident to the repository
 			residentRepo.save(ticketResident);
 
 			// Step 2 - Create new ticket and set fields
@@ -108,5 +104,11 @@ public class TicketController {
             logger.error("An exception occurred while adding a ticket: ", e);
             response.sendRedirect("error");
 		}
+	}
+
+	// this returns a list of all tickets in the table
+	@GetMapping("/tickets")
+	public List<Ticket> getTickets() {
+		return ticketRepo.findAll();
 	}
 }

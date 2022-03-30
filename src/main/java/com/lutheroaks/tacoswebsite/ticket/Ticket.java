@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.comment.Comment;
 import com.lutheroaks.tacoswebsite.member.Member;
 import com.lutheroaks.tacoswebsite.resident.Resident;
@@ -60,6 +61,7 @@ public class Ticket {
     @NonNull private List<Member> assignedMembers;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     @JoinColumn(nullable = false, name="associatedTickets")
     @NonNull private Resident resident;
 
