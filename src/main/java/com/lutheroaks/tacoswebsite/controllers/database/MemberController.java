@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,6 +66,12 @@ public class MemberController {
 	@GetMapping("/member")
 	public List<Member> getMembers() {
 		return repository.findAll();
+	}
+
+	@Modifying
+	@DeleteMapping("/member")
+	public void deleteMember(String email) {
+		repository.deleteMemberByEmail(email);
 	}
 	
 }
