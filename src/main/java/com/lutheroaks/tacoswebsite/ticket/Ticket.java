@@ -2,6 +2,7 @@ package com.lutheroaks.tacoswebsite.ticket;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -56,13 +57,11 @@ public class Ticket {
     @NonNull private Timestamp timestamp;
 
     @ManyToMany(mappedBy = "associatedTickets")
-    @Column(nullable = false, length = 3)
-    @ElementCollection(targetClass = Member.class)
-    @NonNull private List<Member> assignedMembers;
+    @NonNull private Set<Member> assignedMembers;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JsonIgnore
-    @JoinColumn(nullable = false, name="associatedTickets")
+    @JoinColumn(name="associatedTickets", nullable = false)
     @NonNull private Resident resident;
 
     @Column(nullable = false, length = 50)

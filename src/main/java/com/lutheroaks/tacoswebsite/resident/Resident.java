@@ -1,11 +1,9 @@
 package com.lutheroaks.tacoswebsite.resident;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,8 +40,7 @@ public class Resident {
     @Column(nullable = false, unique = false, length = 50)
     int roomNum;
 
-    @OneToMany(mappedBy = "resident", fetch=FetchType.LAZY)
-    @ElementCollection(targetClass = Ticket.class)
-    private Set<Ticket> associatedTickets;
+    @OneToMany(mappedBy = "resident")
+    private List<Ticket> associatedTickets;
 }
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -36,7 +37,8 @@ public class TicketController {
 	@Autowired
 	private ResidentRepo residentRepo;
 
-	private TicketHelpers helper = new TicketHelpers();
+	@Autowired
+	private TicketHelpers helper;
 
 	private JavaMailSender mailSender;
 
@@ -77,10 +79,11 @@ public class TicketController {
 			ticket.setIssueDesc(message);
 			ticket.setTechType("electronics");
 			ticket.setTimestamp(Timestamp.from(Instant.now()));
-			ticket.setAssignedMembers(new ArrayList<>());
+			ticket.setAssignedMembers(new HashSet<>());
 			ticket.setResident(ticketResident);
 			ticket.setTags(new ArrayList<>());
 			ticket.setComments(new ArrayList<>());
+			ticket.setResident(ticketResident);
 			//save the new ticket
 			ticketRepo.save(ticket);
 

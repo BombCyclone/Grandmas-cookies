@@ -1,6 +1,6 @@
 package com.lutheroaks.tacoswebsite.controllers.database.helpers;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -10,9 +10,11 @@ import com.lutheroaks.tacoswebsite.resident.Resident;
 import com.lutheroaks.tacoswebsite.resident.ResidentRepo;
 
 import org.slf4j.Logger;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
+@Configuration
 public class TicketHelpers {
 
     // for logging information to console
@@ -47,7 +49,7 @@ public class TicketHelpers {
 			ticketResident.setFirstName(fname);
 			ticketResident.setLastName(lname);
 			ticketResident.setRoomNum(roomNum);
-			ticketResident.setAssociatedTickets(new HashSet<>());
+			ticketResident.setAssociatedTickets(new ArrayList<>());
 		}
 		else{
 			// set the resident to use to be the match from the query
