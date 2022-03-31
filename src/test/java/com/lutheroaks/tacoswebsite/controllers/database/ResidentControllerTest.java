@@ -36,7 +36,7 @@ public class ResidentControllerTest {
         // we don't actually want to save to our database here
         doReturn(null).when(repository).save(any(Resident.class));
         // return an empty list
-        List<Object> mockReturn = new ArrayList<>();
+        List<Resident> mockReturn = new ArrayList<>();
         when(repository.findResidentByName(anyString(), anyString())).thenReturn(mockReturn);
         // call the method to test
         String retVal = controller.addResident("Rupert", "Thompson", 101);
@@ -47,8 +47,8 @@ public class ResidentControllerTest {
     @Test
     public void addResidentAlreadyExists() {
         // return an list that is not empty
-        List<Object> mockReturn = new ArrayList<>();
-        Object toAdd = new Object();
+        List<Resident> mockReturn = new ArrayList<>();
+        Resident toAdd = new Resident();
         mockReturn.add(toAdd);
         when(repository.findResidentByName(anyString(), anyString())).thenReturn(mockReturn);
         // call the method to test
