@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,7 +68,7 @@ public class MemberController {
 		return repository.findAll();
 	}
 
-	@Modifying
+	@Transactional
 	@DeleteMapping("/member")
 	public void deleteMember(String email) {
 		repository.deleteMemberByEmail(email);
