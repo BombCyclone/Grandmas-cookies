@@ -9,6 +9,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.security.Principal;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,11 +21,15 @@ import javax.servlet.http.HttpServletResponse;
 import com.lutheroaks.tacoswebsite.kb.KBPost;
 import com.lutheroaks.tacoswebsite.kb.KBPostRepo;
 import com.lutheroaks.tacoswebsite.member.Member;
+import com.lutheroaks.tacoswebsite.member.MemberRepo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -37,32 +42,50 @@ import java.text.SimpleDateFormat;
 @SpringBootTest
 public class KBPostControllerTest {
     
-    @Autowired
+    @InjectMocks
     private KbpostController controller;
 
     @Mock
     private KBPostRepo repository;
 
+    @Mock
+    private MemberRepo memberRepo;
+
     @BeforeEach
     public void mockSetup() {
-        controller = new KbpostController(repository);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
     public void addKBPostTest() throws IOException {
         doReturn(null).when(repository).save(any(KBPost.class));
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+        Principal mockPrince = Mockito.mock(Principal.class);
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-        doNothing().when(response).sendRedirect(anyString());
 
         when(request.getParameter("title")).thenReturn("Explaining Apple Watches");
         when(request.getParameter("content")).thenReturn("They're wrist iPhones.");
+        when(request.getUserPrincipal()).thenReturn(mockPrince);
+        when(mockPrince.getName()).thenReturn("Charles");
+        when(memberRepo.findMemberByEmail(anyString())).thenReturn(new Member());
+
+        doNothing().when(response).sendRedirect(any());
+
+        controller.addKBPost(request, response);
+
+        verify(response, times(1)).sendRedirect("index");
+
+    }
+
+    @Test
+    public void addKBPostTestError() throws IOException {
+        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
+        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
 
         controller.addKBPost(request, response);
 
         verify(response, times(1)).sendRedirect("error");
-        //sendRedirect("index") is throwing errors - not sure what to do
-        //pretty sure I should not be testing for just "error" if at all
+
     }
 
     @Test
