@@ -118,7 +118,8 @@ public class TicketController {
 
 	@Transactional
 	@DeleteMapping("/tickets")
-	public void deleteTicket(int ticketNum) {
+	public void deleteTicket(HttpServletRequest request, HttpServletResponse response) {
+		int ticketNum = Integer.parseInt(request.getParameter("ticketNum"));
 		ticketRepo.deleteTicketByTicketNum(ticketNum);
 	}
 }
