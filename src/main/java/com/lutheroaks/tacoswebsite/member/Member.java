@@ -7,7 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,16 +42,16 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int memberId;
 
-    @Column(unique = false, length = 50)
+    @Column(length = 50)
     @NonNull private String firstName;
 
-    @Column(unique = false, length = 50)
+    @Column(length = 50)
     @NonNull private String lastName;
 
-    @Column(unique = true, length = 50)
+    @Column(length = 50)
     @NonNull String email;
 
-    @Column(unique = false, length = 255)
+    @Column(length = 255)
     @NonNull String password;
 
     @ManyToMany
@@ -71,13 +70,13 @@ public class Member {
         { @JoinColumn(name = "bioId", referencedColumnName = "bioId") })
     private Bio biography;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member")
     @NonNull protected List<Comment> comments;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member")
     @NonNull protected List<KBPost> kbPosts;
 
-    @Column(unique = false, length = 50)
+    @Column(length = 50)
     private String role;
     
     private boolean enabled;
