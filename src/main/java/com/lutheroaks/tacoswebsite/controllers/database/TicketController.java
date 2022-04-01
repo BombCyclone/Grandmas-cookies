@@ -88,19 +88,18 @@ public class TicketController {
 			ticketRepo.save(ticket);
 
 			// Step 3 - send confirmation email
-			// add the requester's email to the message if it was provided
 			if(email != null){
+				// add the requester's email to the message if it was provided
 				message += "\n\nI can be reached at: " + email;
-			}
-			// pass the parameters for the helper to send the email
-			boolean success = helper.sendEmail(fullName, email, message, mailSender);
-			// return to homepage if the message sent successfully, reroute to error page if something went wrong
-			if(success){
-				response.sendRedirect("index");
-			}
-			else{
-				logger.info("Something went wrong while sending the confirmation email");
-				response.sendRedirect("error");
+				// pass the parameters for the helper to send the email
+				boolean success = helper.sendEmail(fullName, email, message, mailSender);
+				// return to homepage if the message sent successfully, reroute to error page if something went wrong
+				if(success){
+					response.sendRedirect("index");
+				}
+				else{
+					response.sendRedirect("error");
+				}
 			}
 		}
 		catch(Exception e){
