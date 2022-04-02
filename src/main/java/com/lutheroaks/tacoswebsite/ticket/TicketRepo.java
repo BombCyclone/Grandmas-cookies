@@ -10,6 +10,6 @@ public interface TicketRepo extends JpaRepository<Ticket,Integer> {
 
     @Modifying
     @Query("DELETE FROM Ticket WHERE ticket_num = ?1")
-    public void deleteTicketByTicketNum(int ticketNum);
+    void deleteTicketByTicketNum(int ticketNum);
     
 }

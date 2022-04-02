@@ -33,7 +33,7 @@ public class Comment {
 
     @Id
     @Column(nullable = false, unique = false, length = 100)
-    @NonNull Timestamp timeStamp;
+    @NonNull private Timestamp timeStamp;
 
     @Id
     @ManyToOne

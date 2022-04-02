@@ -7,12 +7,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.GrantedAuthority;
+
 import java.util.Collection;
 
 @SpringBootTest
-public class MemberDetailsTest {
+public final class MemberDetailsTest {
     
     @InjectMocks
     private MemberDetails details;
@@ -21,8 +23,8 @@ public class MemberDetailsTest {
     private Member member;
 
     @BeforeEach
-    public void mockSetup() {
-        details = new MemberDetails(member);
+    public void init() {
+        MockitoAnnotations.openMocks(this);
     }    
 
     @Test
