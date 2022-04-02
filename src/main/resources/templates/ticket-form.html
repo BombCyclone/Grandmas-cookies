@@ -344,27 +344,27 @@
               
 
               <!-- Horizontal Form -->
-              <form id="ticket-form" name="ticket-form" action="/sumbit_ticket" method="POST" enctype="multipart/form-data">
+              <form id="ticket-form" name="ticket-form" action="/submit_ticket" method="POST" enctype="multipart/form-data" onSubmit="alert('Your Information Has Been Submitted! Returning to Home Page.')">
                 <div class="row mb-3">
                   <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
                   <div class="col-sm-6 col-md-4">
-                    <input type="text" class="form-control" id="fname">
+                    <input type="text" class="form-control" id="fname" name="fname" maxlength = "50" required>
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
                   <div class="col-sm-6 col-md-4">
-                    <input type="text" class="form-control" id="lname">
+                    <input type="text" class="form-control" id="lname" name="lname" maxlength = "50" required>
                   </div>
                 </div>
                 <div class="row mb-3">
                   <label for="Your Email (Optional)" class="col-sm-2 col-form-label">Your Email (Optional)</label>
                   <div class="col-sm-6 col-md-4">
-                    <input type="email" class="form-control" name="email" id="email" maxlength = "60">
+                    <input type="email" class="form-control" name="email" id="email" maxlength = "50">
                   </div>
                 </div>
                 <div class="row mb-3">
-                  <label for="Room Number (Required)" class="col-sm-2 col-form-label">Room Number (Required)</label>
+                  <label for="Room Number" class="col-sm-2 col-form-label">Room Number</label>
                   <div class="col-sm-6 col-md-4">
                     <input type="number" class="form-control" name="roomNumber" id="roomNumber" minlength = "1" maxlength = "5" required>
                   </div>
@@ -372,7 +372,7 @@
                 <div class="row mb-3">
                   <label for="describeTheIssue" class="col-sm-2 col-form-label">Describe The Issue</label>
                   <div class="col-sm-10">
-                    <textarea class="form-control" id="message" ></textarea>
+                    <textarea class="form-control" id="message" name="message" maxlength = "500" required></textarea>
                   </div>
                 
                 </div>

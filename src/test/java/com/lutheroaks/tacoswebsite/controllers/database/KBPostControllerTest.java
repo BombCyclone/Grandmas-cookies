@@ -29,8 +29,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Timestamp;
@@ -40,7 +38,7 @@ import java.text.SimpleDateFormat;
 
 
 @SpringBootTest
-public class KBPostControllerTest {
+public final class KBPostControllerTest {
     
     @InjectMocks
     private KbpostController controller;
@@ -74,17 +72,6 @@ public class KBPostControllerTest {
         controller.addKBPost(request, response);
 
         verify(response, times(1)).sendRedirect("index");
-
-    }
-
-    @Test
-    public void addKBPostTestError() throws IOException {
-        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-
-        controller.addKBPost(request, response);
-
-        verify(response, times(1)).sendRedirect("error");
 
     }
 

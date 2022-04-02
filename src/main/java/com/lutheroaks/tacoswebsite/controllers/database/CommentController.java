@@ -12,27 +12,29 @@ import com.lutheroaks.tacoswebsite.comment.CommentRepo;
 @RestController
 public class CommentController {
 
+	@Autowired
     private CommentRepo repository;
 
-    @Autowired
-    public CommentController(CommentRepo repository){
-        this.repository = repository;
-    }
-
-    // this method adds a new row to the comment table
+	/**
+	 * Adds a comment to the table
+	 * @param content
+	 * @return
+	 */
 	@PostMapping("/comment")
-	public String addComment(String content) {
-			Comment toAdd = new Comment();
-			toAdd.setContent(content);
-			repository.save(toAdd);
-			return "A new comment was added!";
+	public String addComment(final String content) {
+		Comment toAdd = new Comment();
+		toAdd.setContent(content);
+		repository.save(toAdd);
+		return "A new comment was added!";
 	}
 
-	// this method returns a list of all rows in the member table
+	/**
+	 * Returns a list of all comments in the table
+	 * @return
+	 */
 	@GetMapping("/comment")
-	public List<Comment> getComments() {
+	public final List<Comment> getComments() {
 		return repository.findAll();
 	}
     
-}
- 
+} 

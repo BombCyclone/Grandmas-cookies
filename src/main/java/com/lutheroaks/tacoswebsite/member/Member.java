@@ -49,10 +49,10 @@ public class Member {
     @NonNull private String lastName;
 
     @Column(length = 50)
-    @NonNull String email;
+    @NonNull private String email;
 
     @Column(length = 255)
-    @NonNull String password;
+    @NonNull private String password;
 
     @ManyToMany
     @JoinTable(
@@ -71,10 +71,10 @@ public class Member {
     private Bio biography;
 
     @OneToMany(mappedBy = "member")
-    @NonNull protected List<Comment> comments;
+    @NonNull private List<Comment> comments;
 
     @OneToMany(mappedBy = "member")
-    @NonNull protected List<KBPost> kbPosts;
+    @NonNull private List<KBPost> kbPosts;
 
     @Column(length = 50)
     private String role;

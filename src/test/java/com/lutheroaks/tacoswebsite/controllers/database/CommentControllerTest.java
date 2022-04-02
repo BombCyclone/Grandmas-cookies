@@ -13,14 +13,15 @@ import com.lutheroaks.tacoswebsite.comment.CommentRepo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class CommentControllerTest {
+public final class CommentControllerTest {
     
-    @Autowired 
+    @InjectMocks
     private CommentController controller;
 
     @Mock
@@ -28,7 +29,7 @@ public class CommentControllerTest {
 
     @BeforeEach
     public void mockSetup() {
-        controller = new CommentController(repository);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

@@ -25,20 +25,23 @@ import com.lutheroaks.tacoswebsite.member.MemberRepo;
 public class KbpostController {
 
     // for logging information to console
-    Logger logger = org.slf4j.LoggerFactory.getLogger(KbpostController.class);
+    private Logger logger = org.slf4j.LoggerFactory.getLogger(KbpostController.class);
     
+    @Autowired
     private KBPostRepo repository;
 
     @Autowired
     private MemberRepo memberRepo;
 
-    @Autowired
-    public KbpostController(KBPostRepo repository){
-        this.repository = repository;
-    }
-
+    /**
+     * Adds a KB post to the table
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @PostMapping("/kbpost")
-	public void addKBPost(HttpServletRequest request, HttpServletResponse response) throws IOException{
+	public void addKBPost(final HttpServletRequest request, 
+                        final HttpServletResponse response) throws IOException {
         KBPost toAdd = new KBPost();
         try {
             // get the email (user name) of the member member who is posting from the request details
@@ -54,13 +57,15 @@ public class KbpostController {
             toAdd.setTimeStamp(Timestamp.from(Instant.now()));
             repository.save(toAdd);
             response.sendRedirect("index");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error("An error occurred while adding a KB Post: ", e);
             response.sendRedirect("error");
         }
 	}
-
+    /**
+     * Returns a list of all KB posts in the table
+     * @return
+     */
     @GetMapping("/kbpost")
     public List<KBPost> getKBPosts() {
         return repository.findAll();
