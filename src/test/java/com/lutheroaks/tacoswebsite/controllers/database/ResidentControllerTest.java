@@ -20,7 +20,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class ResidentControllerTest {
+public final class ResidentControllerTest {
     
     @InjectMocks
     private ResidentController controller;

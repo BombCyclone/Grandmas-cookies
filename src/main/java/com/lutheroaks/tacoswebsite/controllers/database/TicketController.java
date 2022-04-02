@@ -79,7 +79,7 @@ public class TicketController {
 			int roomNum = Integer.parseInt(request.getParameter("roomNumber"));
 
 			// Step 1 - Search for resident and resolve to variable
-			Resident ticketResident = helper.findResident(fname, lname, roomNum, residentRepo);
+			Resident ticketResident = helper.findResident(fname, lname, roomNum);
 			// save the returned resident to the repository
 			residentRepo.save(ticketResident);
 

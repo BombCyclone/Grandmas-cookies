@@ -19,7 +19,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class CommentControllerTest {
+public final class CommentControllerTest {
     
     @InjectMocks
     private CommentController controller;
@@ -28,7 +28,7 @@ public class CommentControllerTest {
     private CommentRepo repository;
 
     @BeforeEach
-    public final void mockSetup() {
+    public void mockSetup() {
         MockitoAnnotations.openMocks(this);
     }
 
