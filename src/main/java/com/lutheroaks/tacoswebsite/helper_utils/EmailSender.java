@@ -22,16 +22,27 @@ public class EmailSender {
 	private MemberController controller;
 
     // for logging information to console
-	Logger logger = org.slf4j.LoggerFactory.getLogger(EmailSender.class);
+	private Logger logger = org.slf4j.LoggerFactory.getLogger(EmailSender.class);
     
-    public boolean sendEmail(String subject, String address, String message, JavaMailSender mailSender) throws MessagingException{
+	/**
+	 * Sends an email with the specified parameters
+	 * 
+	 * @param subject
+	 * @param address
+	 * @param message
+	 * @param mailSender
+	 * @return boolean
+	 * @throws MessagingException
+	 */
+    public boolean sendEmail(final String subject, final String address, final String message,
+							final JavaMailSender mailSender) throws MessagingException {
         try{
         	// create the mimeMessage object to be sent
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
 			// set the email message parameters
 			List<String> addressList = getMemberEmails();
-			if (address != null){
+			if (address != null && !"".equals(address)){
 				addressList.add(address);
 			}
 			messageHelper.setFrom("tacosemailservice@gmail.com");
@@ -43,14 +54,16 @@ public class EmailSender {
 				mailSender.send(mimeMessage);
 			}
             return true;
-        }
-        catch(Exception e){
+        } catch(Exception e){
             logger.error("An error occurred while sending an email: ", e);
             return false;
         }
     }
 
-	// gets list of all member emails for sending out notifications
+	/**
+	 * Returns a list containing the email address for every Tacos member
+	 * @return List<String>
+	 */
 	public List<String> getMemberEmails(){
 		List<Member> members = controller.getMembers();
 		List<String> emails = new ArrayList<>();

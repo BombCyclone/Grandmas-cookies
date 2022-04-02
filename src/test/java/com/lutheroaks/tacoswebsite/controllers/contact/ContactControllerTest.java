@@ -20,8 +20,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-public class ContactControllerTest {
-    
+public final class ContactControllerTest {
+
     @InjectMocks
     private ContactController controller;
     @Mock
@@ -38,10 +38,10 @@ public class ContactControllerTest {
     }
 
     @Test
-    public void sendEmailSuccessAddressSpecifiedTest() throws MessagingException{
+    void sendEmailSuccessAddressSpecifiedTest() throws MessagingException{
         // mock the parameters for the send email method
         HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
-        // mock the returns of the name and message fields in the email to be sent
+        // mock the message fields to be added
         when(newReq.getParameter("message")).thenReturn("test message");
         when(newReq.getParameter("fname")).thenReturn("Dorothy");
         when(newReq.getParameter("lname")).thenReturn("Jenkins");
@@ -57,7 +57,7 @@ public class ContactControllerTest {
     public void sendEmailSuccessNoAddressTest() throws MessagingException{
         // mock the parameters for the send email method
         HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
-        // mock the returns of the name and message fields in the email to be sent
+        // mock the returns of the name and message fields
         when(newReq.getParameter("message")).thenReturn("test message");
         when(newReq.getParameter("fname")).thenReturn("Dorothy");
         when(newReq.getParameter("lname")).thenReturn("Jenkins");
@@ -69,10 +69,10 @@ public class ContactControllerTest {
     }
 
     @Test
-    public void sendEmailFailureAddressSpecifiedTest() throws MessagingException{
+    void sendEmailFailureAddressSpecifiedTest() throws MessagingException{
         // mock the parameters for the send email method
         HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
-        // mock the returns of the name and message fields in the email to be sent
+        // mock the returns of the name and message fields
         when(newReq.getParameter("message")).thenReturn("test message");
         when(newReq.getParameter("fname")).thenReturn("Dorothy");
         when(newReq.getParameter("lname")).thenReturn("Jenkins");
@@ -88,7 +88,7 @@ public class ContactControllerTest {
     public void sendEmailFailureNoAddressTest() throws MessagingException{
         // mock the parameters for the send email method
         HttpServletRequest  newReq = Mockito.mock(HttpServletRequest.class);
-        // mock the returns of the name and message fields in the email to be sent
+        // mock the returns of the name and message fields
         when(newReq.getParameter("message")).thenReturn("test message");
         when(newReq.getParameter("fname")).thenReturn("Dorothy");
         when(newReq.getParameter("lname")).thenReturn("Jenkins");

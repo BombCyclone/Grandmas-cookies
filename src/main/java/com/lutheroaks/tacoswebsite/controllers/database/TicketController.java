@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TicketController {
 
     // for logging information to console
-    Logger logger = org.slf4j.LoggerFactory.getLogger(TicketController.class);
+    private Logger logger = org.slf4j.LoggerFactory.getLogger(TicketController.class);
 
 	@Autowired
 	private TicketRepo ticketRepo;
@@ -46,26 +46,30 @@ public class TicketController {
 	@Autowired
 	private EmailSender sender;
 
+	@Autowired
 	private JavaMailSender mailSender;
 
-    @Autowired
-	public TicketController(JavaMailSender mailSender){
-		this.mailSender = mailSender;
-	}
-	
-	// This is called when the submit button is clicked on the Submit Ticket Page
+	/**
+	 * Saves a new ticket to the table and sends a confirmation email.
+	 * Adds a new resident if no matching resident is found from provided information.
+	 * @param request
+	 * @param response
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
 	@PostMapping("/submit_ticket")
-	public void submitTicket(HttpServletRequest request, HttpServletResponse response) throws MessagingException, IOException {
+	public void submitTicket(final HttpServletRequest request, final HttpServletResponse response)
+			throws MessagingException, IOException {
 		/**
 		 * There are 3 steps to submitting a ticket
 		 * 1) Query the residents table
-		 * 		a) if a matching resident is found, use it when creating ticket
-		 * 		b) if no match found, create a resident with the information given
+		 * a) if a matching resident is found, use it when creating ticket
+		 * b) if no match found, create a resident with the information given
 		 * 2) Create a new Ticket object and save to the table
 		 * 3) Send a confirmation email confirming submission successful
 		 */
 
-		try{
+		try {
 			// Get the parameters from the request
 			String message = request.getParameter("message");
 			String fname = request.getParameter("fname");
@@ -90,41 +94,53 @@ public class TicketController {
 			ticket.setTags(new ArrayList<>());
 			ticket.setComments(new ArrayList<>());
 			ticket.setResident(ticketResident);
-			//save the new ticket
+			// save the new ticket
 			ticketRepo.save(ticket);
 
 			// Step 3 - send confirmation email
-			if(email != null){
+			if (email != null) {
 				// add the requester's email to the message if it was provided
 				message += "\n\nI can be reached at: " + email;
-				String content = fullName + ", thank you for contacting ISU Tacos.\n\nYour ticket has been submitted and will be in contact soon.\n\nTicket message: \n" + message;
-				String subject = "TACOS ticket submission confirmation email";
-				// pass the parameters for the helper to send the email
-				boolean success = sender.sendEmail(subject, email, content, mailSender);
-				// return to homepage if the message sent successfully, reroute to error page if something went wrong
-				if(success){
-					response.sendRedirect("index");
-				}
-				else{
-					response.sendRedirect("error");
-				}
 			}
-		}
-		catch(Exception e){
-            logger.error("An exception occurred while adding a ticket: ", e);
-            response.sendRedirect("error");
+			String content = fullName +
+					", thank you for contacting ISU Tacos.\n\nYour ticket" +
+					" has been submitted and will be in contact soon.\n\nTicket message: \n"
+					+ message;
+			String subject = "TACOS ticket submission confirmation email";
+			// pass the parameters for the helper to send the email
+			boolean success = sender.sendEmail(subject, email, content, mailSender);
+			// return to homepage if the message sent successfully, reroute to error page if
+			// something went wrong
+			if (success) {
+				response.sendRedirect("index");
+			} else {
+				response.sendRedirect("error");
+			}
+		} catch (Exception e) {
+			logger.error("An exception occurred while adding a ticket: ", e);
+			response.sendRedirect("error");
 		}
 	}
 
-	// this returns a list of all tickets in the table
+	/**
+	 * Returns a list of all tickets in the table
+	 * @return
+	 */
 	@GetMapping("/tickets")
 	public List<Ticket> getTickets() {
 		return ticketRepo.findAll();
 	}
 
+	/**
+	 * Deletes a ticket from the table
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	@Transactional
 	@DeleteMapping("/tickets")
-	public void deleteTicket(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void deleteTicket(final HttpServletRequest request, final HttpServletResponse response)
+			throws IOException {
 		int ticketNum = Integer.parseInt(request.getParameter("ticketNum"));
 		ticketRepo.deleteTicketByTicketNum(ticketNum);
 		response.sendRedirect("active-tickets");

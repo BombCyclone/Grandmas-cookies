@@ -11,7 +11,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class TicketHelper {
 
-    public Resident findResident(String fname, String lname, int roomNum, ResidentRepo repo){
+	/**
+	 * Searches for a matching Resident in the table
+	 * and creates a new resident if no match is found.
+	 * @param fname
+	 * @param lname
+	 * @param roomNum
+	 * @param repo
+	 * @return
+	 */
+    public Resident findResident(final String fname, final String lname, final int roomNum, final ResidentRepo repo) {
         List<Resident> matchingResidents = repo.findResidentByName(fname, lname);
 		Resident ticketResident;
 		if(matchingResidents.isEmpty()){
@@ -21,8 +30,7 @@ public class TicketHelper {
 			ticketResident.setLastName(lname);
 			ticketResident.setRoomNum(roomNum);
 			ticketResident.setAssociatedTickets(new ArrayList<>());
-		}
-		else{
+		} else{
 			// set the resident to use to be the match from the query
 			ticketResident = matchingResidents.get(0);
 		}

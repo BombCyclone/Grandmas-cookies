@@ -2,7 +2,6 @@ package com.lutheroaks.tacoswebsite.controllers.database;
 
 import java.util.List;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,15 +12,18 @@ import com.lutheroaks.tacoswebsite.resident.ResidentRepo;
 @RestController
 public class ResidentController {
 
-	// for logging information to console
-	Logger logger = org.slf4j.LoggerFactory.getLogger(ResidentController.class);
-
 	@Autowired
     private ResidentRepo repository;
 
-    // this method adds a new row to the member table
+    /**
+	 * Adds a new resident to the table
+	 * @param firstName
+	 * @param lastName
+	 * @param roomNum
+	 * @return
+	 */
 	@PostMapping("/resident")
-	public String addResident(String firstName, String lastName, Integer roomNum) {
+	public String addResident(final String firstName, final String lastName, final Integer roomNum) {
 		//check for duplicate resident with matching first and last name
 		if (repository.findResidentByName(firstName.toUpperCase(), lastName.toUpperCase()).isEmpty()) {
 			Resident toAdd = new Resident();
@@ -35,7 +37,10 @@ public class ResidentController {
 		}
 	}
 
-	// this method returns a list of all rows in the member table
+	/**
+	 * Returns a list of all residents in the table
+	 * @return
+	 */
 	@GetMapping("/resident")
 	public List<Resident> getResidents() {
 		return repository.findAll();

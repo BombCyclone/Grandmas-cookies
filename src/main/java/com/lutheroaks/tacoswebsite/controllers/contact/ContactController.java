@@ -16,21 +16,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ContactController {
 
 	// for logging information to console
-	Logger logger = org.slf4j.LoggerFactory.getLogger(ContactController.class);
+	private Logger logger = org.slf4j.LoggerFactory.getLogger(ContactController.class);
 	
+	@Autowired
 	private JavaMailSender mailSender;
 
 	@Autowired
 	private EmailSender sender;
-
-    @Autowired
-	public ContactController(JavaMailSender mailSender){
-		this.mailSender = mailSender;
-	}
 	
-	// This is called when the submit button is clicked on the Contact Us Page
+	/**
+	 * Sends a contact request email to Tacos Members
+	 * @param request
+	 * @return
+	 * @throws MessagingException
+	 */
 	@PostMapping("/contact")
-	public String sendContactEmail(HttpServletRequest request) throws MessagingException {
+	public String sendContactEmail(final HttpServletRequest request) throws MessagingException {
 		try{
 			// get the requester's name and message
 			String message = request.getParameter("message");
@@ -51,8 +52,7 @@ public class ContactController {
 			}else{
 				return "error";
 			}
-		}
-		catch (MessagingException e){
+		} catch (MessagingException e){
 			logger.error("An exception occurred while parsing the message: ", e);
 			return "error";
 		}
