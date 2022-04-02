@@ -20,12 +20,8 @@ public class MemberController {
 	// for logging information to console
 	Logger logger = org.slf4j.LoggerFactory.getLogger(MemberController.class);
 	
-	private MemberRepo repository;
-
 	@Autowired
-	public MemberController(MemberRepo repository){
-		this.repository = repository;
-	}
+	private MemberRepo repository;
 
 	@PostMapping("/member")
 	public void addMember(HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -55,7 +51,7 @@ public class MemberController {
 			}
 		}
 		// if an exception occurs, log it and redirect to the error page
-		catch(Exception e){
+		catch(IOException e){
 			logger.error("An error occurred while adding a Member: ", e);
             response.sendRedirect("error");
 		}

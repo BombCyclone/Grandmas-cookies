@@ -16,32 +16,22 @@ public class ResidentController {
 	// for logging information to console
 	Logger logger = org.slf4j.LoggerFactory.getLogger(ResidentController.class);
 
+	@Autowired
     private ResidentRepo repository;
-
-    @Autowired
-    public ResidentController(ResidentRepo repository){
-        this.repository = repository;
-    }
 
     // this method adds a new row to the member table
 	@PostMapping("/resident")
 	public String addResident(String firstName, String lastName, Integer roomNum) {
-		try{
-			//check for duplicate resident with matching first and last name
-			if (repository.findResidentByName(firstName.toUpperCase(), lastName.toUpperCase()).isEmpty()) {
-				Resident toAdd = new Resident();
-				toAdd.setFirstName(firstName);
-				toAdd.setLastName(lastName);
-				toAdd.setRoomNum(roomNum);
-				repository.save(toAdd);
-				return "A new resident was added!";
-			} else {
-				return "Resident already in system";
-			}
-		}
-		catch(Exception e){
-			logger.error("An error occurred while adding a Resident: ", e);
-			return "An exception occurred";
+		//check for duplicate resident with matching first and last name
+		if (repository.findResidentByName(firstName.toUpperCase(), lastName.toUpperCase()).isEmpty()) {
+			Resident toAdd = new Resident();
+			toAdd.setFirstName(firstName);
+			toAdd.setLastName(lastName);
+			toAdd.setRoomNum(roomNum);
+			repository.save(toAdd);
+			return "A new resident was added!";
+		} else {
+			return "Resident already in system";
 		}
 	}
 

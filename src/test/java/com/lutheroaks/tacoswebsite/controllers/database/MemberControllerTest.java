@@ -22,22 +22,24 @@ import com.lutheroaks.tacoswebsite.member.MemberRepo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class MemberControllerTest {
 
-    @Autowired
+    @InjectMocks
     private MemberController controller;
+    
     @Mock
     private MemberRepo repository;
 
     @BeforeEach 
     public void mockSetup() {
-        controller = new MemberController(repository);
+        MockitoAnnotations.openMocks(this);
     }
     
     @Test

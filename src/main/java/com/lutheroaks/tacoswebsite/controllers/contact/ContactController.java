@@ -1,20 +1,27 @@
 package com.lutheroaks.tacoswebsite.controllers.contact;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
+import com.lutheroaks.tacoswebsite.helper_utils.EmailSender;
+
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class ContactController {
 
+	// for logging information to console
+	Logger logger = org.slf4j.LoggerFactory.getLogger(ContactController.class);
+	
 	private JavaMailSender mailSender;
+
+	@Autowired
+	private EmailSender sender;
 
     @Autowired
 	public ContactController(JavaMailSender mailSender){
@@ -23,11 +30,8 @@ public class ContactController {
 	
 	// This is called when the submit button is clicked on the Contact Us Page
 	@PostMapping("/contact")
-	public String sendEmail(HttpServletRequest request) throws MessagingException {
+	public String sendContactEmail(HttpServletRequest request) throws MessagingException {
 		try{
-			// create the mimeMessage object to be sent
-			MimeMessage mimeMessage = mailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
 			// get the requester's name and message
 			String message = request.getParameter("message");
 			String fname = request.getParameter("fname");
@@ -38,16 +42,18 @@ public class ContactController {
 				message += "\n\nI can be reached at: " + email;
 			}
 			// set the email message parameters
-			messageHelper.setFrom("tacosemailservice@gmail.com");
-			messageHelper.setTo("aeheis1@ilstu.edu");
-			messageHelper.setSubject("TACOS Contact Us Request from " + fname + ' ' + lname);
-			messageHelper.setText(message);
+			String subject = "TACOS Contact Us Request from " + fname + " " + lname;
 			// send the email
-			mailSender.send(mimeMessage);
+			boolean success = sender.sendEmail(subject, email, message, mailSender);
 			// return to the homepage
-			return "index";
+			if(success){
+				return "index";
+			}else{
+				return "error";
+			}
 		}
-		catch (Exception e){
+		catch (MessagingException e){
+			logger.error("An exception occurred while parsing the message: ", e);
 			return "error";
 		}
 	}

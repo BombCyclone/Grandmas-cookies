@@ -11,7 +11,8 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.lutheroaks.tacoswebsite.controllers.database.helpers.TicketHelpers;
+import com.lutheroaks.tacoswebsite.helper_utils.EmailSender;
+import com.lutheroaks.tacoswebsite.helper_utils.TicketHelper;
 import com.lutheroaks.tacoswebsite.resident.Resident;
 import com.lutheroaks.tacoswebsite.resident.ResidentRepo;
 import com.lutheroaks.tacoswebsite.ticket.Ticket;
@@ -40,7 +41,10 @@ public class TicketController {
 	private ResidentRepo residentRepo;
 
 	@Autowired
-	private TicketHelpers helper;
+	private TicketHelper helper;
+
+	@Autowired
+	private EmailSender sender;
 
 	private JavaMailSender mailSender;
 
@@ -93,8 +97,10 @@ public class TicketController {
 			if(email != null){
 				// add the requester's email to the message if it was provided
 				message += "\n\nI can be reached at: " + email;
+				String content = fullName + ", thank you for contacting ISU Tacos.\n\nYour ticket has been submitted and will be in contact soon.\n\nTicket message: \n" + message;
+				String subject = "TACOS ticket submission confirmation email";
 				// pass the parameters for the helper to send the email
-				boolean success = helper.sendEmail(fullName, email, message, mailSender);
+				boolean success = sender.sendEmail(subject, email, content, mailSender);
 				// return to homepage if the message sent successfully, reroute to error page if something went wrong
 				if(success){
 					response.sendRedirect("index");
