@@ -62,12 +62,7 @@ public class Member {
     @ElementCollection(targetClass = Ticket.class)
     private Set<Ticket> associatedTickets;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "member_bio", 
-      joinColumns = 
-        { @JoinColumn(name = "memberId", referencedColumnName = "memberId") },
-      inverseJoinColumns = 
-        { @JoinColumn(name = "bioId", referencedColumnName = "bioId") })
+    @OneToOne(mappedBy = "member", optional = true, cascade = CascadeType.ALL)
     private Bio biography;
 
     @OneToMany(mappedBy = "member")
