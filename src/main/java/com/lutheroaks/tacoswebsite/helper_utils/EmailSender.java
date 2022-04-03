@@ -40,19 +40,22 @@ public class EmailSender {
         	// create the mimeMessage object to be sent
 			MimeMessage mimeMessage = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+
 			// set the email message parameters
 			List<String> addressList = getMemberEmails();
+			// send email to all Tacos members via BCC
+			for(String email : addressList){
+				messageHelper.addBcc(email);
+			}
+			// send email copy to requester if address is provided
 			if (address != null && !"".equals(address)){
-				addressList.add(address);
+				messageHelper.setTo(address);
 			}
 			messageHelper.setFrom("tacosemailservice@gmail.com");
 			messageHelper.setSubject(subject);
 			messageHelper.setText(message);
 			// send the email to the list
-			for(String emailAddress : addressList){
-				messageHelper.setTo(emailAddress);
-				mailSender.send(mimeMessage);
-			}
+			mailSender.send(mimeMessage);
             return true;
         } catch(Exception e){
             logger.error("An error occurred while sending an email: ", e);
