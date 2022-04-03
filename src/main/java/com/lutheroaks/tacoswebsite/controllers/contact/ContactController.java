@@ -39,7 +39,7 @@ public class ContactController {
 			String lname = request.getParameter("lname");
 			String email = request.getParameter("email");
 			// add the requester's email to the message if it was provided
-			if(email != null){
+			if(email != null && !"".equals(email)){
 				message += "\n\nI can be reached at: " + email;
 			}
 			// set the email message parameters

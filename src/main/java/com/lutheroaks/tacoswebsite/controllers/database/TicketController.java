@@ -98,7 +98,7 @@ public class TicketController {
 			ticketRepo.save(ticket);
 
 			// Step 3 - send confirmation email
-			if (email != null) {
+			if (email != null && !"".equals(email)) {
 				// add the requester's email to the message if it was provided
 				message += "\n\nI can be reached at: " + email;
 			}
