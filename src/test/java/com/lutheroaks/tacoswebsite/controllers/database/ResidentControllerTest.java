@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.lutheroaks.tacoswebsite.resident.Resident;
 import com.lutheroaks.tacoswebsite.resident.ResidentRepo;
@@ -75,5 +76,13 @@ public final class ResidentControllerTest {
         assertEquals("Gloria", retVal.get(0).getFirstName());
         assertEquals("Simpson", retVal.get(0).getLastName());
         assertEquals(327, retVal.get(0).getRoomNum());
+    }
+
+    @Test
+    public void deleteResidentTest() {
+        // Resident resident = new Resident("Glenn", "March");
+        // repository.deleteResidentByResidentId(resident.getResidentId());
+        // Resident deletedResident = resident;
+        // assertThat(deletedResident).isNull();
     }
 }
