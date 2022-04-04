@@ -2,6 +2,8 @@ package com.lutheroaks.tacoswebsite.controllers.database;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -69,6 +71,14 @@ public class KbpostController {
     @GetMapping("/kbpost")
     public List<KBPost> getKBPosts() {
         return repository.findAll();
+    }
+
+    @Transactional
+    @DeleteMapping("/kbpost")
+    public void deleteKBPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int postId = Integer.parseInt(request.getParameter("postId"));
+        repository.deleteKBPostById(postId);
+        response.sendRedirect("/kbpost");
     }
 
 }
