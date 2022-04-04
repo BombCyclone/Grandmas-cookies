@@ -1,13 +1,25 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.lutheroaks.tacoswebsite.comment.Comment;
 import com.lutheroaks.tacoswebsite.comment.CommentRepo;
+import com.lutheroaks.tacoswebsite.member.Member;
+import com.lutheroaks.tacoswebsite.member.MemberRepo;
+import com.lutheroaks.tacoswebsite.ticket.Ticket;
+import com.lutheroaks.tacoswebsite.ticket.TicketRepo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,18 +37,34 @@ public final class CommentControllerTest {
     @Mock
     private CommentRepo repository;
 
+    @Mock
+    private MemberRepo memberRepo;
+
+	@Mock
+	private TicketRepo ticketRepo;
+
     @BeforeEach
     public void mockSetup() {
         MockitoAnnotations.openMocks(this);
     }
 
-    // @Test
-    // public void addCommentTest() {
-    //     // we don't actually want to save to our database here
-    //     doReturn(null).when(repository).save(any(Comment.class));
-    //     String retVal = controller.addComment("test");
-    //     assertEquals("A new comment was added!", retVal);
-    // }
+    @Test
+    public void addCommentTest() {
+        // we don't actually want to save to our database here
+        doReturn(null).when(repository).save(any(Comment.class));
+        
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        Principal mockPrince = mock(Principal.class);
+        when(request.getUserPrincipal()).thenReturn(mockPrince);
+        when(mockPrince.getName()).thenReturn("Charles");
+        when(memberRepo.findMemberByEmail(anyString())).thenReturn(new Member());
+        when(request.getParameter("content")).thenReturn("test comment");
+        when(request.getParameter("ticketId")).thenReturn("1");
+        when(ticketRepo.findTicketById(anyInt())).thenReturn(new Ticket());
+
+        String retVal = controller.addComment(request);
+        assertEquals("A new comment was added!", retVal);
+    }
 
     @Test
     public void getCommentsTest() {
