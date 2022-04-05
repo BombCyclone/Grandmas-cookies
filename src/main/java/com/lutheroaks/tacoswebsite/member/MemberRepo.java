@@ -10,5 +10,5 @@ public interface MemberRepo extends JpaRepository<Member,Integer> {
 
     // queries the table for a member that matches a given email address
     @Query("SELECT x FROM Member x WHERE x.email = :email")
-    public Member findMemberByEmail(@Param("email") String email);
+    Member findMemberByEmail(@Param("email") String email);
 }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class PageRoutingControllerTest {
+public final class PageRoutingControllerTest {
 
 	@Autowired
 	private PageRoutingController controller;

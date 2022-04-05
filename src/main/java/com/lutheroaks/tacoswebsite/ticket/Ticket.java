@@ -69,5 +69,5 @@ public class Ticket {
     @NonNull private List<String> tags;
 
     @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY)
-    @NonNull protected List<Comment> comments;
+    @NonNull private List<Comment> comments;
 }

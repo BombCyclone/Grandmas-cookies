@@ -14,21 +14,23 @@ import com.lutheroaks.tacoswebsite.resident.ResidentRepo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class ResidentControllerTest {
+public final class ResidentControllerTest {
     
-    @Autowired
+    @InjectMocks
     private ResidentController controller;
+    
     @Mock
     private ResidentRepo repository;
 
     @BeforeEach
     public void mockSetup() {
-        controller = new ResidentController(repository);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test

@@ -14,7 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @SpringBootTest
-public class MembersDetailsServiceImplTest {
+public final class MembersDetailsServiceImplTest {
     
     @InjectMocks
     private MemberDetailsServiceImpl detailsServiceImpl;
@@ -24,7 +24,7 @@ public class MembersDetailsServiceImplTest {
 
     @BeforeEach
     public void init(){
-        MockitoAnnotations.openMocks(detailsServiceImpl);
+        MockitoAnnotations.openMocks(this);
     }
     
     @Test

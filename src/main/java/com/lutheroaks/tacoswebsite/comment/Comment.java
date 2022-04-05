@@ -4,8 +4,9 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -22,27 +23,28 @@ import lombok.RequiredArgsConstructor;
 // This class contains the attributes and getters/setters for the Comment table in the database
 @Entity
 @Table(name = "Comment")
-@IdClass(CommentKey.class)
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
 public class Comment {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int commentId;
+
     @Column(nullable = false, unique = false, length = 2000)
     @NonNull private String content;
 
-    @Id
     @Column(nullable = false, unique = false, length = 100)
-    @NonNull Timestamp timeStamp;
+    @NonNull private Timestamp timeStamp;
 
-    @Id
     @ManyToOne
     @JsonIgnore
     @JoinColumn(name="ticket", nullable = false)
     @NonNull private Ticket ticket;
 
-    @Id
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="member", nullable = false)
     @NonNull private Member member;
 
