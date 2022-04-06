@@ -2,6 +2,7 @@ package com.lutheroaks.tacoswebsite.controllers.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
@@ -94,6 +95,16 @@ public final class MemberControllerTest {
         assertEquals("Malcolm", retVal.get(0).getLastName());
         assertEquals("idonthaveanemail@fakemail.com", retVal.get(0).getEmail());
         assertEquals(1, retVal.get(0).getMemberId());
+    }
+
+    @Test
+    void deleteMemberSuccess() throws IOException{
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = mock(HttpServletResponse.class);
+        when(request.getParameter("memberId")).thenReturn("1");
+        doNothing().when(repository).deleteMemberById(anyInt());
+        controller.deleteMember(request, response);
+        verify(response, times(1)).sendRedirect("member");
     }
 
 }

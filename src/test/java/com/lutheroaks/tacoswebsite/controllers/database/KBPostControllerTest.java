@@ -2,9 +2,11 @@ package com.lutheroaks.tacoswebsite.controllers.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -105,5 +107,15 @@ public final class KBPostControllerTest {
         assertEquals(timeStamp, retVal.get(0).getTimeStamp());
         assertEquals("Explaining Apple Watches", retVal.get(0).getTitle());
 
+    }
+
+    @Test
+    void deleteKBPostSuccess() throws IOException{
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = mock(HttpServletResponse.class);
+        when(request.getParameter("postId")).thenReturn("1");
+        doNothing().when(repository).deleteKBPostById(anyInt());
+        controller.deleteKBPost(request, response);
+        verify(response, times(1)).sendRedirect("kbpost");
     }
 }
