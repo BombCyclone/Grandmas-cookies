@@ -1,6 +1,12 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
+import java.security.Principal;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,6 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lutheroaks.tacoswebsite.comment.Comment;
 import com.lutheroaks.tacoswebsite.comment.CommentRepo;
+import com.lutheroaks.tacoswebsite.member.Member;
+import com.lutheroaks.tacoswebsite.member.MemberRepo;
+import com.lutheroaks.tacoswebsite.ticket.Ticket;
+import com.lutheroaks.tacoswebsite.ticket.TicketRepo;
 
 @RestController
 public class CommentController {
@@ -15,15 +25,32 @@ public class CommentController {
 	@Autowired
     private CommentRepo repository;
 
+	@Autowired
+    private MemberRepo memberRepo;
+
+	@Autowired
+	private TicketRepo ticketRepo;
+
 	/**
 	 * Adds a comment to the table
 	 * @param content
 	 * @return
 	 */
 	@PostMapping("/comment")
-	public String addComment(final String content) {
+	public String addComment(final HttpServletRequest request) {
 		Comment toAdd = new Comment();
+		// get the email (user name) of the member member who is posting from the request details
+		Principal principal = request.getUserPrincipal();
+		String userName = principal.getName();
+		Member poster = memberRepo.findMemberByEmail(userName);
+		String content = request.getParameter("content");
+		int ticketId = Integer.parseInt(request.getParameter("ticketId"));
+		Ticket ticket = ticketRepo.findTicketById(ticketId);
+
+		toAdd.setMember(poster);
 		toAdd.setContent(content);
+		toAdd.setTicket(ticket);
+		toAdd.setTimeStamp(Timestamp.from(Instant.now()));
 		repository.save(toAdd);
 		return "A new comment was added!";
 	}
