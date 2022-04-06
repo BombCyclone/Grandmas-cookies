@@ -73,9 +73,15 @@ public class KbpostController {
         return repository.findAll();
     }
 
+    /**
+     * Deletes the specified kbpost
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @Transactional
     @DeleteMapping("/kbpost")
-    public void deleteKBPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void deleteKBPost(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         int postId = Integer.parseInt(request.getParameter("postId"));
         repository.deleteKBPostById(postId);
         response.sendRedirect("kbpost");

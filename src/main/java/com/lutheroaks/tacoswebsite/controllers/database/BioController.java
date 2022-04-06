@@ -82,6 +82,12 @@ public class BioController {
         }
     }
 
+    /**
+     * deletes a specified bio
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @Transactional
     @DeleteMapping("/bio")
     public void deleteBio(final HttpServletRequest request, final HttpServletResponse response) throws IOException {

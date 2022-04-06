@@ -72,6 +72,12 @@ public class MemberController {
 		return repository.findAll();
 	}
 
+	/**
+	 * Deletes the member specified
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	@Transactional
 	@DeleteMapping("/member")
 	public void deleteMember(final HttpServletRequest request, final HttpServletResponse response) throws IOException {

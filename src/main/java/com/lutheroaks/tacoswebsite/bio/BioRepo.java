@@ -14,6 +14,6 @@ public interface BioRepo extends JpaRepository<Bio,Integer> {
     Bio findBioByMember(@Param("member") Member member);
 
     @Modifying
-    @Query("DELETE FROM bio WHERE bio_id = ?1")
+    @Query("DELETE FROM Bio WHERE bio_id = ?1")
     void deleteBioById(int bioId);
 }
