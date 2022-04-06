@@ -141,8 +141,8 @@ public class TicketController {
 	@DeleteMapping("/tickets")
 	public void deleteTicket(final HttpServletRequest request, final HttpServletResponse response)
 			throws IOException {
-		int ticketNum = Integer.parseInt(request.getParameter("ticketNum"));
-		ticketRepo.deleteTicketByTicketNum(ticketNum);
-		response.sendRedirect("active-tickets");
+			int ticketNum = Integer.parseInt(request.getParameter("ticketNum"));
+			ticketRepo.deleteTicketByTicketNum(ticketNum);
+			response.sendRedirect("active-tickets");
 	}
 }
