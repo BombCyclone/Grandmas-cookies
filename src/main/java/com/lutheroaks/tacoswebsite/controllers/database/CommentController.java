@@ -1,13 +1,17 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,8 +64,22 @@ public class CommentController {
 	 * @return
 	 */
 	@GetMapping("/comment")
-	public final List<Comment> getComments() {
+	public List<Comment> getComments() {
 		return repository.findAll();
+	}
+
+	/**
+	 * Deletes a comment from the table
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@Transactional
+	@DeleteMapping("/comment")
+	public void deleteComment(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		int commentId = Integer.parseInt(request.getParameter("commentId"));
+		repository.deleteCommentById(commentId);
+		response.sendRedirect("active-tickets");
 	}
     
 } 

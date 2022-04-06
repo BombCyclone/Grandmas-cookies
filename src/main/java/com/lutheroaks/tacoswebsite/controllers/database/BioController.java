@@ -1,5 +1,6 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
+import java.io.IOException;
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +13,8 @@ import com.lutheroaks.tacoswebsite.member.MemberRepo;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -78,5 +81,19 @@ public class BioController {
             return null;
         }
     }
+
+    /**
+     * deletes a specified bio
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    @Transactional
+    @DeleteMapping("/bio")
+    public void deleteBio(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		int bioId = Integer.parseInt(request.getParameter("bioId"));
+		repository.deleteBioById(bioId);
+		response.sendRedirect("index");
+	}
     
 }

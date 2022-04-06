@@ -4,15 +4,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.comment.Comment;
 import com.lutheroaks.tacoswebsite.comment.CommentRepo;
@@ -75,5 +80,15 @@ public final class CommentControllerTest {
         when(repository.findAll()).thenReturn(mockList);
         List<Comment> retVal = controller.getComments();
         assertEquals("this is a test", retVal.get(0).getContent());
+    }
+
+    @Test
+    void deleteCommentSuccess() throws IOException{
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = mock(HttpServletResponse.class);
+        when(request.getParameter("commentId")).thenReturn("1");
+        doNothing().when(repository).deleteCommentById(anyInt());
+        controller.deleteComment(request, response);
+        verify(response, times(1)).sendRedirect("active-tickets");
     }
 }
