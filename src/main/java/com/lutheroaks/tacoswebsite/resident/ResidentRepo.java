@@ -15,6 +15,6 @@ public interface ResidentRepo extends JpaRepository<Resident,Integer> {
 
     @Modifying
     @Query("DELETE FROM Resident WHERE resident_id = ?1")
-    public void deleteResidentByResidentId(int residentId);
+    void deleteResidentByResidentId(int residentId);
 
 }

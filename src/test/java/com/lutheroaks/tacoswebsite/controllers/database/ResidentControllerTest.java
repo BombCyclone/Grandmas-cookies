@@ -93,6 +93,6 @@ public final class ResidentControllerTest {
         when(request.getParameter("residentId")).thenReturn("1");
         doNothing().when(repository).deleteResidentByResidentId(anyInt());
         controller.deleteResident(request, response);
-        verify(response, times(1)).sendRedirect("/resident");
+        verify(response, times(1)).sendRedirect("resident");
     }
 }

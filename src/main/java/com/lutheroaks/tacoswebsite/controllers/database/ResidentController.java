@@ -52,11 +52,17 @@ public class ResidentController {
 		return repository.findAll();
 	}
     
+	/**
+	 * Removes a resident from the table
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	@Transactional
 	@DeleteMapping("/resident")
-	public void deleteResident(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void deleteResident(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		int residentId = Integer.parseInt(request.getParameter("residentId"));
 		repository.deleteResidentByResidentId(residentId);
-		response.sendRedirect("/resident");
+		response.sendRedirect("resident");
 	}
 }
