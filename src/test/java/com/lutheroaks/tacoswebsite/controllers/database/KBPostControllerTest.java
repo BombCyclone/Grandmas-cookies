@@ -106,4 +106,5 @@ public final class KBPostControllerTest {
         assertEquals("Explaining Apple Watches", retVal.get(0).getTitle());
 
     }
+
 }

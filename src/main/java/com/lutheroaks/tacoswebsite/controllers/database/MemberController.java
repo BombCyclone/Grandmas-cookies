@@ -74,8 +74,10 @@ public class MemberController {
 
 	@Transactional
 	@DeleteMapping("/member")
-	public void deleteMember(String email) {
-		repository.deleteMemberByEmail(email);
+	public void deleteMember(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		int memberId = Integer.parseInt(request.getParameter("memberId"));
+		repository.deleteMemberById(memberId);
+		response.sendRedirect("member");
 	}
 	
 }
