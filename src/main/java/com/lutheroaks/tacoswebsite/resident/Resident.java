@@ -38,7 +38,7 @@ public class Resident {
     @NonNull private String lastName;
     
     @Column(nullable = false, unique = false, length = 50)
-    int roomNum;
+    private int roomNum;
 
     @OneToMany(mappedBy = "resident")
     private List<Ticket> associatedTickets;

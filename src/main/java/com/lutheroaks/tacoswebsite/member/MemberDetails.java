@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class MemberDetails implements UserDetails {
 
+    @Autowired
     private transient Member member;
 
     @Autowired

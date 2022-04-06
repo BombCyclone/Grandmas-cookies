@@ -20,17 +20,20 @@ import com.lutheroaks.tacoswebsite.member.MemberRepo;
 public class MemberController {
 
 	// for logging information to console
-	Logger logger = org.slf4j.LoggerFactory.getLogger(MemberController.class);
+	private Logger logger = org.slf4j.LoggerFactory.getLogger(MemberController.class);
 	
+	@Autowired
 	private MemberRepo repository;
 
-	@Autowired
-	public MemberController(MemberRepo repository){
-		this.repository = repository;
-	}
-
+	/**
+	 * Adds a new Tacos member to the table
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	@PostMapping("/member")
-	public void addMember(HttpServletRequest request, HttpServletResponse response) throws IOException{
+	public void addMember(final HttpServletRequest request, 
+						final HttpServletResponse response) throws IOException {
 		try{
 			String fName = request.getParameter("fname");
 			String lName = request.getParameter("lname");
@@ -47,22 +50,23 @@ public class MemberController {
 				toAdd.setEnabled(true);
 				repository.save(toAdd);
 				response.sendRedirect("member-table");
-			}
-			// if user already exists
-			else{
+			} else{
 				if(logger.isInfoEnabled() && email != null){
-					logger.info(String.format("An existing user with the email address: %s was found in the database.", email));
+					logger.info(String.format("An existing user with the email address: " + 
+										"%s was found in the database.", email));
 				}
 				response.sendRedirect("error");
 			}
-		}
-		// if an exception occurs, log it and redirect to the error page
-		catch(Exception e){
+		} catch(IOException e){
 			logger.error("An error occurred while adding a Member: ", e);
             response.sendRedirect("error");
 		}
 	}
-	// this method returns a list of all rows in the member table
+	
+	/**
+	 * Returns a list of all Tacos members
+	 * @return
+	 */
 	@GetMapping("/member")
 	public List<Member> getMembers() {
 		return repository.findAll();

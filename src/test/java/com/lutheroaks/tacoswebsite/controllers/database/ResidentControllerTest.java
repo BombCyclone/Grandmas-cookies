@@ -2,33 +2,44 @@ package com.lutheroaks.tacoswebsite.controllers.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.resident.Resident;
 import com.lutheroaks.tacoswebsite.resident.ResidentRepo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class ResidentControllerTest {
+public final class ResidentControllerTest {
     
-    @Autowired
+    @InjectMocks
     private ResidentController controller;
+    
     @Mock
     private ResidentRepo repository;
 
     @BeforeEach
     public void mockSetup() {
-        controller = new ResidentController(repository);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -73,5 +84,15 @@ public class ResidentControllerTest {
         assertEquals("Gloria", retVal.get(0).getFirstName());
         assertEquals("Simpson", retVal.get(0).getLastName());
         assertEquals(327, retVal.get(0).getRoomNum());
+    }
+
+    @Test
+    void deleteResidentSuccess() throws IOException{
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = mock(HttpServletResponse.class);
+        when(request.getParameter("residentId")).thenReturn("1");
+        doNothing().when(repository).deleteResidentByResidentId(anyInt());
+        controller.deleteResident(request, response);
+        verify(response, times(1)).sendRedirect("resident");
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 // This class only contains logic necessary for page routing
 @Controller
-public class PageRoutingController {
+public final class PageRoutingController {
 
 	@GetMapping("/index")
 	public String viewIndex() {
