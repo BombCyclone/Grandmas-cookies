@@ -1,8 +1,14 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,4 +52,17 @@ public class ResidentController {
 		return repository.findAll();
 	}
     
+	/**
+	 * Removes a resident from the table
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@Transactional
+	@DeleteMapping("/resident")
+	public void deleteResident(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
+		int residentId = Integer.parseInt(request.getParameter("residentId"));
+		repository.deleteResidentByResidentId(residentId);
+		response.sendRedirect("resident");
+	}
 }
