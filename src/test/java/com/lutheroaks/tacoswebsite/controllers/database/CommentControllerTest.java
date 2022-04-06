@@ -86,9 +86,9 @@ public final class CommentControllerTest {
     void deleteCommentSuccess() throws IOException{
         HttpServletRequest  request = mock(HttpServletRequest.class);
         HttpServletResponse  response = mock(HttpServletResponse.class);
-        when(request.getParameter("residentId")).thenReturn("1");
+        when(request.getParameter("commentId")).thenReturn("1");
         doNothing().when(repository).deleteCommentById(anyInt());
         controller.deleteComment(request, response);
-        verify(response, times(1)).sendRedirect("/resident");
+        verify(response, times(1)).sendRedirect("active-tickets");
     }
 }

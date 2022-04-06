@@ -79,7 +79,7 @@ public class CommentController {
 	public void deleteComment(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		int commentId = Integer.parseInt(request.getParameter("commentId"));
 		repository.deleteCommentById(commentId);
-		response.sendRedirect("/tickets");
+		response.sendRedirect("active-tickets");
 	}
     
 } 
