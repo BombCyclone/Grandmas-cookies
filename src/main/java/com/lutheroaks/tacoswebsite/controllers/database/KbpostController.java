@@ -78,7 +78,7 @@ public class KbpostController {
     public void deleteKBPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int postId = Integer.parseInt(request.getParameter("postId"));
         repository.deleteKBPostById(postId);
-        response.sendRedirect("/kbpost");
+        response.sendRedirect("kbpost");
     }
 
 }
