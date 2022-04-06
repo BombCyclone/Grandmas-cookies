@@ -2,13 +2,16 @@ package com.lutheroaks.tacoswebsite.controllers.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.security.Principal;
 
 import javax.servlet.http.HttpServletRequest;
@@ -77,4 +80,15 @@ public final class BioControllerTest {
         // confirm that the returned Bio object is the same as what was created
         assertEquals("Math", retVal.getMajor());
     }
+
+    @Test
+    void deleteBioSuccess() throws IOException{
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = mock(HttpServletResponse.class);
+        when(request.getParameter("bioId")).thenReturn("1");
+        doNothing().when(repository).deleteBioById(anyInt());
+        controller.deleteBio(request, response);
+        verify(response, times(1)).sendRedirect("index");
+    }
+
 }
