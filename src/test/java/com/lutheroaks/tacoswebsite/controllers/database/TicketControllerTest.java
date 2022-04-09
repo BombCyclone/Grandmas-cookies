@@ -111,6 +111,20 @@ public final class TicketControllerTest {
         assertEquals("TV cracked help", retVal.get(0).getIssueDesc());
     }
 
+
+    @Test
+    void updateTicketSuccess() throws IOException, MessagingException{
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = mock(HttpServletResponse.class);
+
+        Ticket fakeUpdatedTicket = new Ticket();
+        when(request.getParameter("techtype")).thenReturn("Unit test!");
+        when(request.getParameter("ticketID")).thenReturn("1");
+        when(ticketRepo.findTicketById(anyInt())).thenReturn(fakeUpdatedTicket);
+        when(ticketRepo.save(any(Ticket.class))).thenReturn(fakeUpdatedTicket);
+        ticketController.UpdateTicket(request,response);
+        verify(response,times(1)).sendRedirect("active-tickets");
+    }
     @Test
     void deleteTicketSuccess() throws IOException{
         HttpServletRequest  request = mock(HttpServletRequest.class);

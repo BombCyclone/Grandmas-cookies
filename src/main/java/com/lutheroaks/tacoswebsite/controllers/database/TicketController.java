@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.mail.MessagingException;
@@ -13,11 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.helper_utils.EmailSender;
 import com.lutheroaks.tacoswebsite.helper_utils.TicketHelper;
+import com.lutheroaks.tacoswebsite.member.Member;
+import com.lutheroaks.tacoswebsite.member.MemberRepo;
 import com.lutheroaks.tacoswebsite.resident.Resident;
 import com.lutheroaks.tacoswebsite.resident.ResidentRepo;
 import com.lutheroaks.tacoswebsite.ticket.Ticket;
 import com.lutheroaks.tacoswebsite.ticket.TicketRepo;
 
+import org.hibernate.mapping.Set;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,7 +31,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import lombok.NonNull;
 
 @RestController
 public class TicketController {
@@ -39,6 +47,9 @@ public class TicketController {
 
 	@Autowired
 	private ResidentRepo residentRepo;
+
+	@Autowired
+	private MemberRepo memberRepo;
 
 	@Autowired
 	private TicketHelper helper;
@@ -130,6 +141,56 @@ public class TicketController {
 	public List<Ticket> getTickets() {
 		return ticketRepo.findAll();
 	}
+
+
+	@PutMapping("/tickets")
+	public void UpdateTicket(final HttpServletRequest request, final HttpServletResponse response) throws IOException, MessagingException
+	{
+
+		// step 1: parse new paramaters of ticket. Assume all of the appropriate fields are all provided for now.
+		int ticketID = Integer.parseInt(request.getParameter("ticketID"));
+		Ticket originalTicket = ticketRepo.findTicketById(ticketID);
+		Ticket updatedTicket = originalTicket;
+		Boolean ticketStatus = Boolean.parseBoolean(request.getParameter("ticketstatus"));
+		String techType = request.getParameter("techtype");
+		 /*
+		java.util.@NonNull Set<Member> assignedMembers = originalTicket.getAssignedMembers();
+		//Easier to assume that the form we get the request from will give us the email, for now. 
+		String[] memberEmails = request.getParameterValues("email");
+
+		if (memberEmails.length < 3){ // check if assigning these members would go beyond limit of 3
+			for (int i =0; i < memberEmails.length; i++){
+				Member tempMember = memberRepo.findMemberByEmail(memberEmails[i]);
+				assignedMembers.add(tempMember);
+				//TO DO: Need to unassign members who weren't given in the paramters
+
+			}
+		}
+		else response.sendRedirect("error"); // A ticket cannot have more than 3 assigned members
+		*/
+		//List<String> tags = Arrays.asList(request.getParameterValues("tags"));
+
+		updatedTicket.setTicketStatusActive(ticketStatus);
+		updatedTicket.setTechType(techType);
+	//	updatedTicket.setAssignedMembers(assignedMembers);
+	//	updatedTicket.setTags(tags);
+	//	updatedTicket.setComments(new ArrayList<>());
+	/*
+		Iterator<Member> newlyAssignedMembers = updatedTicket.getAssignedMembers().iterator();
+		while (newlyAssignedMembers.hasNext()){ // need to update members that have been assigned to this ticket
+			Member updatedMember = newlyAssignedMembers.next();
+			HashSet<Ticket> memberTickets = (HashSet<Ticket>) updatedMember.getAssociatedTickets();
+			// hash set doesn't allow duplicates so go ahead and write over whatever it had, and it if its there, it will be overwritten
+			memberTickets.add(updatedTicket);
+			memberRepo.save(updatedMember);
+			// if my understanding of the JpaCRUD system is correct, it should find the matching member objects and
+			// overwrite their AssociatedTickets with this new updated versions, without creating a new member
+		} */
+
+		ticketRepo.save(updatedTicket);
+		response.sendRedirect("active-tickets");
+	}
+
 
 	/**
 	 * Deletes a ticket from the table
