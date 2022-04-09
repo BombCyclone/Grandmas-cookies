@@ -23,10 +23,15 @@ function buildTable(data){
     // for each object in the data array, return a table row
     var i = 0;
     for(let ticket of data){
+        var ticketDate = new Date(ticket.timestamp);
+        var formattedDate = ticketDate.toLocaleDateString();
+        var formattedTime = ticketDate.toLocaleTimeString();
             var row =   `<tr>
                             <td>${ticket.ticketNum}</td>
                             <td>${arrRes[i]}</td>
                             <td>${ticket.issueDesc}</td>
+                            <td>${formattedDate}</td>
+                            <td>${formattedTime}</td>
                         </tr>`
             table.innerHTML += row
         i++;
