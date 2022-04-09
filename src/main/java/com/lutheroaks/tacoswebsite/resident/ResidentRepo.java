@@ -13,6 +13,9 @@ public interface ResidentRepo extends JpaRepository<Resident,Integer> {
     @Query(nativeQuery = true, value = "select * from Resident where upper(first_name) = ?1 and upper(last_name) = ?2")
     List<Resident> findResidentByName(String firstName, String lastName);
 
+    @Query("SELECT first_name + ' ' + last_name from Resident where resident_id = ?1")
+    String findResidentName(int resId);
+
     @Modifying
     @Query("DELETE FROM Resident WHERE resident_id = ?1")
     void deleteResidentByResidentId(int residentId);
