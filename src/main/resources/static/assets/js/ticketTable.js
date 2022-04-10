@@ -26,12 +26,16 @@ function buildTable(data){
         var ticketDate = new Date(ticket.timestamp);
         var formattedDate = ticketDate.toLocaleDateString();
         var formattedTime = ticketDate.toLocaleTimeString();
+        var ticketNum = ticket.ticketNum;
             var row =   `<tr>
                             <td>${ticket.ticketNum}</td>
                             <td>${arrRes[i]}</td>
                             <td>${ticket.issueDesc}</td>
                             <td>${formattedDate}</td>
                             <td>${formattedTime}</td>
+                            <td action="/tickets" method="DELETE" onClick="deleteRow()">
+                                <button type="submit">X</button>
+                            </td>
                         </tr>`
             table.innerHTML += row
         i++;
@@ -42,6 +46,15 @@ function buildTable(data){
     spinner.style.visibility = "hidden";
     spinner.style.height = 0;
     addscripts();
+}
+
+function deleteRow() {
+fetch('/tickets', {method: 'DELETE', body: JSON.stringify(1)})
+.then(data=>{return data.json()})
+.then(res=>{
+    arrRes = res;
+})
+.catch(error=>console.log(error))
 }
 
 // add other NiceAdmin Scripts to the page after the table content has been rendered
