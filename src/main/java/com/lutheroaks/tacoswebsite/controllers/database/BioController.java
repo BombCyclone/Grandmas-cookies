@@ -83,7 +83,7 @@ public class BioController {
     }
 
     /**
-     * deletes a specified bio
+     * Deletes a specified bio
      * @param request
      * @param response
      * @throws IOException

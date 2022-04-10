@@ -2,6 +2,7 @@ package com.lutheroaks.tacoswebsite.kb;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -10,11 +11,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.member.Member;
+import com.lutheroaks.tacoswebsite.tag.Tag;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -50,4 +55,12 @@ public class KBPost {
     @Column(nullable = false, unique = false, length = 100)
     @NonNull private Timestamp timeStamp;
     
+    @ManyToMany
+    @JoinTable(
+        name = "KBPost_Associated_Tags", 
+        joinColumns = @JoinColumn(name = "postId"), 
+        inverseJoinColumns = @JoinColumn(name = "tagString"))
+    @ElementCollection(targetClass = Tag.class)
+    @Size(min=0, max=3)
+    private Set<Tag> associatedTags;
 }

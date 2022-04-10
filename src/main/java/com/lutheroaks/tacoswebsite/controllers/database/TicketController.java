@@ -91,7 +91,7 @@ public class TicketController {
 			ticket.setTimestamp(Timestamp.from(Instant.now()));
 			ticket.setAssignedMembers(new HashSet<>());
 			ticket.setResident(ticketResident);
-			ticket.setTags(new ArrayList<>());
+			// ticket.setTags(new ArrayList<>());
 			ticket.setComments(new ArrayList<>());
 			ticket.setResident(ticketResident);
 			// save the new ticket

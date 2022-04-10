@@ -12,11 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.comment.Comment;
@@ -57,6 +59,7 @@ public class Ticket {
     @NonNull private Timestamp timestamp;
 
     @ManyToMany(mappedBy = "associatedTickets")
+    @Size(min=0, max=3)
     @NonNull private Set<Member> assignedMembers;
 
     @ManyToOne
@@ -64,9 +67,14 @@ public class Ticket {
     @JoinColumn(name="associatedTickets", nullable = false)
     @NonNull private Resident resident;
 
-    @Column(nullable = false, length = 50)
-    @ElementCollection(targetClass = String.class)
-    @NonNull private List<String> tags;
+    @ManyToMany
+    @JoinTable(
+        name = "Ticket_Associated_Tags", 
+        joinColumns = @JoinColumn(name = "ticketNum"), 
+        inverseJoinColumns = @JoinColumn(name = "tagString"))
+    @ElementCollection(targetClass = Ticket.class)
+    @Size(min=0, max=3)
+    private Set<Ticket> associatedTags;
 
     @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY)
     @NonNull private List<Comment> comments;
