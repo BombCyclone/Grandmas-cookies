@@ -18,8 +18,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.lutheroaks.tacoswebsite.resident.Resident;
-import com.lutheroaks.tacoswebsite.resident.ResidentRepo;
+import com.lutheroaks.tacoswebsite.entities.resident.Resident;
+import com.lutheroaks.tacoswebsite.entities.resident.ResidentRepo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

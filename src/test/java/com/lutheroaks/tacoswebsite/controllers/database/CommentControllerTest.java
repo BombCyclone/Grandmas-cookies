@@ -19,12 +19,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.lutheroaks.tacoswebsite.comment.Comment;
-import com.lutheroaks.tacoswebsite.comment.CommentRepo;
-import com.lutheroaks.tacoswebsite.member.Member;
-import com.lutheroaks.tacoswebsite.member.MemberRepo;
-import com.lutheroaks.tacoswebsite.ticket.Ticket;
-import com.lutheroaks.tacoswebsite.ticket.TicketRepo;
+import com.lutheroaks.tacoswebsite.entities.comment.Comment;
+import com.lutheroaks.tacoswebsite.entities.comment.CommentRepo;
+import com.lutheroaks.tacoswebsite.entities.member.Member;
+import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
+import com.lutheroaks.tacoswebsite.entities.ticket.Ticket;
+import com.lutheroaks.tacoswebsite.entities.ticket.TicketRepo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

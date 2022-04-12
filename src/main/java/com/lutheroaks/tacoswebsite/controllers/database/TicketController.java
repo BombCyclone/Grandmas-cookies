@@ -11,12 +11,12 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.lutheroaks.tacoswebsite.helper_utils.EmailSender;
-import com.lutheroaks.tacoswebsite.helper_utils.TicketHelper;
-import com.lutheroaks.tacoswebsite.resident.Resident;
-import com.lutheroaks.tacoswebsite.resident.ResidentRepo;
-import com.lutheroaks.tacoswebsite.ticket.Ticket;
-import com.lutheroaks.tacoswebsite.ticket.TicketRepo;
+import com.lutheroaks.tacoswebsite.entities.resident.Resident;
+import com.lutheroaks.tacoswebsite.entities.resident.ResidentRepo;
+import com.lutheroaks.tacoswebsite.entities.ticket.Ticket;
+import com.lutheroaks.tacoswebsite.entities.ticket.TicketRepo;
+import com.lutheroaks.tacoswebsite.entities.ticket.TicketService;
+import com.lutheroaks.tacoswebsite.utils.EmailSender;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +46,7 @@ public class TicketController {
 	private ResidentRepo residentRepo;
 
 	@Autowired
-	private TicketHelper helper;
+	private TicketService helper;
 
 	@Autowired
 	private EmailSender sender;
@@ -96,7 +96,7 @@ public class TicketController {
 			ticket.setTimestamp(Timestamp.from(Instant.now()));
 			ticket.setAssignedMembers(new HashSet<>());
 			ticket.setResident(ticketResident);
-			ticket.setTags(new ArrayList<>());
+			// ticket.setTags(new ArrayList<>());
 			ticket.setComments(new ArrayList<>());
 			ticket.setResident(ticketResident);
 			// save the new ticket
