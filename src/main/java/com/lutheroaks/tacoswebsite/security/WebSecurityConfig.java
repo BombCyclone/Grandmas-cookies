@@ -1,6 +1,6 @@
 package com.lutheroaks.tacoswebsite.security;
 
-import com.lutheroaks.tacoswebsite.member.MemberDetailsServiceImpl;
+import com.lutheroaks.tacoswebsite.entities.member.MemberDetailsServiceImpl;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

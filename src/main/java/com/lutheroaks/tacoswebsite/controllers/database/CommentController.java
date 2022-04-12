@@ -1,13 +1,8 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,12 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lutheroaks.tacoswebsite.comment.Comment;
-import com.lutheroaks.tacoswebsite.comment.CommentRepo;
-import com.lutheroaks.tacoswebsite.member.Member;
-import com.lutheroaks.tacoswebsite.member.MemberRepo;
-import com.lutheroaks.tacoswebsite.ticket.Ticket;
-import com.lutheroaks.tacoswebsite.ticket.TicketRepo;
+import com.lutheroaks.tacoswebsite.entities.comment.Comment;
+import com.lutheroaks.tacoswebsite.entities.comment.CommentRepo;
+import com.lutheroaks.tacoswebsite.entities.comment.CommentService;
 
 @RestController
 public class CommentController {
@@ -30,10 +22,7 @@ public class CommentController {
     private CommentRepo repository;
 
 	@Autowired
-    private MemberRepo memberRepo;
-
-	@Autowired
-	private TicketRepo ticketRepo;
+	private CommentService service;
 
 	/**
 	 * Adds a comment to the table
@@ -41,22 +30,8 @@ public class CommentController {
 	 * @return
 	 */
 	@PostMapping("/comment")
-	public String addComment(final HttpServletRequest request) {
-		Comment toAdd = new Comment();
-		// get the email (user name) of the member member who is posting from the request details
-		Principal principal = request.getUserPrincipal();
-		String userName = principal.getName();
-		Member poster = memberRepo.findMemberByEmail(userName);
-		String content = request.getParameter("content");
-		int ticketId = Integer.parseInt(request.getParameter("ticketId"));
-		Ticket ticket = ticketRepo.findTicketById(ticketId);
-
-		toAdd.setMember(poster);
-		toAdd.setContent(content);
-		toAdd.setTicket(ticket);
-		toAdd.setTimeStamp(Timestamp.from(Instant.now()));
-		repository.save(toAdd);
-		return "A new comment was added!";
+	public void addComment(final HttpServletRequest request) {
+		service.createComment(request);
 	}
 
 	/**
@@ -72,14 +47,11 @@ public class CommentController {
 	 * Deletes a comment from the table
 	 * @param request
 	 * @param response
-	 * @throws IOException
 	 */
 	@Transactional
 	@DeleteMapping("/comment")
-	public void deleteComment(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
-		int commentId = Integer.parseInt(request.getParameter("commentId"));
-		repository.deleteCommentById(commentId);
-		response.sendRedirect("active-tickets");
+	public void deleteComment(final HttpServletRequest request){
+		service.removeComment(request);
 	}
     
 } 

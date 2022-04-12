@@ -2,44 +2,36 @@ package com.lutheroaks.tacoswebsite.controllers.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.security.Principal;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import com.lutheroaks.tacoswebsite.kb.KBPost;
-import com.lutheroaks.tacoswebsite.kb.KBPostRepo;
-import com.lutheroaks.tacoswebsite.member.Member;
-import com.lutheroaks.tacoswebsite.member.MemberRepo;
+import com.lutheroaks.tacoswebsite.entities.kb.KBPost;
+import com.lutheroaks.tacoswebsite.entities.kb.KBPostRepo;
+import com.lutheroaks.tacoswebsite.entities.kb.KBService;
+import com.lutheroaks.tacoswebsite.entities.member.Member;
+import com.lutheroaks.tacoswebsite.entities.tag.Tag;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-
-@SpringBootTest
 public final class KBPostControllerTest {
     
     @InjectMocks
@@ -49,7 +41,7 @@ public final class KBPostControllerTest {
     private KBPostRepo repository;
 
     @Mock
-    private MemberRepo memberRepo;
+    private KBService service;
 
     @BeforeEach
     public void mockSetup() {
@@ -57,28 +49,20 @@ public final class KBPostControllerTest {
     }
 
     @Test
-    public void addKBPostTest() throws IOException {
-        doReturn(null).when(repository).save(any(KBPost.class));
-        HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
-        Principal mockPrince = Mockito.mock(Principal.class);
-        HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
-
-        when(request.getParameter("title")).thenReturn("Explaining Apple Watches");
-        when(request.getParameter("content")).thenReturn("They're wrist iPhones.");
-        when(request.getUserPrincipal()).thenReturn(mockPrince);
-        when(mockPrince.getName()).thenReturn("Charles");
-        when(memberRepo.findMemberByEmail(anyString())).thenReturn(new Member());
-
-        doNothing().when(response).sendRedirect(any());
-
-        controller.addKBPost(request, response);
-
-        verify(response, times(1)).sendRedirect("index");
-
+    public void addKBPostTest() {
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        // don't actually create the fake post
+        doNothing().when(service).createPost(any());
+        // call the method to be tested
+        controller.addKBPost(request);
+        // confirm that the expected method was called
+        verify(service, times(1)).createPost(request);
     }
 
     @Test
     public void getKBPostsTest() throws ParseException {
+        // create a fake kb post and add it to the list
         List<KBPost> mockList = new ArrayList<KBPost>();
         KBPost fakePost = new KBPost();
         Member fakeMember = new Member();
@@ -88,34 +72,36 @@ public final class KBPostControllerTest {
         long time = date.getTime();
         Timestamp timeStamp = new Timestamp(time);
 
-        ArrayList<String> emptyList = new ArrayList<>();
+        Set<Tag> emptySet = new HashSet<>();
 
         fakePost.setContent("They are wrist iPhones.");
         fakePost.setMember(fakeMember);
-        fakePost.setTags(emptyList);
+        fakePost.setAssociatedTags(emptySet);
         fakePost.setTimeStamp(timeStamp);
         fakePost.setTitle("Explaining Apple Watches");
         
         mockList.add(fakePost);
-
         when(repository.findAll()).thenReturn(mockList);
-        List<KBPost> retVal = controller.getKBPosts();
 
+        //call the method to be tested and assert the returned value
+        List<KBPost> retVal = controller.getKBPosts();
         assertEquals("They are wrist iPhones.", retVal.get(0).getContent());
         assertEquals(fakeMember, retVal.get(0).getMember());
-        assertEquals(emptyList, retVal.get(0).getTags());
+        assertEquals(emptySet, retVal.get(0).getAssociatedTags());
         assertEquals(timeStamp, retVal.get(0).getTimeStamp());
         assertEquals("Explaining Apple Watches", retVal.get(0).getTitle());
 
     }
 
     @Test
-    void deleteKBPostSuccess() throws IOException{
-        HttpServletRequest  request = mock(HttpServletRequest.class);
-        HttpServletResponse  response = mock(HttpServletResponse.class);
-        when(request.getParameter("postId")).thenReturn("1");
-        doNothing().when(repository).deleteKBPostById(anyInt());
-        controller.deleteKBPost(request, response);
-        verify(response, times(1)).sendRedirect("kbpost");
+    void deleteKBPostSuccess() {
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        // don't actually delete the fake post
+        doNothing().when(service).removePost(any());
+        // call the method to be tested
+        controller.deleteKBPost(request);
+        // confirm that the expected method was called
+        verify(service, times(1)).removePost(request);
     }
 }
