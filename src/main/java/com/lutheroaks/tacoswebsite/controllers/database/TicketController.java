@@ -25,7 +25,11 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -148,11 +152,11 @@ public class TicketController {
 	 * @throws IOException
 	 */
 	@Transactional
-	@DeleteMapping("/tickets")
-	public void deleteTicket(final HttpServletRequest request, final HttpServletResponse response)
+	@RequestMapping(value = "/tickets/{ticketNum}", method = {RequestMethod.GET, RequestMethod.DELETE})
+	public void deleteTicket(@PathVariable String ticketNum, final HttpServletResponse response)
 			throws IOException {
-			int ticketNum = Integer.parseInt(request.getParameter("ticketNum"));
-			ticketRepo.deleteTicketByTicketNum(ticketNum);
+			int ticketNumber = Integer.parseInt(ticketNum);
+			ticketRepo.deleteTicketByTicketNum(ticketNumber);
 			response.sendRedirect("active-tickets");
 	}
 }

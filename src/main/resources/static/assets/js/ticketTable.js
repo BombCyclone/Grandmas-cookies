@@ -26,14 +26,14 @@ function buildTable(data){
         var ticketDate = new Date(ticket.timestamp);
         var formattedDate = ticketDate.toLocaleDateString();
         var formattedTime = ticketDate.toLocaleTimeString();
-        var ticketNum = ticket.ticketNum;
+        ticketNumber = ticket.ticketNum;
             var row =   `<tr>
-                            <td>${ticket.ticketNum}</td>
+                            <td id="ticketNum">${ticket.ticketNum}</td>
                             <td>${arrRes[i]}</td>
                             <td>${ticket.issueDesc}</td>
                             <td>${formattedDate}</td>
                             <td>${formattedTime}</td>
-                            <td action="/tickets" method="DELETE" onClick="deleteRow()">
+                            <td onClick="deleteRow(ticketNumber)">
                                 <button type="submit">X</button>
                             </td>
                         </tr>`
@@ -48,15 +48,13 @@ function buildTable(data){
     addscripts();
 }
 
-function deleteRow() {
-fetch('/tickets', {method: 'DELETE', body: JSON.stringify(1)})
-.then(data=>{return data.json()})
-.then(res=>{
-    arrRes = res;
-})
-.catch(error=>console.log(error))
+function deleteRow(id) {
+fetch('/tickets/?ticketNum=id', {
+    method: 'DELETE',
+    })
+    .then(res => res.text()) // or res.json()
+    .then(res => console.log(res))
 }
-
 // add other NiceAdmin Scripts to the page after the table content has been rendered
 function addscripts(){
     loadScript("assets/vendor/apexcharts/apexcharts.min.js");
