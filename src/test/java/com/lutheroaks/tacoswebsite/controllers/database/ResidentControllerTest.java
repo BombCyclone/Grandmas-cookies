@@ -1,38 +1,35 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import com.lutheroaks.tacoswebsite.resident.Resident;
-import com.lutheroaks.tacoswebsite.resident.ResidentRepo;
+import com.lutheroaks.tacoswebsite.entities.resident.Resident;
+import com.lutheroaks.tacoswebsite.entities.resident.ResidentRepo;
+import com.lutheroaks.tacoswebsite.entities.resident.ResidentService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
 public final class ResidentControllerTest {
     
     @InjectMocks
     private ResidentController controller;
+
+    @Mock
+    private ResidentService service;
     
     @Mock
     private ResidentRepo repository;
@@ -43,29 +40,13 @@ public final class ResidentControllerTest {
     }
 
     @Test
-    public void addResidentDoesNotPreviouslyExist(){
-        // we don't actually want to save to our database here
-        doReturn(null).when(repository).save(any(Resident.class));
-        // return an empty list
-        List<Resident> mockReturn = new ArrayList<>();
-        when(repository.findResidentByName(anyString(), anyString())).thenReturn(mockReturn);
-        // call the method to test
-        String retVal = controller.addResident("Rupert", "Thompson", 101);
-        // make sure the return matches the expected string
-        assertEquals("A new resident was added!", retVal);
-    }
-
-    @Test
-    public void addResidentAlreadyExists() {
-        // return an list that is not empty
-        List<Resident> mockReturn = new ArrayList<>();
-        Resident toAdd = new Resident();
-        mockReturn.add(toAdd);
-        when(repository.findResidentByName(anyString(), anyString())).thenReturn(mockReturn);
-        // call the method to test
-        String retVal = controller.addResident("Rupert", "Thompson", 101);
-        // make sure the return matches the expected string
-        assertEquals("Resident already in system", retVal);
+    public void addResidentTest() {
+        // don't actually call the method to create a member
+        doNothing().when(service).createResident(anyString(), anyString(), anyInt());
+        // call the method to be tested
+        controller.addResident("firstName", "lastName", 1);
+        // confirm that the expected method was called
+        verify(service, times(1)).createResident(anyString(), anyString(), anyInt());
     }
 
     @Test
@@ -87,12 +68,14 @@ public final class ResidentControllerTest {
     }
 
     @Test
-    void deleteResidentSuccess() throws IOException{
-        HttpServletRequest  request = mock(HttpServletRequest.class);
-        HttpServletResponse  response = mock(HttpServletResponse.class);
-        when(request.getParameter("residentId")).thenReturn("1");
-        doNothing().when(repository).deleteResidentByResidentId(anyInt());
-        controller.deleteResident(request, response);
-        verify(response, times(1)).sendRedirect("resident");
+    void deleteResidentSuccess() {
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        // don't actually delete a member
+        doNothing().when(service).removeResident(request);
+        // call the method to be tested
+        controller.deleteResident(request);
+        // confirm that the expected method was called
+        verify(service, times(1)).removeResident(request);
     }
 }
