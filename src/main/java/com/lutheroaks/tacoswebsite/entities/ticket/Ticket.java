@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -51,9 +50,6 @@ public class Ticket {
     @Column(nullable = false, unique = false, length = 50)
     @NonNull private String issueDesc;
 
-    @Column(nullable = false, length = 50)
-    @NonNull private String techType;
-
     @OrderColumn
     @Column(nullable = false, length = 50)
     @NonNull private Timestamp timestamp;
@@ -68,10 +64,6 @@ public class Ticket {
     @NonNull private Resident resident;
 
     @ManyToMany
-    @JoinTable(
-        name = "Ticket_Associated_Tags", 
-        joinColumns = @JoinColumn(name = "ticketNum"), 
-        inverseJoinColumns = @JoinColumn(name = "tagString"))
     @ElementCollection(targetClass = Ticket.class)
     @Size(min=0, max=3)
     private Set<Ticket> associatedTags;

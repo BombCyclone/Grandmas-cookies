@@ -10,7 +10,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +20,8 @@ import com.lutheroaks.tacoswebsite.entities.kb.KBPost;
 import com.lutheroaks.tacoswebsite.entities.kb.KBPostRepo;
 import com.lutheroaks.tacoswebsite.entities.kb.KBService;
 import com.lutheroaks.tacoswebsite.entities.member.Member;
+import com.lutheroaks.tacoswebsite.entities.tag.Tag;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -68,11 +72,11 @@ public final class KBPostControllerTest {
         long time = date.getTime();
         Timestamp timeStamp = new Timestamp(time);
 
-        ArrayList<String> emptyList = new ArrayList<>();
+        Set<Tag> emptySet = new HashSet<>();
 
         fakePost.setContent("They are wrist iPhones.");
         fakePost.setMember(fakeMember);
-        fakePost.setTags(emptyList);
+        fakePost.setAssociatedTags(emptySet);
         fakePost.setTimeStamp(timeStamp);
         fakePost.setTitle("Explaining Apple Watches");
         
@@ -83,7 +87,7 @@ public final class KBPostControllerTest {
         List<KBPost> retVal = controller.getKBPosts();
         assertEquals("They are wrist iPhones.", retVal.get(0).getContent());
         assertEquals(fakeMember, retVal.get(0).getMember());
-        assertEquals(emptyList, retVal.get(0).getTags());
+        assertEquals(emptySet, retVal.get(0).getAssociatedTags());
         assertEquals(timeStamp, retVal.get(0).getTimeStamp());
         assertEquals("Explaining Apple Watches", retVal.get(0).getTitle());
 
