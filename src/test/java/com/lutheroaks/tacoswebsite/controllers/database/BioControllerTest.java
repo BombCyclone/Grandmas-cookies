@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.bio.BioRepo;
 import com.lutheroaks.tacoswebsite.entities.bio.BioService;
-import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,8 +32,6 @@ public final class BioControllerTest {
     @Mock
     private BioService service;
 
-    @Mock
-    private MemberRepo memberRepo;
 
     @BeforeEach
     void init(){
