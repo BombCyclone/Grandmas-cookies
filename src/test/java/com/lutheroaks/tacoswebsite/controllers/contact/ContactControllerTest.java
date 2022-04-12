@@ -37,7 +37,7 @@ public final class ContactControllerTest {
 
     @Test
     void contactUsCalled() throws MessagingException, IOException{
-        // mock the parameters for the send email method
+        // mock the parameters
         HttpServletRequest  mockRequest = mock(HttpServletRequest.class);
         HttpServletResponse mockResponse = mock(HttpServletResponse.class);
         // don't actually send an email

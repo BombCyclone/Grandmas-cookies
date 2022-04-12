@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-public class ContactController {
+public final class ContactController {
 
 	@Autowired
 	private ContactUs contactUs;
