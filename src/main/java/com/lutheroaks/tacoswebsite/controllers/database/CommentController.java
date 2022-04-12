@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lutheroaks.tacoswebsite.comment.Comment;
-import com.lutheroaks.tacoswebsite.comment.CommentRepo;
-import com.lutheroaks.tacoswebsite.member.Member;
-import com.lutheroaks.tacoswebsite.member.MemberRepo;
-import com.lutheroaks.tacoswebsite.ticket.Ticket;
-import com.lutheroaks.tacoswebsite.ticket.TicketRepo;
+import com.lutheroaks.tacoswebsite.entities.comment.Comment;
+import com.lutheroaks.tacoswebsite.entities.comment.CommentRepo;
+import com.lutheroaks.tacoswebsite.entities.member.Member;
+import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
+import com.lutheroaks.tacoswebsite.entities.ticket.Ticket;
+import com.lutheroaks.tacoswebsite.entities.ticket.TicketRepo;
 
 @RestController
 public class CommentController {

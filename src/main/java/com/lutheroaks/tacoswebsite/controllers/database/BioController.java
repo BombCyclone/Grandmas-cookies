@@ -6,10 +6,10 @@ import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.lutheroaks.tacoswebsite.bio.Bio;
-import com.lutheroaks.tacoswebsite.bio.BioRepo;
-import com.lutheroaks.tacoswebsite.member.Member;
-import com.lutheroaks.tacoswebsite.member.MemberRepo;
+import com.lutheroaks.tacoswebsite.entities.bio.Bio;
+import com.lutheroaks.tacoswebsite.entities.bio.BioRepo;
+import com.lutheroaks.tacoswebsite.entities.member.Member;
+import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -20,10 +20,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.lutheroaks.tacoswebsite.kb.KBPost;
-import com.lutheroaks.tacoswebsite.kb.KBPostRepo;
-import com.lutheroaks.tacoswebsite.member.Member;
-import com.lutheroaks.tacoswebsite.member.MemberRepo;
+import com.lutheroaks.tacoswebsite.entities.kb.KBPost;
+import com.lutheroaks.tacoswebsite.entities.kb.KBPostRepo;
+import com.lutheroaks.tacoswebsite.entities.member.Member;
+import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
