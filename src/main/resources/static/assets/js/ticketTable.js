@@ -50,7 +50,7 @@ function buildTable(data){
 
 function deleteRow(id) {
 fetch('/tickets/?ticketNum=id', {
-    method: 'DELETE',
+    method: 'PUT',
     })
     .then(res => res.text()) // or res.json()
     .then(res => console.log(res))

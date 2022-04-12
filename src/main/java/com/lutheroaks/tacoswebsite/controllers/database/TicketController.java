@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -152,7 +153,7 @@ public class TicketController {
 	 * @throws IOException
 	 */
 	@Transactional
-	@RequestMapping(value = "/tickets/{ticketNum}", method = {RequestMethod.GET, RequestMethod.DELETE})
+	@PutMapping("/ticket/{ticketNum}")
 	public void deleteTicket(@PathVariable String ticketNum, final HttpServletResponse response)
 			throws IOException {
 			int ticketNumber = Integer.parseInt(ticketNum);
