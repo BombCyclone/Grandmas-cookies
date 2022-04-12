@@ -153,11 +153,11 @@ public class TicketController {
 	 * @throws IOException
 	 */
 	@Transactional
-	@PutMapping("/ticket/{ticketNum}")
-	public void deleteTicket(@PathVariable String ticketNum, final HttpServletResponse response)
+	@DeleteMapping("/ticket")
+	public void deleteTicket(HttpServletRequest request ,final HttpServletResponse response)
 			throws IOException {
-			int ticketNumber = Integer.parseInt(ticketNum);
+			int ticketNumber = Integer.parseInt(request.getParameter("ticketNum"));
 			ticketRepo.deleteTicketByTicketNum(ticketNumber);
-			response.sendRedirect("active-tickets");
+			// response.sendRedirect("active-tickets");
 	}
 }

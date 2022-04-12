@@ -33,7 +33,7 @@ function buildTable(data){
                             <td>${ticket.issueDesc}</td>
                             <td>${formattedDate}</td>
                             <td>${formattedTime}</td>
-                            <td onClick="deleteRow(ticketNumber)">
+                            <td onClick="deleteRow(${ticket.ticketNum})">
                                 <button type="submit">X</button>
                             </td>
                         </tr>`
@@ -48,12 +48,14 @@ function buildTable(data){
     addscripts();
 }
 
-function deleteRow(id) {
-fetch('/tickets/?ticketNum=id', {
-    method: 'PUT',
+async function deleteRow(id) {
+console.log(id);
+const formData = new FormData();
+formData.append('ticketNum', id);
+await fetch('/ticket/', {
+    method: 'DELETE', body: formData,
     })
-    .then(res => res.text()) // or res.json()
-    .then(res => console.log(res))
+    .then(() => {window.location.reload()})
 }
 // add other NiceAdmin Scripts to the page after the table content has been rendered
 function addscripts(){
