@@ -27,16 +27,12 @@ function buildTable(data){
         var formattedDate = ticketDate.toLocaleDateString();
         var formattedTime = ticketDate.toLocaleTimeString();
         ticketNumber = ticket.ticketNum;
-            var row =   `<tr>
-                            <td id="ticketNum">${ticket.ticketNum}</td>
-                            <td>${arrRes[i]}</td>
-                            <td>${ticket.issueDesc}</td>
-                            <td>${formattedDate}</td>
-                            <td>${formattedTime}</td>
-                            <td onClick="deleteRow(${ticket.ticketNum})">
-                                <button type="submit">X</button>
-                            </td>
-                        </tr>`
+
+            var row =   `<div class="card">
+                            <div class="card-body">
+                                <p>This is a test</p>
+                            </div>
+                        </div>`
             table.innerHTML += row
         i++;
     }

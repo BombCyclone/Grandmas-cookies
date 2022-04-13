@@ -16,12 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -58,12 +53,7 @@ public class TicketController {
 
 	@GetMapping("/ticket-resident")
 	public List<String> getTicketResident() {
-		List<Integer> residentIds = ticketRepo.findAssociatedTickets();
-		List<String> residentNames = new ArrayList<String>();
-		for (int i = 0; i < residentIds.size(); i++) {
-			residentNames.add(residentRepo.findResidentName(residentIds.get(i)));
-		}
-		return residentNames;
+		return service.getTicketResident();
 	}
 
 	/**

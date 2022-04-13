@@ -149,4 +149,17 @@ public class TicketService {
 		int ticketNum = Integer.parseInt(request.getParameter("ticketNum"));
 		ticketRepo.deleteTicketByTicketNum(ticketNum);
 	}
+
+	/**
+	 * Gets resident names from each ticket
+	 * @param request
+	 */
+	public List<String> getTicketResident() {
+		List<Integer> residentIds = ticketRepo.findAssociatedTickets();
+		List<String> residentNames = new ArrayList<String>();
+		for (int i = 0; i < residentIds.size(); i++) {
+			residentNames.add(residentRepo.findResidentName(residentIds.get(i)));
+		}
+		return residentNames;
+	}
 }
