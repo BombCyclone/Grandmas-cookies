@@ -1,7 +1,6 @@
 package com.lutheroaks.tacoswebsite.entities.kb;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -11,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -48,18 +46,10 @@ public class KBPost {
     @JoinColumn(name="member", nullable = false)
     @NonNull private Member member;
 
-    @Column(nullable = false, length = 50)
-    @ElementCollection(targetClass = String.class)
-    @NonNull private List<String> tags;
-
     @Column(nullable = false, unique = false, length = 100)
     @NonNull private Timestamp timeStamp;
     
     @ManyToMany
-    @JoinTable(
-        name = "KBPost_Associated_Tags", 
-        joinColumns = @JoinColumn(name = "postId"), 
-        inverseJoinColumns = @JoinColumn(name = "tagString"))
     @ElementCollection(targetClass = Tag.class)
     @Size(min=0, max=3)
     private Set<Tag> associatedTags;

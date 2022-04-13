@@ -24,7 +24,7 @@ public class TagController {
     private TagRepo repository;
 
     @Autowired
-    private TagService utils;
+    private TagService tagService;
 
     /**
      * Adds a new Tag to the table
@@ -32,9 +32,9 @@ public class TagController {
      * @throws IOException
      */
     @PutMapping("/tag")
-    public void addTag(final HttpServletRequest request, 
+    public void createTag(final HttpServletRequest request, 
                 final HttpServletResponse response) throws IOException{
-        utils.createTag(request, response);
+        tagService.createTag(request, response);
     }
 
     /**
@@ -43,7 +43,7 @@ public class TagController {
      * @return
      */
     @GetMapping("/tag")
-    public List<Tag> getTags(final HttpServletRequest request){
+    public List<Tag> getTags(){
         return repository.findAll();
     }
 
@@ -57,6 +57,6 @@ public class TagController {
     @DeleteMapping("/tag")
     public void deleteTag(final HttpServletRequest request, 
                     final HttpServletResponse response) throws IOException{
-        utils.deleteTag(request, response);
+        tagService.deleteTag(request, response);
     }
 }

@@ -20,9 +20,9 @@ public class ContactController {
 	private ContactUs contactUs;
 	
 	/**
-	 * Sends a contact request email to Tacos Members
+	 * Forwards a contact us request to send an email
 	 * @param request
-	 * @return
+	 * @param response
 	 * @throws MessagingException
 	 * @throws IOException
 	 */
