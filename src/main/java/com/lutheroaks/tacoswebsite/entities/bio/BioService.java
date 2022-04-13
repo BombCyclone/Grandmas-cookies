@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.member.Member;
+import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 import com.lutheroaks.tacoswebsite.utils.AuthenticatedDetails;
 
 import org.slf4j.Logger;
@@ -20,6 +21,9 @@ public class BioService {
 
     @Autowired
     private BioRepo repository;
+
+    @Autowired
+    private MemberRepo memrepo;
 
     @Autowired
     private AuthenticatedDetails authenticatedDetails;
@@ -82,4 +86,18 @@ public class BioService {
         response.sendRedirect("index");
     }
 
+    /**
+     * Update a member's bio
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    public void updateBio(final HttpServletRequest request, final HttpServletResponse response){
+        Member tempMember = authenticatedDetails.getLoggedInMember(request);
+        Bio tempBio = repository.findBioByMember(tempMember);
+        tempBio.setBackgroundInfo(request.getParameter("backgroundInfo"));
+        tempBio.setHometown(request.getParameter("hometown"));
+        tempBio.setMajor(request.getParameter("major"));
+        repository.save(tempBio);
+    }
 }
