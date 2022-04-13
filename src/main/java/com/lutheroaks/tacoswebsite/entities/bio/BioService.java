@@ -10,9 +10,9 @@ import com.lutheroaks.tacoswebsite.utils.AuthenticatedDetails;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
-@Configuration
+@Service
 public class BioService {
     
     // for logging information to console

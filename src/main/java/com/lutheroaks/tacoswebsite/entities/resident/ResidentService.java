@@ -2,10 +2,11 @@ package com.lutheroaks.tacoswebsite.entities.resident;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
+
 import javax.servlet.http.HttpServletRequest;
 
-@Configuration
+@Service
 public class ResidentService {
 
     @Autowired
