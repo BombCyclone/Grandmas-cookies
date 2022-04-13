@@ -18,6 +18,6 @@ public interface ResidentRepo extends JpaRepository<Resident,Integer> {
     void deleteResidentByResidentId(int residentId);
 
     @Query(nativeQuery = true, value = "SELECT * FROM Resident WHERE resident_id = ?1")
-    Resident findResidentById(int Id);
+    Resident findResidentById(int id);
 
 }

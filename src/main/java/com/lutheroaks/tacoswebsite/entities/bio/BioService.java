@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.member.Member;
-import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 import com.lutheroaks.tacoswebsite.utils.AuthenticatedDetails;
 
 import org.slf4j.Logger;
@@ -22,8 +21,6 @@ public class BioService {
     @Autowired
     private BioRepo repository;
 
-    @Autowired
-    private MemberRepo memrepo;
 
     @Autowired
     private AuthenticatedDetails authenticatedDetails;

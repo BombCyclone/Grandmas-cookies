@@ -71,4 +71,19 @@ public final class ResidentServiceTest {
         // confirm that we would have deleted this resident
         verify(repository, times(1)).deleteResidentByResidentId(1);
     }
+
+    @Test
+    void updateResidentTest(){
+        //mock the request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getParameter("id")).thenReturn("1");
+        when(request.getParameter("roomNumber")).thenReturn("100");
+        when(request.getParameter("firstName")).thenReturn("jeff");
+        when(request.getParameter("lastName")).thenReturn("bezos");
+        Resident tester = new Resident();
+        when(repository.findResidentById(1)).thenReturn(tester);
+        doReturn(null).when(repository).save(any());
+        service.updateResident(request);
+        verify(repository, times(1)).save(any());
+    }
 }

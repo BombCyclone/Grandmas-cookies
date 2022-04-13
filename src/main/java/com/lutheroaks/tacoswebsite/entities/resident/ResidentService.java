@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,8 +46,8 @@ public class ResidentService {
      * @param request
      */
     public void updateResident(final HttpServletRequest request){
-        int Id = Integer.parseInt(request.getParameter("Id"));
-        Resident tempRes = repository.findResidentById(Id);
+        int id = Integer.parseInt(request.getParameter("id"));
+        Resident tempRes = repository.findResidentById(id);
         if(tempRes!=null){
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
