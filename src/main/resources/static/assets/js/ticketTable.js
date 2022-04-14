@@ -56,8 +56,8 @@ function buildTable(data){
                     <option value="member1">Member 1</option>
                     <option value="member2">Member 2</option>
                   </select><br>
-                  <label for="issueDesc">Issue Description:</label>
-                  <input type="text" id="issueDesc" name="issueDesc" value="${ticket.issueDesc}"><br>
+                  <label for="issueDesc">Issue Description:</label><br>
+                  <textarea rows="3" cols="75" id="issueDesc">${ticket.issueDesc}</textarea><br>
                   <button type="submit">X</button>
                   <button id="enableEdit" type="submit" class="form-submit">Edit</button>
                   <button>Save Changes</button><br>
