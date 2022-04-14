@@ -28,7 +28,6 @@ function buildTable(data){
         var formattedTime = ticketDate.toLocaleTimeString();
         ticketNumber = ticket.ticketNum;
             var row =   `<tr>
-                            <td id="ticketNum">${ticket.ticketNum}</td>
                             <td>${arrRes[i]}</td>
                             <td>${ticket.issueDesc}</td>
                             <td>${formattedDate}</td>
@@ -36,8 +35,14 @@ function buildTable(data){
                             <td onClick="deleteRow(${ticket.ticketNum})">
                                 <button type="submit">X</button>
                             </td>
+                            <td onClick="showComments(${ticket.ticketNum})">
+                            <div class="icon">
+                                <em class="ri-arrow-down-s-line"></em>
+                            </div>
+                        </td>
                         </tr>`
-            table.innerHTML += row
+            table.innerHTML += row;
+            loadComments(ticket.ticketNum, ticket.comments);
         i++;
     }
 
@@ -46,6 +51,21 @@ function buildTable(data){
     spinner.style.visibility = "hidden";
     spinner.style.height = 0;
     addscripts();
+}
+
+function loadComments(id, comments){
+    // if there are comments
+    if(Object.entries(comments).length !== 0){
+        console.log(id, JSON.stringify(comments));
+    }
+    // if no comments exist
+    else{
+
+    }
+}
+ 
+function showComments(id){
+    console.log("Show Comments")
 }
 
 async function deleteRow(id) {
