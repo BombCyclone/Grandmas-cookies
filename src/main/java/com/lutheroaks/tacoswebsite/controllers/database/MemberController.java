@@ -58,5 +58,10 @@ public class MemberController {
 	public void deleteMember(final HttpServletRequest request) {
 		service.removeMember(request);
 	}
+
+	@GetMapping("/member-names")
+	public List<String> findMemberNames() {
+		return service.findMemberNames();
+	}
 	
 }

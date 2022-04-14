@@ -9,6 +9,7 @@ fetch('/tickets', {method: 'GET'})
 
 let arrRes;
 let arrRmNum;
+let arrMemNames;
 
 fetch('/ticket-resident', {method: 'GET'})
 .then(data=>{return data.json()})
@@ -21,6 +22,13 @@ fetch('/ticket-resident-room', {method: 'GET'})
 .then(data=>{return data.json()})
 .then(res=>{
     arrRmNum = res;
+})
+.catch(error=>console.log(error))
+
+fetch('/member-names', {method: 'GET'})
+.then(data=>{return data.json()})
+.then(res=>{
+    arrMemNames = res;
 })
 .catch(error=>console.log(error))
 
@@ -44,17 +52,12 @@ function buildTable(data){
                 <h5 id="time">Time: ${formattedTime}</h5>
                 <h6 id="resident">Resident: ${arrRes[i]}</h6>
                 <h6 id="roomNum">Room #: ${arrRmNum[i]}</h6>
-                  <label for="assignedMembers">Assigned Members:</label>
-                  <select name="members" id="assignedMembers">
+                  <label for="members">Assigned Members:</label>
+                  <select name="assignedMembers" id="select" onClick="populateSelect()">
                     <option value=""></option>
-                    <option value="member1">Member 1</option>
-                    <option value="member2">Member 2</option>
                   </select><br>
                   <label for="tags">Tags:</label>
                   <select name="tags" id="tags">
-                    <option value=""></option>
-                    <option value="member1">Member 1</option>
-                    <option value="member2">Member 2</option>
                   </select><br>
                   <label for="issueDesc">Issue Description:</label><br>
                   <textarea rows="3" cols="75" id="issueDesc">${ticket.issueDesc}</textarea><br>
@@ -143,6 +146,27 @@ function loadScript(src){
     document.body.append(script);
 }
 
-$("#enableEdit").click(function(){
-    $("#resident").hide();
-});
+ 
+// $(document).ready(function() {
+//     console.log("function executed")
+//     var select = document.getElementById("select");
+//     for(var i = 0; i < arrMemNames.length; i++)
+//     {
+//         var option = document.createElement("OPTION");
+//         var txt = document.createTextNode(arrMemNames[i]);
+//         option.appendChild(txt);
+//         select.insertBefore(option, select.lastChild);
+//     }
+// });
+
+function populateSelect() {
+    var select = document.getElementById("select");
+    for(var i = 0; i < arrMemNames.length; i++)
+    {
+        var option = document.createElement("OPTION");
+        var txt = document.createTextNode(arrMemNames[i]);
+        option.appendChild(txt);
+        select.insertBefore(option, select.lastChild);
+    }
+}
+
