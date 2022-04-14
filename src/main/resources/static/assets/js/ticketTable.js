@@ -159,14 +159,18 @@ function loadScript(src){
 //     }
 // });
 
+var executed = false;
 function populateSelect() {
-    var select = document.getElementById("select");
-    for(var i = 0; i < arrMemNames.length; i++)
-    {
-        var option = document.createElement("OPTION");
-        var txt = document.createTextNode(arrMemNames[i]);
-        option.appendChild(txt);
-        select.insertBefore(option, select.lastChild);
+    if (!executed) {
+        console.log("test");
+        var select = document.getElementById("select");
+        for(var i = 0; i < arrMemNames.length; i++)
+        {
+            var option = document.createElement("OPTION");
+            var txt = document.createTextNode(arrMemNames[i]);
+            option.appendChild(txt);
+            select.insertBefore(option, select.lastChild);
+        }
+        executed = true;
     }
 }
-
