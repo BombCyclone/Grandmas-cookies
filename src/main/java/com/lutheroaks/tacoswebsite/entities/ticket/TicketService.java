@@ -162,4 +162,17 @@ public class TicketService {
 		}
 		return residentNames;
 	}
+
+		/**
+	 * Gets resident room number from each ticket
+	 * @param request
+	 */
+	public List<Integer> getTicketRoomNum() {
+		List<Integer> residentIds = ticketRepo.findAssociatedTickets();
+		List<Integer> roomNumbers = new ArrayList<Integer>();
+		for (int i = 0; i < residentIds.size(); i++) {
+			roomNumbers.add(residentRepo.findRoomNum(residentIds.get(i)));
+		}
+		return roomNumbers;
+	}
 }

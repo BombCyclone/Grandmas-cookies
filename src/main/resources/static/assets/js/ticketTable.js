@@ -8,11 +8,19 @@ fetch('/tickets', {method: 'GET'})
 .catch(error=>console.log(error))
 
 let arrRes;
+let arrRmNum;
 
 fetch('/ticket-resident', {method: 'GET'})
 .then(data=>{return data.json()})
 .then(res=>{
     arrRes = res;
+})
+.catch(error=>console.log(error))
+
+fetch('/ticket-resident-room', {method: 'GET'})
+.then(data=>{return data.json()})
+.then(res=>{
+    arrRmNum = res;
 })
 .catch(error=>console.log(error))
 
@@ -27,20 +35,58 @@ function buildTable(data){
         var formattedDate = ticketDate.toLocaleDateString();
         var formattedTime = ticketDate.toLocaleTimeString();
         ticketNumber = ticket.ticketNum;
-            var row =   `<tr>
-                            <td>${arrRes[i]}</td>
-                            <td>${ticket.issueDesc}</td>
-                            <td>${formattedDate}</td>
-                            <td>${formattedTime}</td>
-                            <td onClick="deleteRow(${ticket.ticketNum})">
-                                <button type="submit">X</button>
-                            </td>
-                            <td onClick="showComments(${ticket.ticketNum})">
-                            <div class="icon">
-                                <em class="ri-arrow-down-s-line"></em>
-                            </div>
-                        </td>
-                        </tr>`
+            var row = `
+            <div class="card">
+            <div class="card-body">
+              <form>
+                <h5 id="ticketNum">Ticket #: ${ticket.ticketNum}</h5>
+                <h5 id="date">Date: ${formattedDate}</h5>
+                <h5 id="time">Time: ${formattedTime}</h5>
+                <h6 id="resident">Resident: ${arrRes[i]}</h6>
+                <h6 id="roomNum">Room #: ${arrRmNum[i]}</h6>
+                  <label for="assignedMembers">Assigned Members:</label>
+                  <select name="members" id="assignedMembers">
+                    <option value=""></option>
+                    <option value="member1">Member 1</option>
+                    <option value="member2">Member 2</option>
+                  </select><br>
+                  <label for="tags">Tags:</label>
+                  <select name="tags" id="tags">
+                    <option value=""></option>
+                    <option value="member1">Member 1</option>
+                    <option value="member2">Member 2</option>
+                  </select><br>
+                  <label for="issueDesc">Issue Description:</label>
+                  <input type="text" id="issueDesc" name="issueDesc" value="${ticket.issueDesc}"><br>
+                  <button type="submit">X</button>
+                  <button id="enableEdit" type="submit" class="form-submit">Edit</button>
+                  <button>Save Changes</button><br>
+                  <label>Comments</label>
+                  <div class="icon">
+                    <em class="ri-arrow-down-s-line"></em>
+                </div>
+                </form>
+            </div>
+          </div>
+            `
+            // var row =   ` <div class="card">
+            //             <div class="card body">
+            //                 <tr>
+            //                 <td>${arrRes[i]}</td>
+            //                 <td>${ticket.issueDesc}</td>
+            //                 <td>${formattedDate}</td>
+            //                 <td>${formattedTime}</td>
+            //                 <td onClick="deleteRow(${ticket.ticketNum})">
+            //                     <button type="submit">X</button>
+            //                 </td>
+            //                 <td onClick="showComments(${ticket.ticketNum})">
+            //                 <div class="icon">
+            //                     <em class="ri-arrow-down-s-line"></em>
+            //                 </div>
+            //             </div>
+            //             </div>
+            //             </td>
+            //             </tr>`
             table.innerHTML += row;
             loadComments(ticket.ticketNum, ticket.comments);
         i++;
@@ -96,3 +142,7 @@ function loadScript(src){
     script.async = false;
     document.body.append(script);
 }
+
+$("#enableEdit").click(function(){
+    $("#resident").hide();
+});

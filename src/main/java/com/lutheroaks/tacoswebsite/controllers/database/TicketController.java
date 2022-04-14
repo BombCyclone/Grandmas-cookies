@@ -56,6 +56,11 @@ public class TicketController {
 		return service.getTicketResident();
 	}
 
+	@GetMapping("/ticket-resident-room")
+	public List<Integer> getTicketRoomNum() {
+		return service.getTicketRoomNum();
+	}
+
 	/**
 	 * Deletes a ticket from the table
 	 * @param request
