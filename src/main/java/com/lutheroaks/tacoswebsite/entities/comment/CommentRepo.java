@@ -11,9 +11,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CommentRepo extends JpaRepository<Comment,Integer> {
+public interface CommentRepo extends JpaRepository<Comment, Integer> {
     @Query("SELECT x FROM Comment x WHERE x.ticket = :ticket")
-    List<Comment> findBioByMember(@Param("ticket") Ticket ticket);
+    List<Comment> findCommentbyTicket(@Param("ticket") Ticket ticket);
 
     @Modifying
     @Query("DELETE from Comment WHERE comment_id = ?1")
