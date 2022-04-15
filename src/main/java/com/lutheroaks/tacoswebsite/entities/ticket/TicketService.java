@@ -141,6 +141,37 @@ public class TicketService {
 		}
 	}
 
+
+	public void updateTicket(final HttpServletRequest request, final HttpServletResponse response)
+			throws MessagingException, IOException {
+		try {
+			// Get the parameters from the request
+					// step 1: parse new paramaters of ticket. Assume all of the appropriate fields are all provided for now.
+			int ticketID = Integer.parseInt(request.getParameter("ticketID"));
+			Ticket originalTicket = ticketRepo.findTicketById(ticketID);
+			Ticket updatedTicket = originalTicket;
+			Boolean ticketStatus = Boolean.parseBoolean(request.getParameter("ticketstatus"));
+			String issueDesc = request.getParameter("issuedesc");
+			//String techType = request.getParameter("techtype");
+			// Step 2 - Update ticket with new fields
+			updatedTicket.setTicketStatusActive(ticketStatus);
+			updatedTicket.setIssueDesc(issueDesc);
+			// save the new ticket
+			ticketRepo.save(updatedTicket);
+
+			response.sendRedirect("index");
+		} catch (Exception e) {
+			logger.error("An exception occurred while adding a ticket: ", e);
+			response.sendRedirect("error");
+		}
+	}
+
+	public void assignTicket(final HttpServletRequest request, final HttpServletResponse response){
+		int memberId = request.getParameter("memberID");
+
+
+	}
+
 	/**
 	 * Deletes a specified ticket
 	 * @param request
