@@ -57,7 +57,8 @@ public class Ticket {
     @Column(nullable = false, length = 50)
     @NonNull private Timestamp timestamp;
 
-    @ManyToMany(mappedBy = "associatedTickets")
+    @ManyToMany
+    @ElementCollection(targetClass = Member.class)
     @Size(min=0, max=3)
     @NonNull private Set<Member> assignedMembers;
 

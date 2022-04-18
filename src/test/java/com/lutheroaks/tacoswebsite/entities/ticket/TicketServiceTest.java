@@ -149,40 +149,17 @@ public final class TicketServiceTest {
     void assignTicketTestSuccessful() throws MessagingException, IOException{
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
-        when(request.getParameter("ticketID")).thenReturn("2");
+        when(request.getParameter("ticketId")).thenReturn("2");
         String[] fakes = {"tester@testing.com"};
         when(request.getParameterValues("memberEmail")).thenReturn(fakes);
-       // when(request.getParameter("memberID")).thenReturn("1");
         Ticket fakeTicket = new Ticket();
         doReturn(fakeTicket).when(ticketRepo).findTicketById(anyInt());
         Member fakeMember = new Member();
-       // doNothing().when(fakeTicket).setAssignedMembers(any());
         doReturn(fakeMember).when(memberRepo).findMemberByEmail(anyString());
         doReturn(null).when(ticketRepo).save(any(Ticket.class));
         service.assignTicket(request,response);
         verify(response, times(1)).sendRedirect("index");
     }
-    @Test
-    void assignTicketTestFailed() throws MessagingException, IOException
-    {
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-        when(request.getParameter("ticketID")).thenReturn("2");
-
-        //This should fail due to too many values
-        String[] fakes = {"tester@testing.com","fake@fake.com","sckirk1@ilstu.edu","jdkata1@ilstu.edu"};
-        when(request.getParameterValues("memberEmail")).thenReturn(fakes);
-       // when(request.getParameter("memberID")).thenReturn("1");
-        Ticket fakeTicket = new Ticket();
-        doReturn(fakeTicket).when(ticketRepo).findTicketById(anyInt());
-        Member fakeMember = new Member();
-       // doNothing().when(fakeTicket).setAssignedMembers(any());
-        doReturn(fakeMember).when(memberRepo).findMemberByEmail(anyString());
-        doReturn(null).when(ticketRepo).save(any(Ticket.class));
-        service.assignTicket(request,response);
-        verify(response, times(1)).sendRedirect("index");
-    }
-
 
     @Test
     void removeTicketTest() {

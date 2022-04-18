@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -186,12 +187,12 @@ public class TicketService {
 	public void assignTicket(final HttpServletRequest request, final HttpServletResponse response)
 	throws MessagingException, IOException{
 		try{
-			int ticketID = Integer.parseInt(request.getParameter("ticketID"));
+			int ticketID = Integer.parseInt(request.getParameter("ticketId"));
 			// get the member IDs of the members we want to assign.
 			String[] memberEmailArray = request.getParameterValues("memberEmail");
 
 			Ticket ticketToUpdate = ticketRepo.findTicketById(ticketID);
-			HashSet<Member> assignedMembers = new HashSet<>();
+			Set<Member> assignedMembers = new HashSet<>();
 			for (String email : memberEmailArray){
 				Member nextMemberToAssign = memberRepo.findMemberByEmail(email);
 				assignedMembers.add(nextMemberToAssign);
