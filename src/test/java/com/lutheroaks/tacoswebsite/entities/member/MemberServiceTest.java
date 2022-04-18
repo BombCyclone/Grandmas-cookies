@@ -70,6 +70,43 @@ public final class MemberServiceTest {
     }
 
     @Test
+    void updateMemberSuccess() throws IOException{
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = mock(HttpServletResponse.class);
+        doNothing().when(response).sendRedirect(anyString());
+        // mock adding a new member 
+        when(request.getParameter("fname")).thenReturn("Dorothy");
+        when(request.getParameter("lname")).thenReturn("Jenkins");
+        when(request.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        when(request.getParameter("memberid")).thenReturn("0");
+        // we should get a member back when we try to find by ID
+        when(repository.findMemberByID(anyInt())).thenReturn(new Member());
+        service.updateMember(request, response);
+        when(repository.save(any(Member.class))).thenReturn(new Member());
+
+        // confirm that we would have been routed to the error page
+        verify(response, times(1)).sendRedirect("member-table");
+    }
+
+    @Test
+    void updateMemberFail() throws IOException{
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = mock(HttpServletResponse.class);
+        doNothing().when(response).sendRedirect(anyString());
+        // mock adding a new member 
+        when(request.getParameter("fname")).thenReturn("Dorothy");
+        when(request.getParameter("lname")).thenReturn("Jenkins");
+        when(request.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        when(request.getParameter("memberid")).thenReturn("0");
+        // returns null, meaning this should fail
+        when(repository.findMemberByID(anyInt())).thenReturn(null);
+        when(repository.save(any(Member.class))).thenReturn(null); // shouldn't be reached, but make sure our fake member is never saved
+        service.updateMember(request, response);
+        // confirm that we would have been routed to the error page
+        verify(response, times(1)).sendRedirect("error");
+    }
+
+    @Test
     void deleteMemberTest(){
         // mock the request and its parameters
         HttpServletRequest  request = mock(HttpServletRequest.class);

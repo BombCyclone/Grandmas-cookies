@@ -11,6 +11,8 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lutheroaks.tacoswebsite.entities.member.Member;
+import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 import com.lutheroaks.tacoswebsite.entities.resident.Resident;
 import com.lutheroaks.tacoswebsite.entities.resident.ResidentRepo;
 import com.lutheroaks.tacoswebsite.utils.EmailSender;
@@ -31,6 +33,9 @@ public class TicketService {
 
 	@Autowired
 	private ResidentRepo residentRepo;
+
+	@Autowired
+	private MemberRepo memberRepo;
 
 	@Autowired
 	private EmailSender sender;
@@ -139,6 +144,71 @@ public class TicketService {
 		} else {
 			response.sendRedirect("error");
 		}
+	}
+
+
+	public void updateTicket(final HttpServletRequest request, final HttpServletResponse response)
+			throws MessagingException, IOException {
+		try {
+			// Get the parameters from the request
+					// step 1: parse new paramaters of ticket. Assume all of the appropriate fields are all provided for now.
+			int ticketID = Integer.parseInt(request.getParameter("ticketID"));
+			Ticket originalTicket = ticketRepo.findTicketById(ticketID);
+			Ticket updatedTicket = originalTicket;
+			Boolean ticketStatus = Boolean.parseBoolean(request.getParameter("ticketstatus"));
+			String issueDesc = request.getParameter("issuedesc");
+			//String techType = request.getParameter("techtype");
+			// Step 2 - Update ticket with new fields
+			updatedTicket.setTicketStatusActive(ticketStatus);
+			updatedTicket.setIssueDesc(issueDesc);
+			// save the new ticket
+			ticketRepo.save(updatedTicket);
+
+			response.sendRedirect("index");
+		} catch (Exception e) {
+			logger.error("An exception occurred while adding a ticket: ", e);
+			response.sendRedirect("error");
+		}
+	}
+
+	public void assignTicket(final HttpServletRequest request, final HttpServletResponse response)
+	throws MessagingException, IOException{
+		
+	try{
+		int ticketID = Integer.parseInt(request.getParameter("ticketID"));
+		//String[] memberIDArray = request.getParameterValues("memberID"); //get the member IDs of the members we want to assign.
+		// I wanted to do it this way, but trying to write a new query makes spring boot freak the hell out.
+
+		String[] memberEmailArray = request.getParameterValues("memberEmail");
+
+		Ticket ticketToUpdate = ticketRepo.findTicketById(ticketID);
+		HashSet<Member> assignedMembers = new HashSet<>();
+		for (int i =0; i < memberEmailArray.length; i++){
+			/*
+			int nextMemberID = Integer.parseInt(memberIDArray[i]);
+			Member nextMemberToAssign = memberRepo.findMemberByID(nextMemberID);
+			*/
+			String nextMemberEmail = memberEmailArray[i];
+			Member nextMemberToAssign = memberRepo.findMemberByEmail(nextMemberEmail);
+			assignedMembers.add(nextMemberToAssign);
+		}
+
+		ticketToUpdate.setAssignedMembers(assignedMembers);
+		ticketRepo.save(ticketToUpdate);
+		response.sendRedirect("index");
+	}
+	catch (Exception e) {
+		if(request.getParameterValues("memberID") == null || request.getParameterValues("memberID").length > 3){
+			logger.error("Possible error due to too few or too many members being provided.\nException: ", e);
+			response.sendRedirect("error");
+		}
+		else{
+			logger.error("An exception occurred while adding a ticket: ", e);
+			response.sendRedirect("error");
+		}
+		
+		}
+
 	}
 
 	/**

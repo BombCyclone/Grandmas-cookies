@@ -20,6 +20,8 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lutheroaks.tacoswebsite.entities.member.Member;
+import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 import com.lutheroaks.tacoswebsite.entities.resident.Resident;
 import com.lutheroaks.tacoswebsite.entities.resident.ResidentRepo;
 import com.lutheroaks.tacoswebsite.utils.EmailSender;
@@ -43,6 +45,9 @@ public final class TicketServiceTest {
 
 	@Mock
 	private ResidentRepo residentRepo;
+    
+    @Mock
+    private MemberRepo memberRepo;
 
 	@Mock
 	private EmailSender sender;
@@ -123,6 +128,61 @@ public final class TicketServiceTest {
         // assert the resulting route
         verify(response, times(1)).sendRedirect("error");
     }
+
+    @Test
+    void updateTicketSuccessful() throws MessagingException, IOException{
+    
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    HttpServletResponse response = mock(HttpServletResponse.class);
+    Ticket fakeTicket = new Ticket();
+    when(request.getParameter("ticketID")).thenReturn("2");
+    when(request.getParameter("ticketstatus")).thenReturn("0");
+    when(request.getParameter("issuedesc")).thenReturn("Installed too much RAM from online");
+    doReturn(fakeTicket).when(ticketRepo).findTicketById(anyInt());
+    doReturn(fakeTicket).when(ticketRepo).save(any(Ticket.class));
+    service.updateTicket(request,response);
+    verify(response, times(1)).sendRedirect("index");
+    }
+
+
+    @Test
+    void assignTicketTestSuccessful() throws MessagingException, IOException{
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        when(request.getParameter("ticketID")).thenReturn("2");
+        String[] fakes = {"tester@testing.com"};
+        when(request.getParameterValues("memberEmail")).thenReturn(fakes);
+       // when(request.getParameter("memberID")).thenReturn("1");
+        Ticket fakeTicket = new Ticket();
+        doReturn(fakeTicket).when(ticketRepo).findTicketById(anyInt());
+        Member fakeMember = new Member();
+       // doNothing().when(fakeTicket).setAssignedMembers(any());
+        doReturn(fakeMember).when(memberRepo).findMemberByEmail(anyString());
+        doReturn(null).when(ticketRepo).save(any(Ticket.class));
+        service.assignTicket(request,response);
+        verify(response, times(1)).sendRedirect("index");
+    }
+    @Test
+    void assignTicketTestFailed() throws MessagingException, IOException
+    {
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        when(request.getParameter("ticketID")).thenReturn("2");
+
+        //This should fail due to too many values
+        String[] fakes = {"tester@testing.com","fake@fake.com","sckirk1@ilstu.edu","jdkata1@ilstu.edu"};
+        when(request.getParameterValues("memberEmail")).thenReturn(fakes);
+       // when(request.getParameter("memberID")).thenReturn("1");
+        Ticket fakeTicket = new Ticket();
+        doReturn(fakeTicket).when(ticketRepo).findTicketById(anyInt());
+        Member fakeMember = new Member();
+       // doNothing().when(fakeTicket).setAssignedMembers(any());
+        doReturn(fakeMember).when(memberRepo).findMemberByEmail(anyString());
+        doReturn(null).when(ticketRepo).save(any(Ticket.class));
+        service.assignTicket(request,response);
+        verify(response, times(1)).sendRedirect("index");
+    }
+
 
     @Test
     void removeTicketTest() {
