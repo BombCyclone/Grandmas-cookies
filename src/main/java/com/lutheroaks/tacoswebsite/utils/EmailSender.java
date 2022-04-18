@@ -11,11 +11,11 @@ import com.lutheroaks.tacoswebsite.entities.member.Member;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
 
-@Configuration
+@Service
 public class EmailSender {
 	
 	@Autowired

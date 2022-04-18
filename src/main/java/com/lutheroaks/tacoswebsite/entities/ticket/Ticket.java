@@ -47,8 +47,11 @@ public class Ticket {
     @Column(nullable = false, unique = false)
     private boolean ticketStatusActive;
 
-    @Column(nullable = false, unique = false, length = 50)
+    @Column(unique = false, length = 200)
     @NonNull private String issueDesc;
+
+    @Column(nullable = true, unique = false, length = 500)
+    private String resolution;
 
     @OrderColumn
     @Column(nullable = false, length = 50)
