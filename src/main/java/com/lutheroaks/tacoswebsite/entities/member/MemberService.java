@@ -49,6 +49,42 @@ public class MemberService {
 			response.sendRedirect("error");
 		}
     }
+
+	    /**
+     * Update a tacos member
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    public void updateMember(final HttpServletRequest request, 
+    final HttpServletResponse response) throws IOException {
+		int memberID = Integer.parseInt(request.getParameter("memberid"));
+        String fName = request.getParameter("fname");
+		String lName = request.getParameter("lname");
+		String email = request.getParameter("email");
+		Boolean isEnabled = Boolean.parseBoolean(request.getParameter("enabled"));
+		String role = request.getParameter("role");
+		// Member must exist in order to be updated
+		if (repository.findMemberByID(memberID) != null) {
+			Member memberToUpdate = repository.findMemberByID(memberID);
+			memberToUpdate.setFirstName(fName);
+			memberToUpdate.setLastName(lName);
+			memberToUpdate.setEmail(email);
+			// this is the encrypted form of the password: "tacos"
+			//Commented out because I don't think we have the passwords system working just yet
+			//toAdd.setPassword("$2a$10$ga75bkq0QgV63EvFY1iX6.6L0Y7wxdi2yOLAlqklRcmZutMu2ohJy");
+			memberToUpdate.setRole(role);
+			memberToUpdate.setEnabled(isEnabled);
+			repository.save(memberToUpdate);
+			response.sendRedirect("member-table");
+		} else{
+			if(logger.isInfoEnabled() && email != null){
+				logger.info(String.format("An existing user with the email address: " + 
+									"%s was found in the database.", email));
+			}
+			response.sendRedirect("error");
+		}
+    }
     
     /**
      * Deletes a specified member
