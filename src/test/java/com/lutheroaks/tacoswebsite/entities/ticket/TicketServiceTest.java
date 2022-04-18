@@ -135,7 +135,7 @@ public final class TicketServiceTest {
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
     Ticket fakeTicket = new Ticket();
-    when(request.getParameter("ticketID")).thenReturn("2");
+    when(request.getParameter("ticketId")).thenReturn("2");
     when(request.getParameter("ticketstatus")).thenReturn("0");
     when(request.getParameter("issuedesc")).thenReturn("Installed too much RAM from online");
     doReturn(fakeTicket).when(ticketRepo).findTicketById(anyInt());
@@ -150,12 +150,12 @@ public final class TicketServiceTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getParameter("ticketId")).thenReturn("2");
-        String[] fakes = {"tester@testing.com"};
-        when(request.getParameterValues("memberEmail")).thenReturn(fakes);
+        String[] fakes = {"1"};
+        when(request.getParameterValues("memberId")).thenReturn(fakes);
         Ticket fakeTicket = new Ticket();
         doReturn(fakeTicket).when(ticketRepo).findTicketById(anyInt());
         Member fakeMember = new Member();
-        doReturn(fakeMember).when(memberRepo).findMemberByEmail(anyString());
+        doReturn(fakeMember).when(memberRepo).findMemberById(anyInt());
         doReturn(null).when(ticketRepo).save(any(Ticket.class));
         service.assignTicket(request,response);
         verify(response, times(1)).sendRedirect("index");

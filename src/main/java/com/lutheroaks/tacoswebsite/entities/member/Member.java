@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.entities.bio.Bio;
 import com.lutheroaks.tacoswebsite.entities.comment.Comment;
 import com.lutheroaks.tacoswebsite.entities.kb.KBPost;
@@ -49,18 +50,22 @@ public class Member {
     @NonNull private String email;
 
     @Column(length = 255)
+    @JsonIgnore
     @NonNull private String password;
 
     @ManyToMany(mappedBy = "assignedMembers")
+    @JsonIgnore
     private Set<Ticket> associatedTickets;
 
     @OneToOne(mappedBy = "member", optional = true, cascade = CascadeType.ALL)
     private Bio biography;
 
     @OneToMany(mappedBy = "member")
+    @JsonIgnore
     @NonNull private List<Comment> comments;
 
     @OneToMany(mappedBy = "member")
+    @JsonIgnore
     @NonNull private List<KBPost> kbPosts;
 
     @Column(length = 50)

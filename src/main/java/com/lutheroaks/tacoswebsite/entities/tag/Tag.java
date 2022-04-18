@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.entities.kb.KBPost;
 import com.lutheroaks.tacoswebsite.entities.ticket.Ticket;
 
@@ -27,8 +28,10 @@ public class Tag {
     private String tagString;
 
     @ManyToMany(mappedBy = "associatedTags")
+    @JsonIgnore
     private Set<Ticket> taggedTickets;
 
     @ManyToMany(mappedBy = "associatedTags")
+    @JsonIgnore
     private Set<KBPost> taggedPosts;
 }

@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -98,9 +95,9 @@ public class TicketService {
 			ticket.setTicketStatusActive(true);
 			ticket.setIssueDesc(message.toString());
 			ticket.setTimestamp(Timestamp.from(Instant.now()));
-			ticket.setAssignedMembers(new HashSet<>());
+			ticket.setAssignedMembers(new ArrayList<>());
 			ticket.setResident(ticketResident);
-			ticket.setAssociatedTags(new HashSet<>());
+			ticket.setAssociatedTags(new ArrayList<>());
 			ticket.setComments(new ArrayList<>());
 			ticket.setResident(ticketResident);
 			// save the new ticket
@@ -158,18 +155,15 @@ public class TicketService {
 			throws MessagingException, IOException {
 		try {
 			// Step 1 - parse parameters
-			int ticketID = Integer.parseInt(request.getParameter("ticketID"));
-			Ticket originalTicket = ticketRepo.findTicketById(ticketID);
-			Ticket updatedTicket = originalTicket;
+			int ticketId = Integer.parseInt(request.getParameter("ticketId"));
+			Ticket ticket = ticketRepo.findTicketById(ticketId);
 			Boolean ticketStatus = Boolean.parseBoolean(request.getParameter("ticketstatus"));
 			String issueDesc = request.getParameter("issuedesc");
-			//String techType = request.getParameter("techtype");
 			// Step 2 - Update ticket with new fields
-			updatedTicket.setTicketStatusActive(ticketStatus);
-			updatedTicket.setIssueDesc(issueDesc);
+			ticket.setTicketStatusActive(ticketStatus);
+			ticket.setIssueDesc(issueDesc);
 			// save the new ticket
-			ticketRepo.save(updatedTicket);
-
+			ticketRepo.save(ticket);
 			response.sendRedirect("index");
 		} catch (Exception e) {
 			logger.error("An exception occurred while adding a ticket: ", e);
@@ -187,15 +181,16 @@ public class TicketService {
 	public void assignTicket(final HttpServletRequest request, final HttpServletResponse response)
 	throws MessagingException, IOException{
 		try{
-			int ticketID = Integer.parseInt(request.getParameter("ticketId"));
+			int ticketId = Integer.parseInt(request.getParameter("ticketId"));
 			// get the member IDs of the members we want to assign.
-			String[] memberEmailArray = request.getParameterValues("memberEmail");
+			String[] memberIds = request.getParameterValues("memberId");
 
-			Ticket ticketToUpdate = ticketRepo.findTicketById(ticketID);
-			Set<Member> assignedMembers = new HashSet<>();
-			for (String email : memberEmailArray){
-				Member nextMemberToAssign = memberRepo.findMemberByEmail(email);
-				assignedMembers.add(nextMemberToAssign);
+			Ticket ticketToUpdate = ticketRepo.findTicketById(ticketId);
+			List<Member> assignedMembers = new ArrayList<>();
+			for (String idString : memberIds){
+				int id = Integer.parseInt(idString);
+				Member toAdd = memberRepo.findMemberById(id);
+				assignedMembers.add(toAdd);
 			}
 			// assign and save changes
 			ticketToUpdate.setAssignedMembers(assignedMembers);

@@ -14,7 +14,7 @@ public interface MemberRepo extends JpaRepository<Member,Integer> {
     Member findMemberByEmail(@Param("email") String email);
 
     @Query("SELECT x FROM Member x WHERE x.memberId = :id")
-    Member findMemberByID(@Param("id") int id);
+    Member findMemberById(@Param("id") int id);
 
     @Modifying
     @Query("DELETE FROM Member WHERE member_id = ?1")

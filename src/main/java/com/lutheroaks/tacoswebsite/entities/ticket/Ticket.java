@@ -2,7 +2,6 @@ package com.lutheroaks.tacoswebsite.entities.ticket;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -60,17 +59,16 @@ public class Ticket {
     @ManyToMany
     @ElementCollection(targetClass = Member.class)
     @Size(min=0, max=3)
-    @NonNull private Set<Member> assignedMembers;
+    @NonNull private List<Member> assignedMembers;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name="associatedTickets", nullable = false)
     @NonNull private Resident resident;
 
     @ManyToMany
     @ElementCollection(targetClass = Ticket.class)
     @Size(min=0, max=3)
-    private Set<Ticket> associatedTags;
+    private List<Ticket> associatedTags;
 
     @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY)
     @NonNull private List<Comment> comments;

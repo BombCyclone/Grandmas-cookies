@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,9 @@ public class MemberService {
     
     @Autowired
     private MemberRepo repository;
+
+	@Autowired 
+	private PasswordEncoder passwordEncoder;
 
     /**
      * Creates and saves a new Tacos Member
@@ -58,23 +62,20 @@ public class MemberService {
      */
     public void updateMember(final HttpServletRequest request, 
     final HttpServletResponse response) throws IOException {
-		int memberID = Integer.parseInt(request.getParameter("memberid"));
+		int memberId = Integer.parseInt(request.getParameter("memberId"));
         String fName = request.getParameter("fname");
 		String lName = request.getParameter("lname");
 		String email = request.getParameter("email");
-		Boolean isEnabled = Boolean.parseBoolean(request.getParameter("enabled"));
-		String role = request.getParameter("role");
+		// the password to be set needs to be encrypted prior to saving
+		String password = request.getParameter("password");
+		String encryptedPwd = passwordEncoder.encode(password);
 		// Member must exist in order to be updated
-		if (repository.findMemberByID(memberID) != null) {
-			Member memberToUpdate = repository.findMemberByID(memberID);
+		if (repository.findMemberById(memberId) != null) {
+			Member memberToUpdate = repository.findMemberById(memberId);
 			memberToUpdate.setFirstName(fName);
 			memberToUpdate.setLastName(lName);
 			memberToUpdate.setEmail(email);
-			// this is the encrypted form of the password: "tacos"
-			//Commented out because I don't think we have the passwords system working just yet
-			//toAdd.setPassword("$2a$10$ga75bkq0QgV63EvFY1iX6.6L0Y7wxdi2yOLAlqklRcmZutMu2ohJy");
-			memberToUpdate.setRole(role);
-			memberToUpdate.setEnabled(isEnabled);
+			memberToUpdate.setPassword(encryptedPwd);
 			repository.save(memberToUpdate);
 			response.sendRedirect("member-table");
 		} else{
