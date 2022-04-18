@@ -146,12 +146,17 @@ public class TicketService {
 		}
 	}
 
-
+	/**
+	 * Change the fields in an existing Ticket entity based on incoming request
+	 * @param request
+	 * @param response
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
 	public void updateTicket(final HttpServletRequest request, final HttpServletResponse response)
 			throws MessagingException, IOException {
 		try {
-			// Get the parameters from the request
-					// step 1: parse new paramaters of ticket. Assume all of the appropriate fields are all provided for now.
+			// Step 1 - parse parameters
 			int ticketID = Integer.parseInt(request.getParameter("ticketID"));
 			Ticket originalTicket = ticketRepo.findTicketById(ticketID);
 			Ticket updatedTicket = originalTicket;
@@ -171,44 +176,34 @@ public class TicketService {
 		}
 	}
 
+	/**
+	 * Assigns a member to handle an existing ticket
+	 * @param request
+	 * @param response
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
 	public void assignTicket(final HttpServletRequest request, final HttpServletResponse response)
 	throws MessagingException, IOException{
-		
-	try{
-		int ticketID = Integer.parseInt(request.getParameter("ticketID"));
-		//String[] memberIDArray = request.getParameterValues("memberID"); //get the member IDs of the members we want to assign.
-		// I wanted to do it this way, but trying to write a new query makes spring boot freak the hell out.
+		try{
+			int ticketID = Integer.parseInt(request.getParameter("ticketID"));
+			// get the member IDs of the members we want to assign.
+			String[] memberEmailArray = request.getParameterValues("memberEmail");
 
-		String[] memberEmailArray = request.getParameterValues("memberEmail");
-
-		Ticket ticketToUpdate = ticketRepo.findTicketById(ticketID);
-		HashSet<Member> assignedMembers = new HashSet<>();
-		for (int i =0; i < memberEmailArray.length; i++){
-			/*
-			int nextMemberID = Integer.parseInt(memberIDArray[i]);
-			Member nextMemberToAssign = memberRepo.findMemberByID(nextMemberID);
-			*/
-			String nextMemberEmail = memberEmailArray[i];
-			Member nextMemberToAssign = memberRepo.findMemberByEmail(nextMemberEmail);
-			assignedMembers.add(nextMemberToAssign);
-		}
-
-		ticketToUpdate.setAssignedMembers(assignedMembers);
-		ticketRepo.save(ticketToUpdate);
-		response.sendRedirect("index");
-	}
-	catch (Exception e) {
-		if(request.getParameterValues("memberID") == null || request.getParameterValues("memberID").length > 3){
-			logger.error("Possible error due to too few or too many members being provided.\nException: ", e);
-			response.sendRedirect("error");
-		}
-		else{
+			Ticket ticketToUpdate = ticketRepo.findTicketById(ticketID);
+			HashSet<Member> assignedMembers = new HashSet<>();
+			for (String email : memberEmailArray){
+				Member nextMemberToAssign = memberRepo.findMemberByEmail(email);
+				assignedMembers.add(nextMemberToAssign);
+			}
+			// assign and save changes
+			ticketToUpdate.setAssignedMembers(assignedMembers);
+			ticketRepo.save(ticketToUpdate);
+			response.sendRedirect("index");
+		} catch (Exception e) {
 			logger.error("An exception occurred while adding a ticket: ", e);
 			response.sendRedirect("error");
 		}
-		
-		}
-
 	}
 
 	/**

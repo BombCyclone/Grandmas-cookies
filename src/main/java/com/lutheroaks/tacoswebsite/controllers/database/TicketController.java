@@ -44,12 +44,26 @@ public class TicketController {
 		service.createTicket(request, response);
 	}
 
+	/**
+	 * Modifies an existing ticket's parameters
+	 * @param request
+	 * @param response
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
 	@PutMapping("/ticket")
 	public void updateTicket(final HttpServletRequest request, final HttpServletResponse response)
 			throws MessagingException, IOException {
 		service.updateTicket(request, response);
 	}
 	
+	/**
+	 * Modifies an existing ticket and member to reflect task assignment
+	 * @param request
+	 * @param response
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
 	@PatchMapping("/ticket")
 	public void assignTicket(final HttpServletRequest request, final HttpServletResponse response)
 	throws MessagingException, IOException {
