@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class Tag {
 
     @Id
-    @Column(nullable = false, unique = false, length = 100)
+    @Column(nullable = false, unique = true, length = 100)
     private String tagString;
 
     @ManyToMany(mappedBy = "associatedTags")

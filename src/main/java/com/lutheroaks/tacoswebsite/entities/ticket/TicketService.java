@@ -13,6 +13,9 @@ import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 import com.lutheroaks.tacoswebsite.entities.resident.Resident;
 import com.lutheroaks.tacoswebsite.entities.resident.ResidentRepo;
+import com.lutheroaks.tacoswebsite.entities.tag.Tag;
+import com.lutheroaks.tacoswebsite.entities.tag.TagRepo;
+import com.lutheroaks.tacoswebsite.entities.tag.TagService;
 import com.lutheroaks.tacoswebsite.utils.EmailSender;
 
 import org.slf4j.Logger;
@@ -40,6 +43,12 @@ public class TicketService {
 
 	@Autowired
 	private JavaMailSender mailSender;
+
+	@Autowired
+	private TagRepo tagRepo;
+
+	@Autowired
+	private TagService tagService;
 
 	/**
 	 * Searches for a matching Resident in the table
@@ -159,14 +168,32 @@ public class TicketService {
 			Ticket ticket = ticketRepo.findTicketById(ticketId);
 			Boolean ticketStatus = Boolean.parseBoolean(request.getParameter("ticketstatus"));
 			String issueDesc = request.getParameter("issuedesc");
+			String[] tags = request.getParameterValues("tags");
+			
+			// get the tags to apply to the ticket
+			List<Tag> appliedTags = new ArrayList<>();
+			if(tags != null && tags.length < 4){
+				for(String tagString : tags){
+					// find the tag by the given string
+					Tag toAdd = tagRepo.findTag(tagString);
+					// if the tag selected is not found, create a new tag
+					if(toAdd == null){
+						toAdd = tagService.createTag(tagString);
+					}
+					// add the Tag to the list
+					appliedTags.add(toAdd);
+				}
+			}
+
 			// Step 2 - Update ticket with new fields
+			ticket.setAssociatedTags(appliedTags);
 			ticket.setTicketStatusActive(ticketStatus);
 			ticket.setIssueDesc(issueDesc);
 			// save the new ticket
 			ticketRepo.save(ticket);
 			response.sendRedirect("index");
 		} catch (Exception e) {
-			logger.error("An exception occurred while adding a ticket: ", e);
+			logger.error("An exception occurred while updating a ticket: ", e);
 			response.sendRedirect("error");
 		}
 	}
@@ -187,10 +214,12 @@ public class TicketService {
 
 			Ticket ticketToUpdate = ticketRepo.findTicketById(ticketId);
 			List<Member> assignedMembers = new ArrayList<>();
-			for (String idString : memberIds){
-				int id = Integer.parseInt(idString);
-				Member toAdd = memberRepo.findMemberById(id);
-				assignedMembers.add(toAdd);
+			if(memberIds != null && memberIds.length < 4){
+				for (String idString : memberIds){
+					int id = Integer.parseInt(idString);
+					Member toAdd = memberRepo.findMemberById(id);
+					assignedMembers.add(toAdd);
+				}
 			}
 			// assign and save changes
 			ticketToUpdate.setAssignedMembers(assignedMembers);

@@ -21,6 +21,7 @@ import javax.validation.constraints.Size;
 import com.lutheroaks.tacoswebsite.entities.comment.Comment;
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.entities.resident.Resident;
+import com.lutheroaks.tacoswebsite.entities.tag.Tag;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -65,9 +66,9 @@ public class Ticket {
     @NonNull private Resident resident;
 
     @ManyToMany
-    @ElementCollection(targetClass = Ticket.class)
+    @ElementCollection(targetClass = Tag.class)
     @Size(min=0, max=3)
-    private List<Ticket> associatedTags;
+    @NonNull private List<Tag> associatedTags;
 
     @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY)
     @NonNull private List<Comment> comments;

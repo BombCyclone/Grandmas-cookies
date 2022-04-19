@@ -32,9 +32,8 @@ public class TagController {
      * @throws IOException
      */
     @PostMapping("/tag")
-    public void createTag(final HttpServletRequest request, 
-                final HttpServletResponse response) throws IOException{
-        tagService.createTag(request, response);
+    public void addTag(final String tagString) {
+        tagService.createTag(tagString);
     }
 
     /**
@@ -42,7 +41,7 @@ public class TagController {
      * @param request
      * @return
      */
-    @GetMapping("/tag")
+    @GetMapping("/tags")
     public List<Tag> getTags(){
         return repository.findAll();
     }

@@ -20,33 +20,29 @@ public class TagService {
     private TagRepo repository;
 
     /**
-     * Adds a new tag
+     * Saves a new tag and returns the tag
      * @param request
      * @param response
      * @throws IOException
      */
-    public void createTag(final HttpServletRequest request, 
-                final HttpServletResponse response) throws IOException{
-
-        String tagString = request.getParameter("tagString");
-        
+    public Tag createTag(final String tagString) {
+        Tag addedTag = new Tag();
         // if the required information is missing
         if(tagString == null || "".equals(tagString)){
             logger.info("Missing String for new tag!");
-            response.sendRedirect("error");
+            addedTag = null;
         // if the specified tag already exists
         } else if(repository.findTag(tagString) != null){
             logger.info("The specified tag already exists!");
-            response.sendRedirect("error");
+            addedTag = null;
         // add the Tag if the information checks out
         } else {
-            Tag toAdd = new Tag();
-            toAdd.setTagString(tagString);
-            toAdd.setTaggedPosts(new ArrayList<>());
-            toAdd.setTaggedTickets(new ArrayList<>());
-            repository.save(toAdd);
-            response.sendRedirect("index");
+            addedTag.setTagString(tagString);
+            addedTag.setTaggedPosts(new ArrayList<>());
+            addedTag.setTaggedTickets(new ArrayList<>());
+            repository.save(addedTag);
         }
+        return addedTag;
     }
     
     /**

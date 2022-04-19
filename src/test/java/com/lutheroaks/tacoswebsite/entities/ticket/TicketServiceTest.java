@@ -24,6 +24,9 @@ import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 import com.lutheroaks.tacoswebsite.entities.resident.Resident;
 import com.lutheroaks.tacoswebsite.entities.resident.ResidentRepo;
+import com.lutheroaks.tacoswebsite.entities.tag.Tag;
+import com.lutheroaks.tacoswebsite.entities.tag.TagRepo;
+import com.lutheroaks.tacoswebsite.entities.tag.TagService;
 import com.lutheroaks.tacoswebsite.utils.EmailSender;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -54,6 +57,12 @@ public final class TicketServiceTest {
 
 	@Mock
 	private JavaMailSender mailSender;
+
+    @Mock
+	private TagRepo tagRepo;
+
+	@Mock
+	private TagService tagService;
 
     @BeforeEach
     public void init(){
@@ -138,6 +147,10 @@ public final class TicketServiceTest {
     when(request.getParameter("ticketId")).thenReturn("2");
     when(request.getParameter("ticketstatus")).thenReturn("0");
     when(request.getParameter("issuedesc")).thenReturn("Installed too much RAM from online");
+    String[] tagStrings = {"computers","email"};
+    when(request.getParameterValues("tags")).thenReturn(tagStrings);
+    doReturn(null).when(tagRepo).findTag(anyString());
+    doReturn(new Tag()).when(tagService).createTag(anyString());
     doReturn(fakeTicket).when(ticketRepo).findTicketById(anyInt());
     doReturn(fakeTicket).when(ticketRepo).save(any(Ticket.class));
     service.updateTicket(request,response);
