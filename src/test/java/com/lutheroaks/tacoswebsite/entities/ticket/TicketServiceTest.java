@@ -20,8 +20,13 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lutheroaks.tacoswebsite.entities.member.Member;
+import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 import com.lutheroaks.tacoswebsite.entities.resident.Resident;
 import com.lutheroaks.tacoswebsite.entities.resident.ResidentRepo;
+import com.lutheroaks.tacoswebsite.entities.tag.Tag;
+import com.lutheroaks.tacoswebsite.entities.tag.TagRepo;
+import com.lutheroaks.tacoswebsite.entities.tag.TagService;
 import com.lutheroaks.tacoswebsite.utils.EmailSender;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -43,12 +48,21 @@ public final class TicketServiceTest {
 
 	@Mock
 	private ResidentRepo residentRepo;
+    
+    @Mock
+    private MemberRepo memberRepo;
 
 	@Mock
 	private EmailSender sender;
 
 	@Mock
 	private JavaMailSender mailSender;
+
+    @Mock
+	private TagRepo tagRepo;
+
+	@Mock
+	private TagService tagService;
 
     @BeforeEach
     public void init(){
@@ -122,6 +136,42 @@ public final class TicketServiceTest {
         service.sendSubmissionEmail("email", new StringBuilder(), "full name", response);
         // assert the resulting route
         verify(response, times(1)).sendRedirect("error");
+    }
+
+    @Test
+    void updateTicketSuccessful() throws MessagingException, IOException{
+    
+    HttpServletRequest request = mock(HttpServletRequest.class);
+    HttpServletResponse response = mock(HttpServletResponse.class);
+    Ticket fakeTicket = new Ticket();
+    when(request.getParameter("ticketId")).thenReturn("2");
+    when(request.getParameter("ticketstatus")).thenReturn("0");
+    when(request.getParameter("issuedesc")).thenReturn("Installed too much RAM from online");
+    String[] tagStrings = {"computers","email"};
+    when(request.getParameterValues("tags")).thenReturn(tagStrings);
+    doReturn(null).when(tagRepo).findTag(anyString());
+    doReturn(new Tag()).when(tagService).createTag(anyString());
+    doReturn(fakeTicket).when(ticketRepo).findTicketById(anyInt());
+    doReturn(fakeTicket).when(ticketRepo).save(any(Ticket.class));
+    service.updateTicket(request,response);
+    verify(response, times(1)).sendRedirect("index");
+    }
+
+
+    @Test
+    void assignTicketTestSuccessful() throws MessagingException, IOException{
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        when(request.getParameter("ticketId")).thenReturn("2");
+        String[] fakes = {"1"};
+        when(request.getParameterValues("memberId")).thenReturn(fakes);
+        Ticket fakeTicket = new Ticket();
+        doReturn(fakeTicket).when(ticketRepo).findTicketById(anyInt());
+        Member fakeMember = new Member();
+        doReturn(fakeMember).when(memberRepo).findMemberById(anyInt());
+        doReturn(null).when(ticketRepo).save(any(Ticket.class));
+        service.assignTicket(request,response);
+        verify(response, times(1)).sendRedirect("index");
     }
 
     @Test

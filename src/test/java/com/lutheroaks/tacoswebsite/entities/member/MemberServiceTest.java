@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 public final class MemberServiceTest {
 
@@ -28,6 +29,9 @@ public final class MemberServiceTest {
 
     @Mock
     private MemberRepo repository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void init(){
@@ -67,6 +71,29 @@ public final class MemberServiceTest {
         service.createMember(request, response);
         // confirm that we would have been routed to the error page
         verify(response, times(1)).sendRedirect("error");
+    }
+
+    @Test
+    void updateMemberSuccess() throws IOException{
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = mock(HttpServletResponse.class);
+        doNothing().when(response).sendRedirect(anyString());
+        // mock adding a new member 
+        when(request.getParameter("fname")).thenReturn("Dorothy");
+        when(request.getParameter("lname")).thenReturn("Jenkins");
+        when(request.getParameter("email")).thenReturn("fakeemail@gmail.com");
+        when(request.getParameter("memberId")).thenReturn("10");
+        when(request.getParameter("password")).thenReturn("password");
+        // we should get a member back when we try to find by ID
+        when(repository.findMemberById(anyInt())).thenReturn(new Member());
+        // don't actually save the member for the test
+        doReturn(null).when(repository).save(any(Member.class));
+        // don't actually encode the password for this test
+        doReturn("totally secure password").when(passwordEncoder).encode(anyString());
+        // call the method to be tested
+        service.updateMember(request, response);
+        // confirm the response indicates success
+        verify(response, times(1)).sendRedirect("member-table");
     }
 
     @Test

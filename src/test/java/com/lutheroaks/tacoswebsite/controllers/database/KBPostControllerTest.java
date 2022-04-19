@@ -10,9 +10,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -72,7 +70,7 @@ public final class KBPostControllerTest {
         long time = date.getTime();
         Timestamp timeStamp = new Timestamp(time);
 
-        Set<Tag> emptySet = new HashSet<>();
+        List<Tag> emptySet = new ArrayList<>();
 
         fakePost.setContent("They are wrist iPhones.");
         fakePost.setMember(fakeMember);

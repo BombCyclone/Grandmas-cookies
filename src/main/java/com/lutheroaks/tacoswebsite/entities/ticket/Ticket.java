@@ -2,7 +2,6 @@ package com.lutheroaks.tacoswebsite.entities.ticket;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -19,10 +18,10 @@ import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.entities.comment.Comment;
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.entities.resident.Resident;
+import com.lutheroaks.tacoswebsite.entities.tag.Tag;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -47,26 +46,29 @@ public class Ticket {
     @Column(nullable = false, unique = false)
     private boolean ticketStatusActive;
 
-    @Column(nullable = false, unique = false, length = 50)
+    @Column(unique = false, length = 200)
     @NonNull private String issueDesc;
+
+    @Column(nullable = true, unique = false, length = 500)
+    private String resolution;
 
     @OrderColumn
     @Column(nullable = false, length = 50)
     @NonNull private Timestamp timestamp;
 
-    @ManyToMany(mappedBy = "associatedTickets")
+    @ManyToMany
+    @ElementCollection(targetClass = Member.class)
     @Size(min=0, max=3)
-    @NonNull private Set<Member> assignedMembers;
+    @NonNull private List<Member> assignedMembers;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name="associatedTickets", nullable = false)
     @NonNull private Resident resident;
 
     @ManyToMany
-    @ElementCollection(targetClass = Ticket.class)
+    @ElementCollection(targetClass = Tag.class)
     @Size(min=0, max=3)
-    private Set<Ticket> associatedTags;
+    @NonNull private List<Tag> associatedTags;
 
     @OneToMany(mappedBy = "ticket", fetch = FetchType.LAZY)
     @NonNull private List<Comment> comments;

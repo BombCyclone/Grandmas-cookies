@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -54,5 +55,16 @@ public class BioController {
     public void deleteBio(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         service.removeBio(request, response);
 	}
+    /** 
+    *updates a specified bio
+    * 
+    * @param request
+    * @param response
+    * @throws IOException
+    */
+    @PutMapping("/bio")
+    public void updateABio(final HttpServletRequest request, final HttpServletResponse response){
+        service.updateBio(request, response);
+    }
     
 }

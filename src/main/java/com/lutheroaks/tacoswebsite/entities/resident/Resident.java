@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.entities.ticket.Ticket;
 
 import lombok.Data;
@@ -41,6 +42,7 @@ public class Resident {
     private int roomNum;
 
     @OneToMany(mappedBy = "resident")
+    @JsonIgnore
     private List<Ticket> associatedTickets;
 }
 
