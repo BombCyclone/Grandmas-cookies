@@ -1,5 +1,6 @@
 package com.lutheroaks.tacoswebsite.entities.tag;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -34,47 +35,33 @@ public final class TagServiceTest {
 
     @Test
     void createTagSuccessTest() throws IOException{
-        // mock the parameters
-        HttpServletRequest  mockRequest = mock(HttpServletRequest.class);
-        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
-        // mock the tagString return
-        when(mockRequest.getParameter("tagString")).thenReturn("email");
+
         // return null when searching for the Tag, indicating it does not already exist
         doReturn(null).when(repository).findTag(anyString());
         // don't save the new Tag to the database
         doReturn(null).when(repository).save(any(Tag.class));
         // call the method to be tested
-        tagService.createTag(mockRequest, mockResponse);
-        // confirm the request was successful by what page it is redirected to
-        verify(mockResponse, times(1)).sendRedirect("index");
+        Tag retVal = tagService.createTag("tag");
+        // confirm the request was successful
+        assertEquals("tag", retVal.getTagString());
     }
 
     @Test
     void createTagAlreadyExists() throws IOException{
-        // mock the parameters
-        HttpServletRequest  mockRequest = mock(HttpServletRequest.class);
-        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
-        // mock the tagString return
-        when(mockRequest.getParameter("tagString")).thenReturn("email");
         // return a tag when searching, indicating the tag already exists
         doReturn(new Tag()).when(repository).findTag(anyString());
         // call the method to be tested
-        tagService.createTag(mockRequest, mockResponse);
+        Tag retVal = tagService.createTag("tag");
         // confirm the request was unsuccessful
-        verify(mockResponse, times(1)).sendRedirect("error");
+        assertEquals(null, retVal);
     }
 
     @Test
     void createTagMissingParameter() throws IOException{
-        // mock the parameters
-        HttpServletRequest  mockRequest = mock(HttpServletRequest.class);
-        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
-        // mock the tagString return
-        when(mockRequest.getParameter("tagString")).thenReturn("");
         // call the method to be tested
-        tagService.createTag(mockRequest, mockResponse);
+        Tag retVal = tagService.createTag("");
         // confirm the request was unsuccessful
-        verify(mockResponse, times(1)).sendRedirect("error");
+        assertEquals(null, retVal);
     }
 
     @Test

@@ -12,8 +12,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CommentRepo extends JpaRepository<Comment, Integer> {
+
     @Query("SELECT x FROM Comment x WHERE x.ticket = :ticket")
     List<Comment> findCommentbyTicket(@Param("ticket") Ticket ticket);
+    
+    @Query("SELECT x FROM Comment x WHERE x.commentId = :id")
+    Comment findCommentById(@Param("id") int id);
 
     @Modifying
     @Query("DELETE from Comment WHERE comment_id = ?1")

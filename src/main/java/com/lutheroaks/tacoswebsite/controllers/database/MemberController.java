@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -36,6 +37,19 @@ public class MemberController {
 	public void addMember(final HttpServletRequest request, 
 						final HttpServletResponse response) throws IOException {
 		service.createMember(request, response);
+	}
+
+
+		/**
+	 * Update some of the member's fields in the table
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@PutMapping("/member")
+	public void updateMember(final HttpServletRequest request, 
+						final HttpServletResponse response) throws IOException {
+		service.updateMember(request, response);
 	}
 	
 	/**

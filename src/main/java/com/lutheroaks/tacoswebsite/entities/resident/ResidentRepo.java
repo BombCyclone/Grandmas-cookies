@@ -23,4 +23,7 @@ public interface ResidentRepo extends JpaRepository<Resident,Integer> {
     @Query(nativeQuery = true, value = "SELECT room_num from Resident where resident_id = ?1")
     Integer findRoomNum(int residentId);
 
+    @Query(nativeQuery = true, value = "SELECT * FROM Resident WHERE resident_id = ?1")
+    Resident findResidentById(int id);
+
 }

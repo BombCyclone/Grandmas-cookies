@@ -91,4 +91,20 @@ public final class BioServiceTest {
         verify(repository, times(1)).deleteBioById(anyInt());
         verify(response, times(1)).sendRedirect("index");
     }
+
+    @Test
+    void updateBioTest(){
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        Member test = new Member();
+        Bio temp = new Bio();        
+        when(authenticatedDetails.getLoggedInMember(any())).thenReturn(test);
+        when(repository.findBioByMember(test)).thenReturn(temp);
+        when(request.getParameter("backgroundInfo")).thenReturn("backgroundInfo");
+        when(request.getParameter("hometown")).thenReturn("hometown");
+        when(request.getParameter("major")).thenReturn("major");
+        doReturn(null).when(repository).save(any());
+        service.updateBio(request, response);
+        verify(repository,times(1)).save(any());
+    }
 }

@@ -21,8 +21,13 @@ public interface MemberRepo extends JpaRepository<Member,Integer> {
     @Query (nativeQuery = true, value="SELECT member_id FROM Member")
     List<Integer> findMemberIds();
 
+    @Query("SELECT x FROM Member x WHERE x.memberId = :id")
+    Member findMemberById(@Param("id") int id);
+
     @Modifying
     @Query("DELETE FROM Member WHERE member_id = ?1")
     void deleteMemberById(int memberId);
+
+
 
 }

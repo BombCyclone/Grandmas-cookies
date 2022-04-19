@@ -1,6 +1,6 @@
 package com.lutheroaks.tacoswebsite.entities.tag;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.entities.kb.KBPost;
 import com.lutheroaks.tacoswebsite.entities.ticket.Ticket;
 
@@ -23,12 +24,14 @@ import lombok.NoArgsConstructor;
 public class Tag {
 
     @Id
-    @Column(nullable = false, unique = false, length = 100)
+    @Column(nullable = false, unique = true, length = 100)
     private String tagString;
 
     @ManyToMany(mappedBy = "associatedTags")
-    private Set<Ticket> taggedTickets;
+    @JsonIgnore
+    private List<Ticket> taggedTickets;
 
     @ManyToMany(mappedBy = "associatedTags")
-    private Set<KBPost> taggedPosts;
+    @JsonIgnore
+    private List<KBPost> taggedPosts;
 }
