@@ -1,6 +1,6 @@
 package com.lutheroaks.tacoswebsite.entities.tag;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,9 +29,9 @@ public class Tag {
 
     @ManyToMany(mappedBy = "associatedTags")
     @JsonIgnore
-    private Set<Ticket> taggedTickets;
+    private List<Ticket> taggedTickets;
 
     @ManyToMany(mappedBy = "associatedTags")
     @JsonIgnore
-    private Set<KBPost> taggedPosts;
+    private List<KBPost> taggedPosts;
 }

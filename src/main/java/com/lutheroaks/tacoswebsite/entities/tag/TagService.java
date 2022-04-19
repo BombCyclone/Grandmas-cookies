@@ -1,7 +1,7 @@
 package com.lutheroaks.tacoswebsite.entities.tag;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,8 +42,8 @@ public class TagService {
         } else {
             Tag toAdd = new Tag();
             toAdd.setTagString(tagString);
-            toAdd.setTaggedPosts(new HashSet<>());
-            toAdd.setTaggedTickets(new HashSet<>());
+            toAdd.setTaggedPosts(new ArrayList<>());
+            toAdd.setTaggedTickets(new ArrayList<>());
             repository.save(toAdd);
             response.sendRedirect("index");
         }

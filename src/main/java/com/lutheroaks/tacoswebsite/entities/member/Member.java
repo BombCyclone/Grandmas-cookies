@@ -1,7 +1,6 @@
 package com.lutheroaks.tacoswebsite.entities.member;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -55,7 +54,7 @@ public class Member {
 
     @ManyToMany(mappedBy = "assignedMembers")
     @JsonIgnore
-    private Set<Ticket> associatedTickets;
+    private List<Ticket> associatedTickets;
 
     @OneToOne(mappedBy = "member", optional = true, cascade = CascadeType.ALL)
     private Bio biography;
@@ -69,8 +68,10 @@ public class Member {
     @NonNull private List<KBPost> kbPosts;
 
     @Column(length = 50)
+    @JsonIgnore
     private String role;
     
+    @JsonIgnore
     private boolean enabled;
 
 }

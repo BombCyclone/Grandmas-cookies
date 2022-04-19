@@ -2,7 +2,7 @@ package com.lutheroaks.tacoswebsite.entities.kb;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.HashSet;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,7 +32,7 @@ public class KBService {
         toAdd.setMember(poster);
         toAdd.setTitle(request.getParameter("title"));
         toAdd.setContent(request.getParameter("content"));
-        toAdd.setAssociatedTags(new HashSet<>());
+        toAdd.setAssociatedTags(new ArrayList<>());
         // use the current time as the timestamp
         toAdd.setTimeStamp(Timestamp.from(Instant.now()));
         repository.save(toAdd);
