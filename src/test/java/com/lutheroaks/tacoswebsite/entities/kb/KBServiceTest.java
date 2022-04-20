@@ -9,7 +9,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.utils.AuthenticatedDetails;
@@ -50,6 +54,22 @@ public final class KBServiceTest {
         service.createPost(request);
         // confirm that this was a successful case and save was called
         verify(repository, times(1)).save(any(KBPost.class));
+    }
+
+    @Test
+    void updatedKBPostTest()throws MessagingException, IOException{
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        KBPost fakekbpost = new KBPost();
+        
+        /*
+        Simulate function calls to return nothing. 
+
+
+
+        */
+        verify(response, times(1)).sendRedirect("index");
     }
 
     @Test

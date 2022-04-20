@@ -5,11 +5,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.kb.KBPost;
 import com.lutheroaks.tacoswebsite.entities.kb.KBPostRepo;
@@ -54,5 +58,14 @@ public class KbpostController {
     public void deleteKBPost(final HttpServletRequest request) {
         service.removePost(request);
     }
+
+    @PutMapping("/kbpost")
+    public void updateKBPost(final HttpServletRequest request, final HttpServletResponse response) throws MessagingException, IOException  {
+        service.updateKBPost(request ,response);
+
+    }
+
+
+
 
 }

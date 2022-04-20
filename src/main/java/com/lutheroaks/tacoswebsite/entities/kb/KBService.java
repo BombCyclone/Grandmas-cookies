@@ -1,10 +1,13 @@
 package com.lutheroaks.tacoswebsite.entities.kb;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.HashSet;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.utils.AuthenticatedDetails;
@@ -47,4 +50,25 @@ public class KBService {
         int postId = Integer.parseInt(request.getParameter("postId"));
         repository.deleteKBPostById(postId);
     }
+
+    /**
+     * Deletes the specified kbpost
+     * @param request
+     * @param response
+     */
+   public void updateKBPost(final HttpServletRequest request, final HttpServletResponse response) throws MessagingException, IOException  {
+
+       int kbpostID = Integer.parseInt(request.getParameter("kbpostID"));
+       KBPost originalKBPost = repository.findKBPostById(kbpostID);
+       KBPost updatedKBPost = originalKBPost;
+       String content = request.getParameter("content");
+       String title = request.getParameter("title");
+       updatedKBPost.setContent(content);
+       updatedKBPost.setTitle(title);
+   
+       repository.save(updatedKBPost);
+       response.sendRedirect("index");
+
+   }
+
 }
