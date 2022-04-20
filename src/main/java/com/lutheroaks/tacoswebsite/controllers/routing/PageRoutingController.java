@@ -20,6 +20,11 @@ public final class PageRoutingController {
 		return "ticket-form";
 	}
 
+	@GetMapping("/ticket-view")
+	public String viewTicket() {
+		return "ticket-view";
+	}
+
 	@GetMapping("/active-tickets")
 	public String viewActiveTickets() {
 		return "active-tickets";

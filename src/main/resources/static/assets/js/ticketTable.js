@@ -43,53 +43,52 @@ function buildTable(data){
         var formattedDate = ticketDate.toLocaleDateString();
         var formattedTime = ticketDate.toLocaleTimeString();
         ticketNumber = ticket.ticketNum;
-            var row = `
-            <div class="card">
-            <div class="card-body">
-              <form>
-                <h5 id="ticketNum">Ticket #: ${ticket.ticketNum}</h5>
-                <h5 id="date">Date: ${formattedDate}</h5>
-                <h5 id="time">Time: ${formattedTime}</h5>
-                <h6 id="resident">Resident: ${arrRes[i]}</h6>
-                <h6 id="roomNum">Room #: ${arrRmNum[i]}</h6>
-                  <label for="members">Assigned Members:</label>
-                  <select name="assignedMembers" id="select" onClick="populateSelect()">
-                    <option value=""></option>
-                  </select><br>
-                  <label for="tags">Tags:</label>
-                  <select name="tags" id="tags">
-                  </select><br>
-                  <label for="issueDesc">Issue Description:</label><br>
-                  <textarea rows="3" cols="75" id="issueDesc">${ticket.issueDesc}</textarea><br>
-                  <button type="submit">X</button>
-                  <button id="enableEdit" type="submit" class="form-submit">Edit</button>
-                  <button>Save Changes</button><br>
-                  <label>Comments</label>
-                  <div class="icon">
-                    <em class="ri-arrow-down-s-line"></em>
-                </div>
-                </form>
-            </div>
-          </div>
-            `
-            // var row =   ` <div class="card">
-            //             <div class="card body">
-            //                 <tr>
-            //                 <td>${arrRes[i]}</td>
-            //                 <td>${ticket.issueDesc}</td>
-            //                 <td>${formattedDate}</td>
-            //                 <td>${formattedTime}</td>
-            //                 <td onClick="deleteRow(${ticket.ticketNum})">
-            //                     <button type="submit">X</button>
-            //                 </td>
-            //                 <td onClick="showComments(${ticket.ticketNum})">
-            //                 <div class="icon">
-            //                     <em class="ri-arrow-down-s-line"></em>
-            //                 </div>
-            //             </div>
-            //             </div>
-            //             </td>
-            //             </tr>`
+        //     var row = `
+        //     <div class="card">
+        //     <div class="card-body">
+        //       <form>
+        //         <h5 id="ticketNum">Ticket #: ${ticket.ticketNum}</h5>
+        //         <h5 id="date">Date: ${formattedDate}</h5>
+        //         <h5 id="time">Time: ${formattedTime}</h5>
+        //         <h6 id="resident">Resident: ${arrRes[i]}</h6>
+        //         <h6 id="roomNum">Room #: ${arrRmNum[i]}</h6>
+        //           <label for="members">Assigned Members:</label>
+        //           <select name="assignedMembers" id="select" onClick="populateSelect()">
+        //             <option value=""></option>
+        //           </select><br>
+        //           <label for="tags">Tags:</label>
+        //           <select name="tags" id="tags">
+        //           </select><br>
+        //           <label for="issueDesc">Issue Description:</label><br>
+        //           <textarea readonly rows="3" cols="75" id="issueDesc">${ticket.issueDesc}</textarea><br>
+        //           <button>Save</button>
+        //           <button>Cancel</button>
+        //           <button onclick="test()">Edit</button>
+        //           <label>Comments</label>
+        //           <div class="icon">
+        //             <em class="ri-arrow-down-s-line"></em>
+        //         </div>
+        //         </form>
+        //     </div>
+        //   </div>
+        //     `
+        
+            var row =   ` <div class="table">
+                        <div class="card body">
+                            <tr onClick="test(${ticket.ticketNum})">
+                            <td>${arrRes[i]}</td>
+                            <td>${ticket.issueDesc}</td>
+                            <td>${formattedDate}</td>
+                            <td>${formattedTime}</td>
+                            <td onClick="showComments(${ticket.ticketNum})">
+                            <div class="icon">
+                                <em class="ri-arrow-down-s-line"></em>
+                            </div>
+                            </div>
+                            <td><button>x</button></td>
+                        </div>
+                        </td>
+                        </tr>`
             table.innerHTML += row;
             loadComments(ticket.ticketNum, ticket.comments);
         i++;
@@ -100,6 +99,10 @@ function buildTable(data){
     spinner.style.visibility = "hidden";
     spinner.style.height = 0;
     addscripts();
+}
+
+async function test(id) {
+    window.location.href = "/ticket-view?number=" + id;
 }
 
 function loadComments(id, comments){
@@ -174,3 +177,49 @@ function populateSelect() {
         executed = true;
     }
 }
+
+(function (W) {
+    var D, form, bts, ipt;
+
+    function init() {
+        D = W.document, previous = [];
+        form = D.getElementsByTagName('form')[0];
+        bts = form.getElementsByTagName('button');
+        ipt = form.getElementsByTagName('input');
+        form.addEventListener('submit', save, false);
+        bts[1].addEventListener('click', cancel, false);
+        bts[2].addEventListener('click', edit, false);
+    }
+
+    function save(e) {
+        e.preventDefault();
+        form.classList.remove('invert');
+        var l = ipt.length;
+        while (l--) {
+            ipt[l].readOnly = true;
+        };
+        previous = [];
+        //send your info here 
+    }
+
+    function edit(e) {
+        e.preventDefault();
+        form.classList.add('invert');
+        var l = ipt.length;
+        while (l--) {
+            previous[l] = ipt[l].value;
+            ipt[l].readOnly = false;
+        }
+    }
+
+    function cancel(e) {
+        form.classList.remove('invert');
+        e.preventDefault();
+        var l = ipt.length;
+        while (l--) {
+            ipt[l].value = previous[l];
+            ipt[l].readOnly = true;
+        }
+    }
+    init();
+})(window)
