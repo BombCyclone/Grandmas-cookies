@@ -1,22 +1,19 @@
 package com.lutheroaks.tacoswebsite.entities.member;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.entities.bio.Bio;
 import com.lutheroaks.tacoswebsite.entities.comment.Comment;
 import com.lutheroaks.tacoswebsite.entities.kb.KBPost;
@@ -52,28 +49,29 @@ public class Member {
     @NonNull private String email;
 
     @Column(length = 255)
+    @JsonIgnore
     @NonNull private String password;
 
-    @ManyToMany
-    @JoinTable(
-        name = "Ticket_Member_Assignments", 
-        joinColumns = @JoinColumn(name = "memberId"), 
-        inverseJoinColumns = @JoinColumn(name = "ticketNum"))
-    @ElementCollection(targetClass = Ticket.class)
-    private Set<Ticket> associatedTickets;
+    @ManyToMany(mappedBy = "assignedMembers")
+    @JsonIgnore
+    private List<Ticket> associatedTickets;
 
     @OneToOne(mappedBy = "member", optional = true, cascade = CascadeType.ALL)
     private Bio biography;
 
     @OneToMany(mappedBy = "member")
+    @JsonIgnore
     @NonNull private List<Comment> comments;
 
     @OneToMany(mappedBy = "member")
+    @JsonIgnore
     @NonNull private List<KBPost> kbPosts;
 
     @Column(length = 50)
+    @JsonIgnore
     private String role;
     
+    @JsonIgnore
     private boolean enabled;
 
 }

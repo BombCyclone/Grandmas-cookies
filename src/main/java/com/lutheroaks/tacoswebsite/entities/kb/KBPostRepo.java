@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface KBPostRepo extends JpaRepository<KBPost,Integer> {
 
+    @Query("SELECT x FROM KBPost x WHERE x.postId = :id")
+    KBPost findPostById(@Param("id") int id);
+
     @Modifying
     @Query(value = "DELETE FROM kbpost WHERE post_id = ?1", nativeQuery = true)
     void deleteKBPostById(int postId);

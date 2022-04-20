@@ -4,23 +4,26 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.lutheroaks.tacoswebsite.entities.member.Member;
+import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 import com.lutheroaks.tacoswebsite.entities.resident.Resident;
 import com.lutheroaks.tacoswebsite.entities.resident.ResidentRepo;
+import com.lutheroaks.tacoswebsite.entities.tag.Tag;
+import com.lutheroaks.tacoswebsite.entities.tag.TagRepo;
+import com.lutheroaks.tacoswebsite.entities.tag.TagService;
 import com.lutheroaks.tacoswebsite.utils.EmailSender;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
-@Configuration
+@Service
 public class TicketService {
 
 	// for logging information to console
@@ -33,10 +36,19 @@ public class TicketService {
 	private ResidentRepo residentRepo;
 
 	@Autowired
+	private MemberRepo memberRepo;
+
+	@Autowired
 	private EmailSender sender;
 
 	@Autowired
 	private JavaMailSender mailSender;
+
+	@Autowired
+	private TagRepo tagRepo;
+
+	@Autowired
+	private TagService tagService;
 
 	/**
 	 * Searches for a matching Resident in the table
@@ -92,9 +104,9 @@ public class TicketService {
 			ticket.setTicketStatusActive(true);
 			ticket.setIssueDesc(message.toString());
 			ticket.setTimestamp(Timestamp.from(Instant.now()));
-			ticket.setAssignedMembers(new HashSet<>());
+			ticket.setAssignedMembers(new ArrayList<>());
 			ticket.setResident(ticketResident);
-			ticket.setAssociatedTags(new HashSet<>());
+			ticket.setAssociatedTags(new ArrayList<>());
 			ticket.setComments(new ArrayList<>());
 			ticket.setResident(ticketResident);
 			// save the new ticket
@@ -137,6 +149,84 @@ public class TicketService {
 		if (success) {
 			response.sendRedirect("index");
 		} else {
+			response.sendRedirect("error");
+		}
+	}
+
+	/**
+	 * Change the fields in an existing Ticket entity based on incoming request
+	 * @param request
+	 * @param response
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
+	public void updateTicket(final HttpServletRequest request, final HttpServletResponse response)
+			throws MessagingException, IOException {
+		try {
+			// Step 1 - parse parameters
+			int ticketId = Integer.parseInt(request.getParameter("ticketId"));
+			Ticket ticket = ticketRepo.findTicketById(ticketId);
+			Boolean ticketStatus = Boolean.parseBoolean(request.getParameter("ticketstatus"));
+			String issueDesc = request.getParameter("issuedesc");
+			String[] tags = request.getParameterValues("tags");
+			
+			// get the tags to apply to the ticket
+			List<Tag> appliedTags = new ArrayList<>();
+			if(tags != null && tags.length < 4){
+				for(String tagString : tags){
+					// find the tag by the given string
+					Tag toAdd = tagRepo.findTag(tagString);
+					// if the tag selected is not found, create a new tag
+					if(toAdd == null){
+						toAdd = tagService.createTag(tagString);
+					}
+					// add the Tag to the list
+					appliedTags.add(toAdd);
+				}
+			}
+
+			// Step 2 - Update ticket with new fields
+			ticket.setAssociatedTags(appliedTags);
+			ticket.setTicketStatusActive(ticketStatus);
+			ticket.setIssueDesc(issueDesc);
+			// save the new ticket
+			ticketRepo.save(ticket);
+			response.sendRedirect("index");
+		} catch (Exception e) {
+			logger.error("An exception occurred while updating a ticket: ", e);
+			response.sendRedirect("error");
+		}
+	}
+
+	/**
+	 * Assigns a member to handle an existing ticket
+	 * @param request
+	 * @param response
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
+	public void assignTicket(final HttpServletRequest request, final HttpServletResponse response)
+	throws MessagingException, IOException{
+		try{
+			int ticketId = Integer.parseInt(request.getParameter("ticketId"));
+			// get the member IDs of the members we want to assign.
+			String[] memberIds = request.getParameterValues("memberId");
+
+			Ticket ticketToUpdate = ticketRepo.findTicketById(ticketId);
+			List<Member> assignedMembers = new ArrayList<>();
+			if(memberIds != null && memberIds.length < 4){
+				for (String idString : memberIds){
+					int id = Integer.parseInt(idString);
+					Member toAdd = memberRepo.findMemberById(id);
+					assignedMembers.add(toAdd);
+				}
+			}
+			// assign and save changes
+			ticketToUpdate.setAssignedMembers(assignedMembers);
+			ticketRepo.save(ticketToUpdate);
+			response.sendRedirect("index");
+		} catch (Exception e) {
+			logger.error("An exception occurred while adding a ticket: ", e);
 			response.sendRedirect("error");
 		}
 	}

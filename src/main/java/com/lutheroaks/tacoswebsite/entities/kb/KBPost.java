@@ -1,7 +1,7 @@
 package com.lutheroaks.tacoswebsite.entities.kb;
 
 import java.sql.Timestamp;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -52,5 +52,5 @@ public class KBPost {
     @ManyToMany
     @ElementCollection(targetClass = Tag.class)
     @Size(min=0, max=3)
-    private Set<Tag> associatedTags;
+    private List<Tag> associatedTags;
 }

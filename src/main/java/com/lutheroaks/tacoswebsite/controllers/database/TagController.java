@@ -14,7 +14,7 @@ import com.lutheroaks.tacoswebsite.entities.tag.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -31,10 +31,9 @@ public class TagController {
      * @param request
      * @throws IOException
      */
-    @PutMapping("/tag")
-    public void createTag(final HttpServletRequest request, 
-                final HttpServletResponse response) throws IOException{
-        tagService.createTag(request, response);
+    @PostMapping("/tag")
+    public void addTag(final String tagString) {
+        tagService.createTag(tagString);
     }
 
     /**
@@ -42,7 +41,7 @@ public class TagController {
      * @param request
      * @return
      */
-    @GetMapping("/tag")
+    @GetMapping("/tags")
     public List<Tag> getTags(){
         return repository.findAll();
     }

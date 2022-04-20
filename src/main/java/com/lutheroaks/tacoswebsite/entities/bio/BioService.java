@@ -10,9 +10,9 @@ import com.lutheroaks.tacoswebsite.utils.AuthenticatedDetails;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
-@Configuration
+@Service
 public class BioService {
     
     // for logging information to console
@@ -20,6 +20,7 @@ public class BioService {
 
     @Autowired
     private BioRepo repository;
+
 
     @Autowired
     private AuthenticatedDetails authenticatedDetails;
@@ -82,4 +83,18 @@ public class BioService {
         response.sendRedirect("index");
     }
 
+    /**
+     * Update a member's bio
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    public void updateBio(final HttpServletRequest request, final HttpServletResponse response){
+        Member tempMember = authenticatedDetails.getLoggedInMember(request);
+        Bio tempBio = repository.findBioByMember(tempMember);
+        tempBio.setBackgroundInfo(request.getParameter("backgroundInfo"));
+        tempBio.setHometown(request.getParameter("hometown"));
+        tempBio.setMajor(request.getParameter("major"));
+        repository.save(tempBio);
+    }
 }
