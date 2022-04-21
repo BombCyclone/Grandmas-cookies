@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -84,9 +86,21 @@ public class TicketController {
 		return service.getTicketResident();
 	}
 
+	@GetMapping("/resident-ticket")
+	@ResponseBody
+	public String getResidentByTicket(@RequestParam String ticketNumber) {
+		return service.getResidentByTicket(ticketNumber);
+	}
+
 	@GetMapping("/ticket-resident-room")
 	public List<Integer> getTicketRoomNum() {
 		return service.getTicketRoomNum();
+	}
+
+	@GetMapping("/ticket-detail")
+	@ResponseBody
+	public Ticket getTicketByNumber(@RequestParam String ticketNumber) {
+		return service.getTicketByNumber(ticketNumber);
 	}
 
 	/**

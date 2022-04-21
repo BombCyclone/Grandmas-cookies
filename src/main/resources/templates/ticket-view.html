@@ -67,7 +67,7 @@
       </li><!-- End Forms Nav -->
 
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/active-tickets}">
+        <a class="nav-link collapsed" th:href="@{/active-tickets}">
           <em class="bi bi-layout-text-window-reverse"></em>
           <span>Active Tickets</span>
         </a>
@@ -116,8 +116,33 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Ticket View</h1>
+      <h1>View Ticket</h1>
     </div><!-- End Page Title -->
+
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <button>Save</button>
+                <button>Cancel</button>
+                <button>Edit</button>
+                <label>Ticket Number</label>
+                <input id="ticketNumber"></input><br>
+                <label>Date</label>
+                <input id="date"></input><br>
+                <label>Time</label>
+                <input id="time"></input><br>
+                <label>Resident Name</label>
+                <input></input><br>
+                <label>Assigned Members</label>
+                <input></input><br>
+                <label>Tags</label>
+                <input></input><br>
+                <label>Issue Description</label>
+                <input id="issueDesc"></input><br>
+            </form>
+        </div>
+
+    </div>
 
   </main><!-- End #main -->
 
@@ -149,7 +174,7 @@
 
 
   <!-- Template Main JS File -->
-  <script src="assets/js/ticketTable.js"></script>
+  <script src="assets/js/ticketView.js"></script>
 
 </body>
 

@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class TicketService {
@@ -265,5 +266,24 @@ public class TicketService {
 			roomNumbers.add(residentRepo.findRoomNum(residentIds.get(i)));
 		}
 		return roomNumbers;
+	}
+
+	/**
+	 * Gets ticket by ticket number
+	 * @param request
+	 */
+	public Ticket getTicketByNumber(@RequestParam String ticketNumber) {
+		int ticketNum = Integer.parseInt(ticketNumber);
+		return ticketRepo.findTicketById(ticketNum);
+	}
+
+	/**
+	 * Gets resident by ticket number
+	 * @param request
+	 */
+	public String getResidentByTicket(@RequestParam String ticketNumber) {
+		int ticketNum = Integer.parseInt(ticketNumber);
+		int residentId = ticketRepo.findResidentByTicket(ticketNum);
+		return residentRepo.findResidentName(residentId);
 	}
 }

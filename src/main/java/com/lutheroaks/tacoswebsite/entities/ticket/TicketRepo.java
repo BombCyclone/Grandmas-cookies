@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TicketRepo extends JpaRepository<Ticket,Integer> {
 
-    @Query("SELECT x FROM Ticket x WHERE x.ticketNum = :ticketNum")
+    @Query(value="SELECT * FROM Ticket WHERE ticket_num = ?1", nativeQuery = true)
     Ticket findTicketById(int ticketNum);
 
     @Query(value ="SELECT associated_tickets from Ticket", nativeQuery = true)
@@ -20,6 +20,9 @@ public interface TicketRepo extends JpaRepository<Ticket,Integer> {
     @Modifying
     @Query("DELETE FROM Ticket WHERE ticket_num = ?1")
     void deleteTicketByTicketNum(int ticketNum);
+
+    @Query(value="SELECT associated_tickets FROM Ticket WHERE ticket_num = ?1", nativeQuery = true)
+    Integer findResidentByTicket(int ticketNum);
     
 }  
 
