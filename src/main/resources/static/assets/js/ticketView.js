@@ -9,14 +9,7 @@ fetch('/ticket-detail?ticketNumber=' + ticketNum, {method: 'GET'})
 .then(data=>{return data.json()})
 .then(res=>{
     populateForm(res);
-})
-.catch(error=>console.log(error))
-
-//currently not working
-fetch('/resident-ticket?ticketNumber=' + ticketNum, {method: 'GET'})
-.then(data=>{return data.json()})
-.then(res=>{
-    residentName = res;
+    populateComments(res);
 })
 .catch(error=>console.log(error))
 
@@ -29,8 +22,58 @@ function populateForm(data) {
     document.getElementById("date").value = formattedDate;
     document.getElementById("time").value = formattedTime;
     document.getElementById("issueDesc").value = data.issueDesc;
+    document.getElementById("resident").value = data.resident.firstName + " " + data.resident.lastName;
 }
 
+function populateComments(data){
+    for (comment of data.comments) {
+        var timestamp = new Date(comment.timeStamp);
+        commentCard = `<div class="card"><div class="card-body">
+                        <h7>${timestamp}</h7><br>
+                        <p>${comment.content}</p>
+                        </div></div>`
+        comments.innerHTML += commentCard;
+    }
+}
+
+function addNewComment() {
+    if(document.getElementById("newComment")) {
+        return;
+    }
+    commentCard = 
+    `<button id="saveComment" onClick="saveComment()">Save Comment</button>
+    <button id="cancelComment" onClick="deleteNewComment()">Cancel</button>
+    <div class="card" id="newComment"><div class="card-body">
+    <form>
+    <input placeholder="Add comment here" id="newContent"></input>
+    </form>
+    </div></div>`
+    comments.innerHTML += commentCard;
+}
+
+//currently not working - need to run with debugger
+function saveComment() {
+    var commentContent = document.getElementById("newContent").value;
+
+    fetch('/comment', {method: 'POST', body: JSON.stringify ({
+        content: commentContent,
+        ticketId: ticketNum
+        })
+    })
+    .then(data=>{return data.json()})
+    .then(res=>{
+        deleteNewComment();
+    })
+    .catch(error=>console.log(error))
+}
+
+function deleteNewComment() {
+    document.getElementById("newComment").remove();
+    document.getElementById("saveComment").remove();
+    document.getElementById("cancelComment").remove();
+}
+
+//source: http://jsfiddle.net/d7TeL/
 (function (W) {
     var D, form, bts, ipt;
 

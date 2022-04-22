@@ -116,23 +116,24 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>View Ticket</h1>
+      <h1>View Ticket</h1><br>
     </div><!-- End Page Title -->
 
+    <h6>Ticket Details</h6>
     <div class="card">
         <div class="card-body">
             <form>
                 <button>Save</button>
                 <button>Cancel</button>
                 <button>Edit</button>
-                <label>Ticket Number</label>
+                <label>Ticket Number: </label>
                 <input id="ticketNumber"></input><br>
                 <label>Date</label>
                 <input id="date"></input><br>
                 <label>Time</label>
                 <input id="time"></input><br>
                 <label>Resident Name</label>
-                <input></input><br>
+                <input id="resident"></input><br>
                 <label>Assigned Members</label>
                 <input></input><br>
                 <label>Tags</label>
@@ -142,6 +143,11 @@
             </form>
         </div>
 
+    </div>
+
+    <div id="comments">
+      <h6>Comments</h6>
+      <button onClick="addNewComment()">+</button>
     </div>
 
   </main><!-- End #main -->
