@@ -5,30 +5,50 @@ var residentName;
 
 document.getElementById("ticketNumber").innerHTML = ticketNum;
 
-fetch('/ticket-detail?ticketNumber=' + ticketNum, {method: 'GET'})
-.then(data=>{return data.json()})
-.then(res=>{
-    populateForm(res);
-    populateComments(res);
-})
-.catch(error=>console.log(error))
+Promise.all([
+    fetch('/ticket-detail?ticketNumber=' + ticketNum, {method: 'GET'}),
+    fetch('/member-names', {method: 'GET'}),
+    fetch('/tags', {method: 'GET'})
+]).then(function (responses) {
+    return Promise.all(responses.map(function (response) {
+        return response.json();
+    }));
+}).then(function (data) {
+    populateForm(data[0]);
+    populateComments(data[0]);
+    populateMemberDropDown1(data[1]);
+    populateMemberDropDown2(data[1]);
+    populateMemberDropDown3(data[1]);
+    populateTagDropdown(data[2], data[0]);
+}).catch (function (error) {
+    console.log(error);
+});
+
+// fetch('/ticket-detail?ticketNumber=' + ticketNum, {method: 'GET'})
+// .then(data=>{return data.json()})
+// .then(res=>{
+//     populateForm(res);
+//     populateComments(res);
+// })
+// .catch(error=>console.log(error))
 
 
-fetch('/member-names', {method: 'GET'})
-.then(data=>{return data.json()})
-.then(res=>{
-    populateMemberDropDown1(res);
-    populateMemberDropDown2(res);
-    populateMemberDropDown3(res);
-})
-.catch(error=>console.log(error))
+// fetch('/member-names', {method: 'GET'})
+// .then(data=>{return data.json()})
+// .then(res=>{
+//     populateMemberDropDown1(res);
+//     populateMemberDropDown2(res);
+//     populateMemberDropDown3(res);
+// })
+// .catch(error=>console.log(error))
 
-fetch('/tags', {method: 'GET'})
-.then(data=>{return data.json()})
-.then(res=>{
-    populateTagDropdown(res);
-})
-.catch(error=>console.log(error))
+// fetch('/tags', {method: 'GET'})
+// .then(data=>{return data.json()})
+// .then(res=>{
+//     console.log("test 2");
+//     populateTagDropdown(res);
+// })
+// .catch(error=>console.log(error))
 
 
 function populateForm(data) {
@@ -93,9 +113,14 @@ function populateComments(data){
     }
 }
 
-function populateTagDropdown(tags) {
+function populateTagDropdown(tags, data) {
+    var preSelectedTags = data.associatedTags;
     console.log(tags);
+    console.log(preSelectedTags);
     var dropdown = document.getElementById('tagSelect');
+    for (const pretag of preSelectedTags) {
+        $("#tagSelect").append(`<option selected value=${pretag.tagString}>${pretag.tagString}</option>`).trigger("chosen:updated"); 
+    }
     for(let tag of tags){
         $("#tagSelect").append(`<option value=${tag.tagString}>${tag.tagString}</option>`).trigger("chosen:updated");
     }
@@ -167,12 +192,6 @@ function loadScript(src){
     document.body.append(script);
 }
 
-$(".chosen-select").chosen({
-    width: '100%',
-    max_selected_options: 3,
-    no_results_text: ""
-})
-
 //source: http://jsfiddle.net/d7TeL/
 (function (W) {
     var D, form, bts, ipt;
@@ -220,3 +239,9 @@ $(".chosen-select").chosen({
     }
     init();
 })(window)
+
+$(".chosen-select").chosen({
+    width: '100%',
+    max_selected_options: 3,
+    no_results_text: ""
+})
