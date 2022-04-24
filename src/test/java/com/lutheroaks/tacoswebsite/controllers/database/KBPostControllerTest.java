@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.kb.KBPost;
 import com.lutheroaks.tacoswebsite.entities.kb.KBPostRepo;
@@ -26,6 +27,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -47,15 +49,16 @@ public final class KBPostControllerTest {
     }
 
     @Test
-    public void addKBPostTest() {
+    public void addKBPostTest() throws IOException {
         // mock the servlet request and its parameters
         HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
         // don't actually create the fake post
-        doNothing().when(service).createPost(any());
+        doNothing().when(service).createPost(any(), any());
         // call the method to be tested
-        controller.addKBPost(request);
+        controller.addKBPost(request, response);
         // confirm that the expected method was called
-        verify(service, times(1)).createPost(request);
+        verify(service, times(1)).createPost(request, response);
     }
 
     @Test

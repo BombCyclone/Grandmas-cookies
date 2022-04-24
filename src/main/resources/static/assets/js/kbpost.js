@@ -1,26 +1,40 @@
-// call the get mapping from the controller to retrive data from the database
-fetch('/kbpost', {method: 'GET'})
-.then(data=>{return data.json()})
-.then(res=>{
-    // the response data are the members to be displayed, call the buildtable method
-    buildTable(res);
-})
-.catch(error=>console.log(error))
+// get the data needed for this page by fetching posts and tags from the database
+Promise.all([
+	fetch('/kbpost', {method: 'GET'}),
+	fetch('/tags', {method: 'GET'})
+]).then(function (responses) {
+	// Get a JSON object from each of the responses
+	return Promise.all(responses.map(function (response) {
+		return response.json();
+	}));
+}).then(function (data) {
+    // data[0] contains all kbposts
+    buildTable(data[0]);
+    // data[1] contains all tags
+    populateTagDrowdown(data[1]);
+
+}).catch(function (error) {
+	// if there's an error, log it
+	console.log(error);
+});
+
 
 // used to display the rows from members to the webpage
-function buildTable(data){
+function buildTable(posts){
     // get the element from the webpage to output data to
     var table = document.getElementById('postTable');
     // for each object in the data array, return a table row
-    for(let kbpost of data){
+    for(let kbpost of posts){
         var memberName = kbpost.member.firstName + " " + kbpost.member.lastName;
-        var allTags = '';
+        // parse the tags that are applied to the kb post
+        var appliedTags = '';
         for(let tag of kbpost.postTags){
-            allTags += tag.tagString + '   ';
+            appliedTags += tag.tagString + '   ';
         }
-        if('' == allTags){
-            allTags = 'none';
+        if('' == appliedTags){
+            appliedTags = 'none';
         }
+        // for each kbpost, a new row is added to the table containing an accordion with the kbpost's information
         var row =   `<tr>
                         <td>
                         <div class="accordion-item">
@@ -29,7 +43,7 @@ function buildTable(data){
                                     ${kbpost.title}
                                 </div>
                                 <button class="accordion-button collapsed" data-bs-target="#kbpost${kbpost.postId}" type="button" data-bs-toggle="collapse">
-                                    Tags: ${allTags}
+                                    Tags: ${appliedTags}
                                 </button>
                             </h5>
                             <div id="kbpost${kbpost.postId}" class="accordion-collapse collapse">
@@ -76,6 +90,16 @@ function loadScript(src){
     document.body.append(script);
 }
 
+// adds all available tags to the dropdown menu in the add kbpost form
+function populateTagDrowdown(tags){
+    for(let tag of tags){
+        $("#tagSelect").append(`<option value=${tag.tagString}>${tag.tagString}</option>`).trigger("chosen:updated");
+    }
+}
+
+// used with the tagSelect dropdown menu to allow the selection of multiple options 
 $(".chosen-select").chosen({
+    width: '100%',
+    max_selected_options: 3,
     no_results_text: ""
 })

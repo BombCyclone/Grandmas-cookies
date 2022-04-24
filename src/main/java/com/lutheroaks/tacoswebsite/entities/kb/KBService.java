@@ -1,10 +1,12 @@
 package com.lutheroaks.tacoswebsite.entities.kb;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.entities.tag.Tag;
@@ -29,11 +31,12 @@ public class KBService {
     /**
      * Creates and saves a KBPost
      * @param request
+     * @throws IOException
      */
-    public void createPost(final HttpServletRequest request) {
+    public void createPost(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
         Member poster = authenticatedDetails.getLoggedInMember(request);
         // get the tags to apply
-		List<Tag> appliedTags = tagService.retrieveTags(request.getParameterValues("tag"));
+		List<Tag> appliedTags = tagService.retrieveTags(request.getParameterValues("tagSelect"));
 
         // set the title and content of the kbpost based on the request
         KBPost toAdd = new KBPost();
@@ -44,6 +47,7 @@ public class KBService {
         // use the current time as the timestamp
         toAdd.setTimeStamp(Timestamp.from(Instant.now()));
         repository.save(toAdd);
+        response.sendRedirect("faq");
     }
 
     /**
