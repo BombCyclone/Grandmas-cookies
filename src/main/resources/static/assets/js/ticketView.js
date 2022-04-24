@@ -14,6 +14,14 @@ fetch('/ticket-detail?ticketNumber=' + ticketNum, {method: 'GET'})
 .catch(error=>console.log(error))
 
 
+fetch('/member-names', {method: 'GET'})
+.then(data=>{return data.json()})
+.then(res=>{
+    populateMemberDropDown(res)
+})
+.catch(error=>console.log(error))
+
+
 function populateForm(data) {
     var ticketDate = new Date(data.timestamp);
     var formattedDate = ticketDate.toLocaleDateString();
@@ -23,6 +31,22 @@ function populateForm(data) {
     document.getElementById("time").value = formattedTime;
     document.getElementById("issueDesc").value = data.issueDesc;
     document.getElementById("resident").value = data.resident.firstName + " " + data.resident.lastName;
+}
+
+function populateMemberDropDown(memberArray) {
+    var select1 = document.getElementById("member1");
+    var select2 = document.getElementById("member2");
+    var select3 = document.getElementById("member3");
+
+    for(var i = 0; i < memberArray.length; i++)
+    {
+        var option = document.createElement("OPTION");
+        var txt = document.createTextNode(memberArray[i]);
+        option.appendChild(txt);
+        select1.insertBefore(option, select1.lastChild);
+        select2.insertBefore(option, select2.lastChild);
+        select3.insertBefore(option, select3.lastChild);
+    }
 }
 
 function populateComments(data){
@@ -61,10 +85,10 @@ function saveComment() {
         })
     })
     .then(data=>{return data.json()})
-    .then(res=>{
-        deleteNewComment();
-    })
     .catch(error=>console.log(error))
+
+    deleteNewComment();
+
 }
 
 function deleteNewComment() {
