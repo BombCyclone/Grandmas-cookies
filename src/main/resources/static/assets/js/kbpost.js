@@ -26,13 +26,15 @@ function buildTable(posts){
     // for each object in the data array, return a table row
     for(let kbpost of posts){
         var memberName = kbpost.member.firstName + " " + kbpost.member.lastName;
-        var allTags = '';
+        // parse the tags that are applied to the kb post
+        var appliedTags = '';
         for(let tag of kbpost.postTags){
-            allTags += tag.tagString + '   ';
+            appliedTags += tag.tagString + '   ';
         }
-        if('' == allTags){
-            allTags = 'none';
+        if('' == appliedTags){
+            appliedTags = 'none';
         }
+        // for each kbpost, a new row is added to the table containing an accordion with the kbpost's information
         var row =   `<tr>
                         <td>
                         <div class="accordion-item">
@@ -41,7 +43,7 @@ function buildTable(posts){
                                     ${kbpost.title}
                                 </div>
                                 <button class="accordion-button collapsed" data-bs-target="#kbpost${kbpost.postId}" type="button" data-bs-toggle="collapse">
-                                    Tags: ${allTags}
+                                    Tags: ${appliedTags}
                                 </button>
                             </h5>
                             <div id="kbpost${kbpost.postId}" class="accordion-collapse collapse">
@@ -88,12 +90,14 @@ function loadScript(src){
     document.body.append(script);
 }
 
+// adds all available tags to the dropdown menu in the add kbpost form
 function populateTagDrowdown(tags){
     for(let tag of tags){
         $("#tagSelect").append(`<option value=${tag.tagString}>${tag.tagString}</option>`).trigger("chosen:updated");
     }
 }
 
+// used with the tagSelect dropdown menu to allow the selection of multiple options 
 $(".chosen-select").chosen({
     width: '100%',
     max_selected_options: 3,
