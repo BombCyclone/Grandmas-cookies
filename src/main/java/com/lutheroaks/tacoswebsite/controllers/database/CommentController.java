@@ -33,7 +33,8 @@ public class CommentController {
 	 */
 	@PostMapping("/comment")
 	@ResponseBody
-	public void addComment(final HttpServletRequest request, @RequestParam String content, @RequestParam String ticketNum) {
+	public void addComment(final HttpServletRequest request, 
+			@RequestParam final String content, @RequestParam final String ticketNum) {
 		service.createComment(request, content, ticketNum);
 	}
 

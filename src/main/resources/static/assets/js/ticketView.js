@@ -167,11 +167,11 @@ function loadScript(src){
     document.body.append(script);
 }
 
-// $(".chosen-select").chosen({
-//     width: '100%',
-//     max_selected_options: 3,
-//     no_results_text: ""
-// })
+$(".chosen-select").chosen({
+    width: '100%',
+    max_selected_options: 3,
+    no_results_text: ""
+})
 
 //source: http://jsfiddle.net/d7TeL/
 (function (W) {

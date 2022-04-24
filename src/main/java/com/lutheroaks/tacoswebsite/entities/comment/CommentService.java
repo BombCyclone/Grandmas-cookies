@@ -30,17 +30,17 @@ public class CommentService {
      * Creates and saves a new comment
      * @param request
      */
-    public void createComment(final HttpServletRequest request, @RequestParam String ticketContent, @RequestParam String ticketNum) {
+    public void createComment(final HttpServletRequest request, @RequestParam final String ticketContent, 
+                @RequestParam final  String ticketNum) {
         // get the member who is making the comment based on their login credentials
         Member poster = authenticatedDetails.getLoggedInMember(request);
-        String content = ticketContent;
         // find the associated ticket
 		int ticketId = Integer.parseInt(ticketNum);
 		Ticket ticket = ticketRepo.findTicketById(ticketId);
         // create the comment and set its fields
         Comment toAdd = new Comment();
 		toAdd.setMember(poster);
-		toAdd.setContent(content);
+		toAdd.setContent(ticketContent);
 		toAdd.setTicket(ticket);
 		toAdd.setTimeStamp(Timestamp.from(Instant.now()));
 		repository.save(toAdd);
