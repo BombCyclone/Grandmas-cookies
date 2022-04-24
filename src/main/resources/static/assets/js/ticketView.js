@@ -73,9 +73,11 @@ function populateMemberDropDown3(memberArray) {
 
 function populateComments(data){
     for (comment of data.comments) {
+        var memberName = comment.member.firstName + " " + comment.member.lastName;
         var timestamp = new Date(comment.timeStamp);
         commentCard = `<div class="card"><div class="card-body">
                         <h7>${timestamp}</h7><br>
+                        <h7>${memberName}</h7>
                         <p>${comment.content}</p>
                         <button onClick="deleteComment(${comment.commentId})">Delete</button>
                         </div></div>`
@@ -125,7 +127,7 @@ fetch('/comment/', {
     method: 'DELETE', body: formData,
     })
     .then(() => {window.location.reload()})
-    
+
 window.location.reload();
 }
 
