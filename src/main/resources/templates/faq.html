@@ -29,10 +29,10 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <!-- JQuery and Chosen -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
-  <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
+    <!-- JQuery and Chosen -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+    <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
 
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.2.2
@@ -165,24 +165,18 @@
 
               <!-- Add New Member Form -->
               <form id="add-member-form" name="add-member-form" action="/kbpost" method="POST" enctype="multipart/form-data" onSubmit="alert('Adding post, please wait for page to refresh!')">
-                <div class="row mb-3 justify-content-center">
+                <div class="row mb-3">
                   <label for="title" class="col-sm-2 col-form-label">Title</label>
                   <div class="col-sm-5">
                     <input type="text" class="form-control" id="title" name="title" minlength = "3" maxlength = "100" required></input>
                   </div>
-                  <div class="col-sm-5">
-                    <label for="tagDropdown" class="col-sm-2 col-form-label">Post Tags: </label>
-                    <select id="tagDropdown" data-placeholder="No Tags Selected" multiple class="chosen-select" name="test">
-                      <option value=""></option>
-                      <option>American Black Bear</option>
-                      <option>Asiatic Black Bear</option>
-                      <option>Brown Bear</option>
-                      <option>Giant Panda</option>
-                      <option>Sloth Bear</option>
-                      <option>Sun Bear</option>
-                      <option>Polar Bear</option>
-                      <option>Spectacled Bear</option>
-                    </select>
+                </div>
+                <div class="row mb-3">
+                    <label for="tagSelect" class="col-sm-2 col-form-label">Post Tags (Maximum is 3):</label>
+                    <div class="col-sm-5">
+                      <select id="tagSelect" data-placeholder="No Tags Selected" multiple class="chosen-select" name="tagSelect">
+                        <option value=""></option>
+                      </select>
                   </div>
                 </div>
                 <div class="row mb-3">

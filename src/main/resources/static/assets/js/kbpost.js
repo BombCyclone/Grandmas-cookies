@@ -1,18 +1,30 @@
-// call the get mapping from the controller to retrive data from the database
-fetch('/kbpost', {method: 'GET'})
-.then(data=>{return data.json()})
-.then(res=>{
-    // the response data are the members to be displayed, call the buildtable method
-    buildTable(res);
-})
-.catch(error=>console.log(error))
+// get the data needed for this page by fetching posts and tags from the database
+Promise.all([
+	fetch('/kbpost', {method: 'GET'}),
+	fetch('/tags', {method: 'GET'})
+]).then(function (responses) {
+	// Get a JSON object from each of the responses
+	return Promise.all(responses.map(function (response) {
+		return response.json();
+	}));
+}).then(function (data) {
+    // data[0] contains all kbposts
+    buildTable(data[0]);
+    // data[1] contains all tags
+    populateTagDrowdown(data[1]);
+
+}).catch(function (error) {
+	// if there's an error, log it
+	console.log(error);
+});
+
 
 // used to display the rows from members to the webpage
-function buildTable(data){
+function buildTable(posts){
     // get the element from the webpage to output data to
     var table = document.getElementById('postTable');
     // for each object in the data array, return a table row
-    for(let kbpost of data){
+    for(let kbpost of posts){
         var memberName = kbpost.member.firstName + " " + kbpost.member.lastName;
         var allTags = '';
         for(let tag of kbpost.postTags){
@@ -76,6 +88,23 @@ function loadScript(src){
     document.body.append(script);
 }
 
+function populateTagDrowdown(tags){
+    // get the select element from the webpage
+    var dropdown = document.getElementById('tagSelect');
+    
+    for(let tag of tags){
+        // var opt = document.createElement('option');
+        // opt.value = tag.tagString;
+        // opt.innerHTML = tag.tagString;
+        // dropdown.appendChild(opt);
+        $("#tagSelect").append(`<option value=${tag.tagString}>${tag.tagString}</option>`).trigger("chosen:updated");
+    }
+
+
+}
+
 $(".chosen-select").chosen({
+    width: '100%',
+    max_selected_options: 3,
     no_results_text: ""
 })
