@@ -89,18 +89,9 @@ function loadScript(src){
 }
 
 function populateTagDrowdown(tags){
-    // get the select element from the webpage
-    var dropdown = document.getElementById('tagSelect');
-    
     for(let tag of tags){
-        // var opt = document.createElement('option');
-        // opt.value = tag.tagString;
-        // opt.innerHTML = tag.tagString;
-        // dropdown.appendChild(opt);
         $("#tagSelect").append(`<option value=${tag.tagString}>${tag.tagString}</option>`).trigger("chosen:updated");
     }
-
-
 }
 
 $(".chosen-select").chosen({
