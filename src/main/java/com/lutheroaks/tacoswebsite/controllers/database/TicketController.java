@@ -81,22 +81,6 @@ public class TicketController {
 		return repository.findAll();
 	}
 
-	@GetMapping("/ticket-resident")
-	public List<String> getTicketResident() {
-		return service.getTicketResident();
-	}
-
-	@GetMapping("/resident-ticket")
-	@ResponseBody
-	public String getResidentByTicket(@RequestParam String ticketNumber) {
-		return service.getResidentByTicket(ticketNumber);
-	}
-
-	@GetMapping("/ticket-resident-room")
-	public List<Integer> getTicketRoomNum() {
-		return service.getTicketRoomNum();
-	}
-
 	@GetMapping("/ticket-detail")
 	@ResponseBody
 	public Ticket getTicketByNumber(@RequestParam String ticketNumber) {

@@ -227,33 +227,6 @@ public class TicketService {
 	}
 
 	/**
-	 * Gets resident names from each ticket
-	 * @param request
-	 */
-	public List<String> getTicketResident() {
-		List<Integer> residentIds = ticketRepo.findAssociatedTickets();
-		List<String> residentNames = new ArrayList<String>();
-		for (int i = 0; i < residentIds.size(); i++) {
-			residentNames.add(residentRepo.findResidentName(residentIds.get(i)));
-		}
-		return residentNames;
-	}
-
-
-		/**
-	 * Gets resident room number from each ticket
-	 * @param request
-	 */
-	public List<Integer> getTicketRoomNum() {
-		List<Integer> residentIds = ticketRepo.findAssociatedTickets();
-		List<Integer> roomNumbers = new ArrayList<Integer>();
-		for (int i = 0; i < residentIds.size(); i++) {
-			roomNumbers.add(residentRepo.findRoomNum(residentIds.get(i)));
-		}
-		return roomNumbers;
-	}
-
-	/**
 	 * Gets ticket by ticket number
 	 * @param request
 	 */
@@ -262,13 +235,4 @@ public class TicketService {
 		return ticketRepo.findTicketById(ticketNum);
 	}
 
-	/**
-	 * Gets resident by ticket number
-	 * @param request
-	 */
-	public String getResidentByTicket(@RequestParam String ticketNumber) {
-		int ticketNum = Integer.parseInt(ticketNumber);
-		int residentId = ticketRepo.findResidentByTicket(ticketNum);
-		return residentRepo.findResidentName(residentId);
-	}
 }

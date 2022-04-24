@@ -134,6 +134,14 @@ function loadScript(src){
     document.body.append(script);
 }
 
+//inspo for delete ticket
+// formData.append('ticketNum', id);
+// await fetch('/ticket/', {
+//     method: 'DELETE', body: formData,
+//     })
+//     .then(() => {window.location.reload()})
+// }
+
 //source: http://jsfiddle.net/d7TeL/
 (function (W) {
     var D, form, bts, ipt;
