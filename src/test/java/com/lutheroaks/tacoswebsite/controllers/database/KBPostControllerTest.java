@@ -74,7 +74,7 @@ public final class KBPostControllerTest {
 
         fakePost.setContent("They are wrist iPhones.");
         fakePost.setMember(fakeMember);
-        fakePost.setAssociatedTags(emptySet);
+        fakePost.setPostTags(emptySet);
         fakePost.setTimeStamp(timeStamp);
         fakePost.setTitle("Explaining Apple Watches");
         
@@ -85,7 +85,7 @@ public final class KBPostControllerTest {
         List<KBPost> retVal = controller.getKBPosts();
         assertEquals("They are wrist iPhones.", retVal.get(0).getContent());
         assertEquals(fakeMember, retVal.get(0).getMember());
-        assertEquals(emptySet, retVal.get(0).getAssociatedTags());
+        assertEquals(emptySet, retVal.get(0).getPostTags());
         assertEquals(timeStamp, retVal.get(0).getTimeStamp());
         assertEquals("Explaining Apple Watches", retVal.get(0).getTitle());
 

@@ -15,21 +15,24 @@ function buildTable(data){
     for(let kbpost of data){
         var memberName = kbpost.member.firstName + " " + kbpost.member.lastName;
         var allTags = '';
-        for(let tag of kbpost.associatedTags){
-            allTags += tag+ '  ';
+        for(let tag of kbpost.postTags){
+            allTags += tag.tagString + '   ';
+        }
+        if('' == allTags){
+            allTags = 'none';
         }
         var row =   `<tr>
                         <td>
                         <div class="accordion-item">
-                            <h6 class="accordion-header">
+                            <h5 class="accordion-header">
                                 <div class="d-flex justify-content-center">
                                     ${kbpost.title}
                                 </div>
-                                <button class="accordion-button collapsed" data-bs-target="#faqsOne-1" type="button" data-bs-toggle="collapse">
+                                <button class="accordion-button collapsed" data-bs-target="#kbpost${kbpost.postId}" type="button" data-bs-toggle="collapse">
                                     Tags: ${allTags}
                                 </button>
-                            </h6>
-                            <div id="faqsOne-1" class="accordion-collapse collapse">
+                            </h5>
+                            <div id="kbpost${kbpost.postId}" class="accordion-collapse collapse">
                                 <div class="accordion-body">
                                     <div id="poster">
                                         <b>Posted by: ${memberName}</b>
@@ -72,3 +75,7 @@ function loadScript(src){
     script.async = false;
     document.body.append(script);
 }
+
+$(".chosen-select").chosen({
+    no_results_text: ""
+})

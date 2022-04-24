@@ -4,12 +4,12 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -48,7 +48,10 @@ public class KBPost {
     @NonNull private Timestamp timeStamp;
     
     @ManyToMany
-    @ElementCollection(targetClass = Tag.class)
+    @JoinTable(
+        name = "kbpost_tags", 
+        joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "postId"), 
+        inverseJoinColumns = @JoinColumn(name = "tag_string", referencedColumnName = "tagString"))
     @Size(min=0, max=3)
-    private List<Tag> associatedTags;
+    private List<Tag> postTags;
 }
