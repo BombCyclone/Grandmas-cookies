@@ -31,7 +31,7 @@ public class Tag {
     @JsonIgnore
     private List<Ticket> taggedTickets;
 
-    @ManyToMany(mappedBy = "associatedTags")
+    @ManyToMany(mappedBy = "postTags")
     @JsonIgnore
     private List<KBPost> taggedPosts;
 }
