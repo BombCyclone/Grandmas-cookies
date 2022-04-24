@@ -77,6 +77,7 @@ function populateComments(data){
         commentCard = `<div class="card"><div class="card-body">
                         <h7>${timestamp}</h7><br>
                         <p>${comment.content}</p>
+                        <button onClick="deleteComment(${comment.commentId})">Delete</button>
                         </div></div>`
         comments.innerHTML += commentCard;
     }
@@ -115,6 +116,19 @@ function deleteNewComment() {
     document.getElementById("saveComment").remove();
     document.getElementById("cancelComment").remove();
 }
+
+function deleteComment(id) {
+const formData = new FormData();
+formData.append('commentId', id);
+
+fetch('/comment/', {
+    method: 'DELETE', body: formData,
+    })
+    .then(() => {window.location.reload()})
+    
+window.location.reload();
+}
+
 
 //source: http://jsfiddle.net/d7TeL/
 (function (W) {
