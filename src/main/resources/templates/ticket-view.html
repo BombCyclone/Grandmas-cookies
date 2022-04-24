@@ -140,15 +140,14 @@
                 <label>Resident Name</label>
                 <input id="resident" readonly></input><br>
                 <label>Assigned Members</label>
-                <select id="member1">
-                  <option value=""></option>
-                </select><br>
-                <select id="member2">
-                  <option value=""></option>
-                </select><br>
-                <select id="member3">
-                  <option value=""></option>
-                </select><br>
+                <div class="row mb-3">
+                  <label for="memberSelect" class="col-sm-2 col-form-label">Assigned Members (Maximum is 3):</label>
+                  <div class="col-sm-5">
+                    <select id="memberSelect" data-placeholder="No Members Selected" multiple class="chosen-select" name="memberSelect">
+                      <option value=""></option>
+                    </select>
+                </div>
+                <br>
                 <label>Tags</label>
                 <div class="row mb-3">
                   <label for="tagSelect" class="col-sm-2 col-form-label">Post Tags (Maximum is 3):</label>

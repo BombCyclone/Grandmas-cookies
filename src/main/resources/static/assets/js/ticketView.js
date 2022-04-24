@@ -16,40 +16,11 @@ Promise.all([
 }).then(function (data) {
     populateForm(data[0]);
     populateComments(data[0]);
-    populateMemberDropDown1(data[1]);
-    populateMemberDropDown2(data[1]);
-    populateMemberDropDown3(data[1]);
+    populateMemberDropdown(data[1], data[0]);
     populateTagDropdown(data[2], data[0]);
 }).catch (function (error) {
     console.log(error);
 });
-
-// fetch('/ticket-detail?ticketNumber=' + ticketNum, {method: 'GET'})
-// .then(data=>{return data.json()})
-// .then(res=>{
-//     populateForm(res);
-//     populateComments(res);
-// })
-// .catch(error=>console.log(error))
-
-
-// fetch('/member-names', {method: 'GET'})
-// .then(data=>{return data.json()})
-// .then(res=>{
-//     populateMemberDropDown1(res);
-//     populateMemberDropDown2(res);
-//     populateMemberDropDown3(res);
-// })
-// .catch(error=>console.log(error))
-
-// fetch('/tags', {method: 'GET'})
-// .then(data=>{return data.json()})
-// .then(res=>{
-//     console.log("test 2");
-//     populateTagDropdown(res);
-// })
-// .catch(error=>console.log(error))
-
 
 function populateForm(data) {
     var ticketDate = new Date(data.timestamp);
@@ -61,42 +32,6 @@ function populateForm(data) {
     document.getElementById("issueDesc").value = data.issueDesc;
     document.getElementById("resident").value = data.resident.firstName + " " + data.resident.lastName;
     addscripts();
-}
-
-function populateMemberDropDown1(memberArray) {
-    var select1 = document.getElementById("member1");
-
-    for(var i = 0; i < memberArray.length; i++)
-    {
-        var option = document.createElement("OPTION");
-        var txt = document.createTextNode(memberArray[i]);
-        option.appendChild(txt);
-        select1.insertBefore(option, select1.lastChild);
-    }
-}
-
-function populateMemberDropDown2(memberArray) {
-    var select1 = document.getElementById("member2");
-
-    for(var i = 0; i < memberArray.length; i++)
-    {
-        var option = document.createElement("OPTION");
-        var txt = document.createTextNode(memberArray[i]);
-        option.appendChild(txt);
-        select1.insertBefore(option, select1.lastChild);
-    }
-}
-
-function populateMemberDropDown3(memberArray) {
-    var select1 = document.getElementById("member3");
-
-    for(var i = 0; i < memberArray.length; i++)
-    {
-        var option = document.createElement("OPTION");
-        var txt = document.createTextNode(memberArray[i]);
-        option.appendChild(txt);
-        select1.insertBefore(option, select1.lastChild);
-    }
 }
 
 function populateComments(data){
@@ -113,12 +48,19 @@ function populateComments(data){
     }
 }
 
+function populateMemberDropdown(members, data) {
+    for (const preMember of data.assignedMembers) {
+        var memberName = preMember.firstName + " " + preMember.lastName;
+        $("#memberSelect").append(`<option selected value=${memberName}>${memberName}</option>`).trigger("chosen:updated"); 
+    }
+    for(let member of members){
+        var memberName = member.firstName + " " + member.lastName;
+        $("#memberSelect").append(`<option value=${memberName}>${memberName}</option>`).trigger("chosen:updated");
+    }
+}
+
 function populateTagDropdown(tags, data) {
-    var preSelectedTags = data.associatedTags;
-    console.log(tags);
-    console.log(preSelectedTags);
-    var dropdown = document.getElementById('tagSelect');
-    for (const pretag of preSelectedTags) {
+    for (const pretag of data.associatedTags) {
         $("#tagSelect").append(`<option selected value=${pretag.tagString}>${pretag.tagString}</option>`).trigger("chosen:updated"); 
     }
     for(let tag of tags){
