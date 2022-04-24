@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.entities.tag.Tag;
 
@@ -42,7 +41,6 @@ public class KBPost {
     @NonNull private String content;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name="member", nullable = false)
     @NonNull private Member member;
 
