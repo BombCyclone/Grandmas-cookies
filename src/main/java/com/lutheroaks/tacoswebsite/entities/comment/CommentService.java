@@ -12,6 +12,7 @@ import com.lutheroaks.tacoswebsite.utils.AuthenticatedDetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class CommentService {
@@ -29,12 +30,12 @@ public class CommentService {
      * Creates and saves a new comment
      * @param request
      */
-    public void createComment(final HttpServletRequest request) {
+    public void createComment(final HttpServletRequest request, @RequestParam String ticketContent, @RequestParam String ticketNum) {
         // get the member who is making the comment based on their login credentials
         Member poster = authenticatedDetails.getLoggedInMember(request);
-        String content = request.getParameter("content");
+        String content = ticketContent;
         // find the associated ticket
-		int ticketId = Integer.parseInt(request.getParameter("ticketId"));
+		int ticketId = Integer.parseInt(ticketNum);
 		Ticket ticket = ticketRepo.findTicketById(ticketId);
         // create the comment and set its fields
         Comment toAdd = new Comment();

@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lutheroaks.tacoswebsite.entities.comment.Comment;
@@ -30,8 +32,9 @@ public class CommentController {
 	 * @return
 	 */
 	@PostMapping("/comment")
-	public void addComment(final HttpServletRequest request) {
-		service.createComment(request);
+	@ResponseBody
+	public void addComment(final HttpServletRequest request, @RequestParam String content, @RequestParam String ticketNum) {
+		service.createComment(request, content, ticketNum);
 	}
 
 	/**
