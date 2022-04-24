@@ -23,6 +23,13 @@ fetch('/member-names', {method: 'GET'})
 })
 .catch(error=>console.log(error))
 
+fetch('/tags', {method: 'GET'})
+.then(data=>{return data.json()})
+.then(res=>{
+    populateTagDropdown(res);
+})
+.catch(error=>console.log(error))
+
 
 function populateForm(data) {
     var ticketDate = new Date(data.timestamp);
@@ -33,6 +40,7 @@ function populateForm(data) {
     document.getElementById("time").value = formattedTime;
     document.getElementById("issueDesc").value = data.issueDesc;
     document.getElementById("resident").value = data.resident.firstName + " " + data.resident.lastName;
+    addscripts();
 }
 
 function populateMemberDropDown1(memberArray) {
@@ -85,6 +93,14 @@ function populateComments(data){
     }
 }
 
+function populateTagDropdown(tags) {
+    console.log(tags);
+    var dropdown = document.getElementById('tagSelect');
+    for(let tag of tags){
+        $("#tagSelect").append(`<option value=${tag.tagString}>${tag.tagString}</option>`).trigger("chosen:updated");
+    }
+}
+
 function addNewComment() {
     if(document.getElementById("newComment")) {
         return;
@@ -131,6 +147,25 @@ fetch('/comment/', {
 window.location.reload();
 }
 
+// add other NiceAdmin Scripts to the page after the table content has been rendered
+function addscripts(){
+    loadScript("assets/vendor/apexcharts/apexcharts.min.js");
+    loadScript("assets/vendor/bootstrap/js/bootstrap.bundle.min.js");
+    loadScript("assets/vendor/chart.js/chart.min.js");
+    loadScript("assets/vendor/echarts/echarts.min.js")
+    loadScript("assets/vendor/quill/quill.min.js");
+    loadScript("assets/vendor/simple-datatables/simple-datatables.js");
+    loadScript("assets/vendor/tinymce/tinymce.min.js");
+    loadScript("assets/js/main.js");
+}
+
+// loads the script and add to the window
+function loadScript(src){
+    let script = document.createElement('script');
+    script.src = src;
+    script.async = false;
+    document.body.append(script);
+}
 
 //source: http://jsfiddle.net/d7TeL/
 (function (W) {
@@ -178,3 +213,9 @@ window.location.reload();
     }
     init();
 })(window)
+
+$(".chosen-select").chosen({
+    width: '100%',
+    max_selected_options: 3,
+    no_results_text: ""
+})

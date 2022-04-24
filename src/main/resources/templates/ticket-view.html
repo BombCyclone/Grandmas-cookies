@@ -29,6 +29,11 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <!-- JQuery and Chosen -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+  <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
+
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.2.2
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -145,7 +150,13 @@
                   <option value=""></option>
                 </select><br>
                 <label>Tags</label>
-                <select id="tags"></select>
+                <div class="row mb-3">
+                  <label for="tagSelect" class="col-sm-2 col-form-label">Post Tags (Maximum is 3):</label>
+                  <div class="col-sm-5">
+                    <select id="tagSelect" data-placeholder="No Tags Selected" multiple class="chosen-select" name="tagSelect">
+                      <option value=""></option>
+                    </select>
+                </div>
                 <label>Issue Description</label>
                 <input id="issueDesc"></input><br>
             </form>
