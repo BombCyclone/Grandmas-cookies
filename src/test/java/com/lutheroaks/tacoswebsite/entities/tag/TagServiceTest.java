@@ -5,11 +5,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -77,5 +79,16 @@ public final class TagServiceTest {
         tagService.deleteTag(mockRequest, mockResponse);
         // confirm the request was successful by what page it is redirected to
         verify(mockResponse, times(1)).sendRedirect("index");
+    }
+
+    @Test
+    void retrieveTagsTest() {
+        doReturn(null).when(repository).findTag("email");
+        doReturn(new Tag()).when(repository).findTag("iPhone");
+        TagService serviceSpy = spy(tagService);
+        doReturn(new Tag()).when(serviceSpy).createTag(any());
+        String[] params = {"email", "iPhone"};
+        List<Tag> retVal = serviceSpy.retrieveTags(params);
+        assertEquals(2, retVal.size(), 0);
     }
 }

@@ -12,7 +12,6 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 
 import org.springframework.lang.Nullable;
@@ -50,7 +49,6 @@ public class Bio {
 
     @OneToOne(optional = false)
     @JoinColumn(name = "memberId", nullable = false)
-    @JsonIgnore
     private Member member;
 
 }
