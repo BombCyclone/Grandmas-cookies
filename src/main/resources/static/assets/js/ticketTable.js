@@ -80,12 +80,6 @@ function buildTable(data){
                             <td>${ticket.issueDesc}</td>
                             <td>${formattedDate}</td>
                             <td>${formattedTime}</td>
-                            <td onClick="showComments(${ticket.ticketNum})">
-                            <div class="icon">
-                                <em class="ri-arrow-down-s-line"></em>
-                            </div>
-                            </div>
-                            <td><button>x</button></td>
                         </div>
                         </td>
                         </tr>`

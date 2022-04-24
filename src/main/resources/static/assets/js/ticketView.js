@@ -3,7 +3,7 @@ const urlParams = new URLSearchParams(queryString);
 const ticketNum = urlParams.get('number');
 var residentName;
 
-document.getElementById("ticketNumber").value = ticketNum;
+document.getElementById("ticketNumber").innerHTML = ticketNum;
 
 fetch('/ticket-detail?ticketNumber=' + ticketNum, {method: 'GET'})
 .then(data=>{return data.json()})
@@ -36,8 +36,8 @@ function populateForm(data) {
     var formattedDate = ticketDate.toLocaleDateString();
     var formattedTime = ticketDate.toLocaleTimeString();
     
-    document.getElementById("date").value = formattedDate;
-    document.getElementById("time").value = formattedTime;
+    document.getElementById("date").innerHTML = formattedDate;
+    document.getElementById("time").innerHTML = formattedTime;
     document.getElementById("issueDesc").value = data.issueDesc;
     document.getElementById("resident").value = data.resident.firstName + " " + data.resident.lastName;
     addscripts();
@@ -167,6 +167,12 @@ function loadScript(src){
     document.body.append(script);
 }
 
+// $(".chosen-select").chosen({
+//     width: '100%',
+//     max_selected_options: 3,
+//     no_results_text: ""
+// })
+
 //source: http://jsfiddle.net/d7TeL/
 (function (W) {
     var D, form, bts, ipt;
@@ -199,6 +205,7 @@ function loadScript(src){
         while (l--) {
             previous[l] = ipt[l].value;
             ipt[l].readOnly = false;
+            ipt[l].disabled = false;
         }
     }
 
@@ -213,9 +220,3 @@ function loadScript(src){
     }
     init();
 })(window)
-
-$(".chosen-select").chosen({
-    width: '100%',
-    max_selected_options: 3,
-    no_results_text: ""
-})
