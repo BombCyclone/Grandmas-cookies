@@ -83,4 +83,16 @@ public final class ResidentControllerTest {
         // confirm that the expected method was called
         verify(service, times(1)).removeResident(request);
     }
+
+    @Test
+    void updateResidentSuccess() {
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        // don't actually delete a member
+        doNothing().when(service).updateResident(request);
+        // call the method to be tested
+        controller.updateResident(request);
+        // confirm that the expected method was called
+        verify(service, times(1)).updateResident(request);
+    }
 }

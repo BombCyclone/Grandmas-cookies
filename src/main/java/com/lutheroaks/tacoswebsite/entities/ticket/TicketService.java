@@ -14,7 +14,6 @@ import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 import com.lutheroaks.tacoswebsite.entities.resident.Resident;
 import com.lutheroaks.tacoswebsite.entities.resident.ResidentRepo;
 import com.lutheroaks.tacoswebsite.entities.tag.Tag;
-import com.lutheroaks.tacoswebsite.entities.tag.TagRepo;
 import com.lutheroaks.tacoswebsite.entities.tag.TagService;
 import com.lutheroaks.tacoswebsite.utils.EmailSender;
 
@@ -22,6 +21,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class TicketService {
@@ -43,9 +43,6 @@ public class TicketService {
 
 	@Autowired
 	private JavaMailSender mailSender;
-
-	@Autowired
-	private TagRepo tagRepo;
 
 	@Autowired
 	private TagService tagService;
@@ -93,6 +90,7 @@ public class TicketService {
 			String lname = request.getParameter("lname");
 			String fullName = fname + " " + lname;
 			int roomNum = Integer.parseInt(request.getParameter("roomNumber"));
+			
 			// Step 1 - Search for resident and resolve to variable
 			Resident ticketResident = findResident(fname, lname, roomNum);
 
@@ -168,19 +166,7 @@ public class TicketService {
 			String[] tags = request.getParameterValues("tags");
 			
 			// get the tags to apply to the ticket
-			List<Tag> appliedTags = new ArrayList<>();
-			if(tags != null && tags.length < 4){
-				for(String tagString : tags){
-					// find the tag by the given string
-					Tag toAdd = tagRepo.findTag(tagString);
-					// if the tag selected is not found, create a new tag
-					if(toAdd == null){
-						toAdd = tagService.createTag(tagString);
-					}
-					// add the Tag to the list
-					appliedTags.add(toAdd);
-				}
-			}
+			List<Tag> appliedTags = tagService.retrieveTags(tags);
 
 			// Step 2 - Update ticket with new fields
 			ticket.setAssociatedTags(appliedTags);
@@ -236,4 +222,14 @@ public class TicketService {
 		int ticketNum = Integer.parseInt(request.getParameter("ticketNum"));
 		ticketRepo.deleteTicketByTicketNum(ticketNum);
 	}
+
+	/**
+	 * Gets ticket by ticket number
+	 * @param request
+	 */
+	public Ticket getTicketByNumber(@RequestParam final String ticketNumber) {
+		int ticketNum = Integer.parseInt(ticketNumber);
+		return ticketRepo.findTicketById(ticketNum);
+	}
+
 }
