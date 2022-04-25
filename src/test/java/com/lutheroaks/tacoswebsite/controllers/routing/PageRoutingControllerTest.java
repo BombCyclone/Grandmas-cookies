@@ -25,12 +25,6 @@ public final class PageRoutingControllerTest {
 	}
 
 	@Test
-	public void activeTicketsPageIsReturned() {
-		String retVal = controller.viewActiveTickets();
-		assertEquals("active-tickets", retVal);
-	}
-
-	@Test
 	public void archivedTicketsPageIsReturned() {
 		String retVal = controller.viewArchivedTickets();
 		assertEquals("member-table", retVal);
