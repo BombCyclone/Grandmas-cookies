@@ -81,9 +81,14 @@ public class TicketController {
 		return repository.findAll();
 	}
 
+	/**
+	 * Returns a single ticket as specified by its id
+	 * @param ticketNumber
+	 * @return
+	 */
 	@GetMapping("/ticket-detail")
 	@ResponseBody
-	public Ticket getTicketByNumber(@RequestParam String ticketNumber) {
+	public Ticket getTicketByNumber(@RequestParam final String ticketNumber) {
 		return service.getTicketByNumber(ticketNumber);
 	}
 

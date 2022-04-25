@@ -7,7 +7,7 @@ document.getElementById("ticketNumber").innerHTML = ticketNum;
 
 Promise.all([
     fetch('/ticket-detail?ticketNumber=' + ticketNum, {method: 'GET'}),
-    fetch('/member-names', {method: 'GET'}),
+    fetch('/member', {method: 'GET'}),
     fetch('/tags', {method: 'GET'})
 ]).then(function (responses) {
     return Promise.all(responses.map(function (response) {
@@ -49,13 +49,23 @@ function populateComments(data){
 }
 
 function populateMemberDropdown(members, data) {
-    for (const preMember of data.assignedMembers) {
-        var memberName = preMember.firstName + " " + preMember.lastName;
-        $("#memberSelect").append(`<option selected value=${memberName}>${memberName}</option>`).trigger("chosen:updated"); 
-    }
+    // for all possible members
     for(let member of members){
         var memberName = member.firstName + " " + member.lastName;
-        $("#memberSelect").append(`<option value=${memberName}>${memberName}</option>`).trigger("chosen:updated");
+        var matchFound = false;
+        // check if the current member to be added is one of the currently assigned members to the ticket
+        for (const preMember of data.assignedMembers) {
+            // if the member to be added is one of the assigned members, mark as true
+            if (member.memberId == preMember.memberId){
+                matchFound = true;
+            }
+        }
+        // if a match was found, add the member as a currently selected option, otherwise add as an option not currently selected
+        if(matchFound){
+            $("#memberSelect").append(`<option selected value=${memberName}>${memberName}</option>`).trigger("chosen:updated"); 
+        } else {
+            $("#memberSelect").append(`<option value=${memberName}>${memberName}</option>`).trigger("chosen:updated");
+        }
     }
 }
 

@@ -54,6 +54,19 @@ public final class MemberControllerTest {
     }
 
     @Test
+    public void updateMemberTest() throws IOException {
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        // don't actually call the method to create a member
+        doNothing().when(service).updateMember(any(), any());
+        // call the method to be tested
+        controller.updateMember(request, response);
+        // confirm that the expected method was called
+        verify(service, times(1)).updateMember(any(), any());
+    }
+
+    @Test
     public void getMembersTest(){
         // mockList will be returned by the findAll method
         List<Member> mockList = new ArrayList<Member>();

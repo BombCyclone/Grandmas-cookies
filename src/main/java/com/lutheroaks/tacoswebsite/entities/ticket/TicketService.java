@@ -230,7 +230,7 @@ public class TicketService {
 	 * Gets ticket by ticket number
 	 * @param request
 	 */
-	public Ticket getTicketByNumber(@RequestParam String ticketNumber) {
+	public Ticket getTicketByNumber(@RequestParam final String ticketNumber) {
 		int ticketNum = Integer.parseInt(ticketNumber);
 		return ticketRepo.findTicketById(ticketNum);
 	}

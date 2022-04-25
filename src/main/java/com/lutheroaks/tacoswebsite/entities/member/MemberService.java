@@ -1,8 +1,6 @@
 package com.lutheroaks.tacoswebsite.entities.member;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -97,14 +95,5 @@ public class MemberService {
         int memberId = Integer.parseInt(request.getParameter("memberId"));
 		repository.deleteMemberById(memberId);
     }
-
-	public List<String> findMemberNames() {
-		List<Integer> memberIds = repository.findMemberIds();
-		List<String> memberNames = new ArrayList<String>();
-		for (int i = 0; i < memberIds.size(); i++) {
-			memberNames.add(repository.findMemberName(memberIds.get(i)));
-		}
-		return memberNames;
-	}
 
 }
