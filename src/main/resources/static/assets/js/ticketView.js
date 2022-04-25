@@ -171,8 +171,8 @@ function loadScript(src){
         var l = ipt.length;
         while (l--) {
             ipt[l].readOnly = true;
-        };
-        previous = []
+        }
+        previous = [];
         //send your info here 
     }
 
