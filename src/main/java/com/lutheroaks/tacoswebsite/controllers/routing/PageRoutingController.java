@@ -35,6 +35,11 @@ public final class PageRoutingController {
 		return "member-table";
 	}
 
+	@GetMapping("/resident-table")
+	public String viewResident() {
+		return "resident-table";
+	}
+
 	@GetMapping("/profile")
 	public String viewProfile() {
 		return "profile";

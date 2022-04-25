@@ -1,18 +1,18 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.resident.Resident;
 import com.lutheroaks.tacoswebsite.entities.resident.ResidentRepo;
@@ -40,13 +40,18 @@ public final class ResidentControllerTest {
     }
 
     @Test
-    public void addResidentTest() {
+    public void addResidentTest() throws IOException {
         // don't actually call the method to create a member
-        doNothing().when(service).createResident(anyString(), anyString(), anyInt());
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        doNothing().when(service).createResident(request, response);
+        when(request.getParameter("roomNumber")).thenReturn("100");
+        when(request.getParameter("fName")).thenReturn("jeff");
+        when(request.getParameter("lName")).thenReturn("bezos");
         // call the method to be tested
-        controller.addResident("firstName", "lastName", 1);
+        controller.addResident(request,response);
         // confirm that the expected method was called
-        verify(service, times(1)).createResident(anyString(), anyString(), anyInt());
+        verify(service, times(1)).createResident(request,response);
     }
 
     @Test

@@ -56,9 +56,9 @@ public class TicketService {
 	 * @return
 	 */
     public Resident findResident(final String fname, final String lname, final int roomNum) {
-        List<Resident> matchingResidents = residentRepo.findResidentByName(fname, lname);
-		Resident ticketResident;
-		if(matchingResidents.isEmpty()){
+        Resident ticketResident = residentRepo.findResidentByName(fname, lname);
+
+		if(ticketResident==null){
             ticketResident = new Resident();
 			// no resident was found, so create new resident
 			ticketResident.setFirstName(fname);
@@ -67,9 +67,6 @@ public class TicketService {
 			ticketResident.setAssociatedTickets(new ArrayList<>());
 			// save the newly created resident
 			residentRepo.save(ticketResident);
-		} else{
-			// set the resident to use to be the match from the query
-			ticketResident = matchingResidents.get(0);
 		}
         return ticketResident;	
     }
