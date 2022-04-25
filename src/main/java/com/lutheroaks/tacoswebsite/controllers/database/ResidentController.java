@@ -1,8 +1,10 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.resident.Resident;
 import com.lutheroaks.tacoswebsite.entities.resident.ResidentRepo;
@@ -31,11 +33,11 @@ public class ResidentController {
 	 * @param lastName
 	 * @param roomNum
 	 * @return
+     * @throws IOException
 	 */
 	@PostMapping("/resident")
-	public void addResident(final String firstName, final String lastName,
-		 	final Integer roomNum) {
-		service.createResident(firstName, lastName, roomNum);
+	public void addResident(final HttpServletRequest request,final HttpServletResponse response) throws IOException {
+		service.createResident(request,response);
 	}
 
 	/**

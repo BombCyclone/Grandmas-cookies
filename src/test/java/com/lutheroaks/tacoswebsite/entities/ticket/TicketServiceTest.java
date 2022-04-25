@@ -13,8 +13,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -71,18 +69,16 @@ public final class TicketServiceTest {
 
     @Test
     void findResidentMatchFound(){
-        List<Resident> mockList = new ArrayList<>();
-        Resident toAdd = new Resident();
-        toAdd.setFirstName("Phil");
-        mockList.add(toAdd);
-        when(residentRepo.findResidentByName(anyString(), anyString())).thenReturn(mockList);
+        Resident phil = new Resident();
+        phil.setFirstName("Phil");
+        when(residentRepo.findResidentByName(anyString(), anyString())).thenReturn(phil);
         Resident retVal = service.findResident("fname", "lname", 10);
         assertEquals("Phil", retVal.getFirstName());
     }
 
     @Test
     void findResidentNoMatchFound(){
-        when(residentRepo.findResidentByName(anyString(), anyString())).thenReturn(new ArrayList<>());
+        when(residentRepo.findResidentByName(anyString(), anyString())).thenReturn(null);
         Resident retVal = service.findResident("John", "Smith", 100);
         assertEquals("John", retVal.getFirstName());
         assertEquals("Smith", retVal.getLastName());

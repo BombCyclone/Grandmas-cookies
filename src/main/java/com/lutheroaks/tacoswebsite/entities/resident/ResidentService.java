@@ -5,7 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class ResidentService {
@@ -19,16 +22,21 @@ public class ResidentService {
      * Creates and saves a new resident if they do not already exist in the table
      * @param firstName
      * @param lastName
-     * @param roomNum */
-    public void createResident(final String firstName, final String lastName, final Integer roomNum) {
+     * @param roomNum 
+     * @throws IOException*/
+    public void createResident(final HttpServletRequest request,final HttpServletResponse response) throws IOException {
+        String firstName = request.getParameter("fName");
+        String lastName = request.getParameter("lName");
+        int roomNum = Integer.parseInt(request.getParameter("roomNumber"));
         //check for duplicate resident with matching first and last name
-		if (repository.findResidentByName(firstName.toUpperCase(), lastName.toUpperCase()).isEmpty()) {
+		if (repository.findResidentByName(firstName.toUpperCase(), lastName.toUpperCase())==null) {
 			Resident toAdd = new Resident();
 			toAdd.setFirstName(firstName);
 			toAdd.setLastName(lastName);
 			toAdd.setRoomNum(roomNum);
 			repository.save(toAdd);
 		}
+        response.sendRedirect("resident-table");
     }
 
 	/**
