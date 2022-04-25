@@ -44,7 +44,6 @@ public class Comment {
     @NonNull private Ticket ticket;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name="member", nullable = false)
     @NonNull private Member member;
 

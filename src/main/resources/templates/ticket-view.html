@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>ISU Tacos - Submit a Ticket</title>
+  <title>ISU Tacos - Active Tickets</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -29,8 +29,10 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
-  <!-- Delete button css -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- JQuery and Chosen -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+  <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
 
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.2.2
@@ -64,7 +66,7 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/ticket-form}">
+        <a class="nav-link collapsed" th:href="@{/ticket-form}">
           <em class="bi bi-journal-text"></em><span>Submit Request Form</span><em class="bi ms-auto"></em>
         </a>
       </li><!-- End Forms Nav -->
@@ -119,65 +121,53 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Submit Ticket</h1>
+      <h1>View Ticket</h1><br>
     </div><!-- End Page Title -->
-    <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
 
-          <div class="card">
-            <div class="card-body">
-              <br/>
-              
-
-              <!-- Horizontal Form -->
-              <form id="ticket-form" name="ticket-form" action="/ticket" method="POST" enctype="multipart/form-data" onSubmit="alert('Your Information Has Been Submitted! Returning to Home Page.')">
+    <h6>Ticket Details</h6>
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <button>Save</button>
+                <button>Cancel</button>
+                <button style="color:black">Click Here To Edit Ticket</button>
+                <label>Ticket Number: </label>
+                <p id="ticketNumber" readonly></p><br>
+                <label>Date</label>
+                <p id="date"></p><br>
+                <label>Time</label>
+                <p id="time" readonly></p><br>
+                <label>Resident Name</label>
+                <input id="resident" readonly></input><br>
+                <label>Assigned Members</label>
                 <div class="row mb-3">
-                  <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
-                  <div class="col-sm-6 col-md-4">
-                    <input type="text" class="form-control" id="fname" name="fname" maxlength = "50" required>
-                  </div>
+                  <label for="memberSelect" class="col-sm-2 col-form-label">Assigned Members (Maximum is 3):</label>
+                  <div class="col-sm-5">
+                    <select id="memberSelect" data-placeholder="No Members Selected" multiple class="chosen-select" name="memberSelect">
+                      <option value=""></option>
+                    </select>
                 </div>
+                <br>
+                <label>Tags</label>
                 <div class="row mb-3">
-                  <label for="lastName" class="col-sm-2 col-form-label">Last Name</label>
-                  <div class="col-sm-6 col-md-4">
-                    <input type="text" class="form-control" id="lname" name="lname" maxlength = "50" required>
-                  </div>
+                  <label for="tagSelect" class="col-sm-2 col-form-label">Post Tags (Maximum is 3):</label>
+                  <div class="col-sm-5">
+                    <select id="tagSelect" data-placeholder="No Tags Selected" multiple class="chosen-select" name="tagSelect">
+                      <option value=""></option>
+                    </select>
                 </div>
-                <div class="row mb-3">
-                  <label for="Your Email (Optional)" class="col-sm-2 col-form-label">Your Email (Optional)</label>
-                  <div class="col-sm-6 col-md-4">
-                    <input type="email" class="form-control" name="email" id="email" maxlength = "50">
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="Room Number" class="col-sm-2 col-form-label">Room Number</label>
-                  <div class="col-sm-6 col-md-4">
-                    <input type="number" class="form-control" name="roomNumber" id="roomNumber" minlength = "1" maxlength = "5" required>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="describeTheIssue" class="col-sm-2 col-form-label">Describe The Issue</label>
-                  <div class="col-sm-10">
-                    <textarea class="form-control" id="message" name="message" maxlength = "500" required></textarea>
-                  </div>
-                
-                </div>
-                <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                  <button type="reset" class="btn btn-secondary">Reset</button>
-                </div>
-              </form><!-- End Horizontal Form -->
-
-            </div>
-          </div>
-
-         
-          </div>
-
+              </div>
+                <label>Issue Description</label>
+                <input id="issueDesc" readonly></input><br>
+            </form>
         </div>
-      </div>
-    </section>
+
+    </div>
+
+    <div id="comments">
+      <h6>Comments</h6>
+      <button onClick="addNewComment()">+</button>
+    </div>
 
   </main><!-- End #main -->
 
@@ -197,18 +187,9 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><em class="bi bi-arrow-up-short"></em> </a>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.min.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/ticketView.js"></script>
 
 </body>
 

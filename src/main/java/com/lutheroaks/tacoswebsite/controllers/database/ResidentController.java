@@ -61,7 +61,7 @@ public class ResidentController {
 	 * @param request
 	 */
 	@PutMapping("/resident")
-	public void updateAResident(final HttpServletRequest request){
+	public void updateResident(final HttpServletRequest request){
 		service.updateResident(request);
 	}
 
