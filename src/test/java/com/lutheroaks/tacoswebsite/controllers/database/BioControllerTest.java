@@ -72,4 +72,16 @@ public final class BioControllerTest {
         verify(service, times(1)).removeBio(request, response);
     }
 
+    @Test
+    void updateBioCalled() {
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        doNothing().when(service).updateBio(request, response);
+        // call the method to be tested
+        controller.updateBio(request, response);
+        // confirm that the expected method was called
+        verify(service, times(1)).updateBio(request, response);
+    }
+
 }

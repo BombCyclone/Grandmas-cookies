@@ -45,11 +45,11 @@ public final class CommentControllerTest {
         // mock the servlet request and its parameters
         HttpServletRequest request = mock(HttpServletRequest.class);
         // don't actually create a comment
-        doNothing().when(service).createComment(any());
+        doNothing().when(service).createComment(any(), any(), any());
         // call the method to be tested
-        controller.addComment(request);
+        controller.addComment(request, "content", "1");
         // confirm that the expected method was called
-        verify(service, times(1)).createComment(request);
+        verify(service, times(1)).createComment(request, "content", "1");
     }
 
     @Test

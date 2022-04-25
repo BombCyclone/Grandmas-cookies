@@ -95,4 +95,5 @@ public class MemberService {
         int memberId = Integer.parseInt(request.getParameter("memberId"));
 		repository.deleteMemberById(memberId);
     }
+
 }

@@ -3,7 +3,9 @@ package com.lutheroaks.tacoswebsite.controllers.database;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -56,6 +58,32 @@ public final class TicketControllerTest {
     }
 
     @Test
+    public void updateTicketTest() throws MessagingException, IOException{
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        // don't actually update the fake ticket
+        doNothing().when(service).updateTicket(any(), any());
+        // call the method to be tested
+        controller.updateTicket(request, response);
+        // confirm that the expected method was called
+        verify(service, times(1)).updateTicket(any(), any());
+    }
+
+    @Test
+    public void assignTicketTest() throws MessagingException, IOException{
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        // don't actually assign the fake ticket
+        doNothing().when(service).assignTicket(any(), any());
+        // call the method to be tested
+        controller.assignTicket(request, response);
+        // confirm that the expected method was called
+        verify(service, times(1)).assignTicket(any(), any());
+    }
+
+    @Test
     public void getTicketsTest(){
         List<Ticket> mockTicketsList = new ArrayList<>();
         Ticket toAdd = new Ticket();
@@ -64,6 +92,16 @@ public final class TicketControllerTest {
         when(repository.findAll()).thenReturn(mockTicketsList);
         List<Ticket> retVal = controller.getTickets();
         assertEquals("TV cracked help", retVal.get(0).getIssueDesc());
+    }
+
+    @Test
+    public void getSpecifiedTicketTest(){
+        // don't actually call the nested service method
+        doReturn(null).when(service).getTicketByNumber(anyString());
+        // call the method to be tested
+        controller.getTicketByNumber("1");
+        // confirm that the expected method was called
+        verify(service, times(1)).getTicketByNumber(anyString());
     }
 
     @Test

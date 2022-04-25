@@ -21,6 +21,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class TicketService {
@@ -224,4 +225,14 @@ public class TicketService {
 		int ticketNum = Integer.parseInt(request.getParameter("ticketNum"));
 		ticketRepo.deleteTicketByTicketNum(ticketNum);
 	}
+
+	/**
+	 * Gets ticket by ticket number
+	 * @param request
+	 */
+	public Ticket getTicketByNumber(@RequestParam final String ticketNumber) {
+		int ticketNum = Integer.parseInt(ticketNumber);
+		return ticketRepo.findTicketById(ticketNum);
+	}
+
 }

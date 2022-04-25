@@ -63,7 +63,7 @@ public class BioController {
     * @throws IOException
     */
     @PutMapping("/bio")
-    public void updateABio(final HttpServletRequest request, final HttpServletResponse response){
+    public void updateBio(final HttpServletRequest request, final HttpServletResponse response){
         service.updateBio(request, response);
     }
     
