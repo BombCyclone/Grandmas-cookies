@@ -1,7 +1,6 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const ticketNum = urlParams.get('number');
-var residentName;
 
 document.getElementById("ticketNumber").innerHTML = ticketNum;
 
@@ -173,7 +172,7 @@ function loadScript(src){
         while (l--) {
             ipt[l].readOnly = true;
         };
-        previous = [];
+        previous = []
         //send your info here 
     }
 
