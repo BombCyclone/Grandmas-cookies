@@ -57,6 +57,7 @@ public class Member {
     private List<Ticket> associatedTickets;
 
     @OneToOne(mappedBy = "member", optional = true, cascade = CascadeType.ALL)
+    @JsonIgnore
     private Bio biography;
 
     @OneToMany(mappedBy = "member")
