@@ -25,9 +25,21 @@ public final class PageRoutingControllerTest {
 	}
 
 	@Test
+	public void ticketViewPageIsReturned() {
+		String retVal = controller.viewTicket();
+		assertEquals("ticket-view", retVal);
+	}
+
+	@Test
 	public void archivedTicketsPageIsReturned() {
 		String retVal = controller.viewArchivedTickets();
 		assertEquals("member-table", retVal);
+	}
+
+	@Test
+	public void residentTablePageIsReturned() {
+		String retVal = controller.viewResident();
+		assertEquals("resident-table", retVal);
 	}
 
 	@Test
