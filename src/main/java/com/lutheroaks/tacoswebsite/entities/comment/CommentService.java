@@ -57,12 +57,21 @@ public class CommentService {
 		repository.deleteCommentById(commentId);
     }
 
-    public void updateComment(final HttpServletRequest request,final HttpServletResponse response) throws MessagingException, IOException { 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws MessagingException
+     * @throws IOException
+     */
+    public void updateComment(final HttpServletRequest request,
+                final HttpServletResponse response) throws MessagingException, IOException { 
  
         int commentID = Integer.parseInt(request.getParameter("commentID"));
         Comment updatedComment = repository.findCommentById(commentID);
- 
-        updatedComment.setContent("comment");
+        
+        String content = request.getParameter("content");
+        updatedComment.setContent(content);
     
         repository.save(updatedComment);
         response.sendRedirect("index");

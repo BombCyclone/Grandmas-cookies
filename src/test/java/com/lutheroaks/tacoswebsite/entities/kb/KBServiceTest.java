@@ -62,13 +62,19 @@ public final class KBServiceTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
 
         KBPost fakekbpost = new KBPost();
+
         
-        /*
-        Simulate function calls to return nothing. 
+        doNothing().when(response).sendRedirect("index");
 
-
-
-        */
+        when(repository.findPostById(anyInt())).thenReturn(fakekbpost);
+        
+        when(request.getParameter("kbpostID")).thenReturn("1");
+        when(request.getParameter("content")).thenReturn("changing up words");
+        when(request.getParameter("title")).thenReturn("faketitle");
+      
+        doReturn(null).when(repository).save(any(KBPost.class));
+      
+        service.updateKBPost(request, response);
         verify(response, times(1)).sendRedirect("index");
     }
 

@@ -59,8 +59,16 @@ public class KbpostController {
         service.removePost(request);
     }
 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws MessagingException
+     * @throws IOException
+     */
     @PutMapping("/kbpost")
-    public void updateKBPost(final HttpServletRequest request, final HttpServletResponse response) throws MessagingException, IOException  {
+    public void updateKBPost(final HttpServletRequest request, 
+    final HttpServletResponse response) throws MessagingException, IOException  {
         service.updateKBPost(request ,response);
 
     }

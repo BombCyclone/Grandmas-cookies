@@ -56,10 +56,11 @@ public class KBService {
      * @param request
      * @param response
      */
-   public void updateKBPost(final HttpServletRequest request, final HttpServletResponse response) throws MessagingException, IOException  {
+   public void updateKBPost(final HttpServletRequest request,
+   final HttpServletResponse response) throws MessagingException, IOException  {
 
        int kbpostID = Integer.parseInt(request.getParameter("kbpostID"));
-       KBPost originalKBPost = repository.findKBPostById(kbpostID);
+       KBPost originalKBPost = repository.findPostById(kbpostID);
        KBPost updatedKBPost = originalKBPost;
        String content = request.getParameter("content");
        String title = request.getParameter("title");

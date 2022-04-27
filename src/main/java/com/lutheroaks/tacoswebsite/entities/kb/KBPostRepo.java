@@ -15,12 +15,4 @@ public interface KBPostRepo extends JpaRepository<KBPost,Integer> {
     @Modifying
     @Query(value = "DELETE FROM kbpost WHERE post_id = ?1", nativeQuery = true)
     void deleteKBPostById(int postId);
-
-   /* @Modifying
-    @Query(value = "SELECT FROM kbpost WHERE post_id = ?1", nativeQuery = true)
-    KBPost findKBPostById(int postId);
-    */
-
-    @Query("SELECT x FROM KBPost x WHERE x.postid = :id")
-    KBPost findKBPostById(@Param("id")int id);
 }

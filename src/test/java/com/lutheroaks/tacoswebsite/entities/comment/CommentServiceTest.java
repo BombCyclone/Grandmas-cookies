@@ -63,22 +63,7 @@ public final class CommentServiceTest {
         verify(repository, times(1)).save(any(Comment.class));
     }
 
-    @Test
-    void  updateCommentTestSuccess()throws MessagingException, IOException{
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-
-        Comment fakeComment = new Comment();
-        
-        /*
-        Simulate function calls to return nothing. 
-
-
-
-        */
-        verify(response, times(1)).sendRedirect("index");
-    }
-
+   
     @Test
     void removeCommentSuccess(){
         // mock the servlet request and its parameters
@@ -90,5 +75,25 @@ public final class CommentServiceTest {
         service.removeComment(request);
         // confirm that this was a successful case and deleteCommentById was called
         verify(repository, times(1)).deleteCommentById(anyInt());
+    }
+
+    @Test
+    void updateCommentTest() throws IOException, MessagingException{ 
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        Comment test = new Comment();
+               
+        doNothing().when(response).sendRedirect("index");
+
+        when(repository.findCommentById(anyInt())).thenReturn(test);
+        
+        when(request.getParameter("commentID")).thenReturn("1");
+        when(request.getParameter("content")).thenReturn("changing up words");
+      
+        doReturn(null).when(repository).save(any(Comment.class));
+      
+        service.updateComment(request, response);
+        verify(repository,times(1)).save(any());
     }
 }

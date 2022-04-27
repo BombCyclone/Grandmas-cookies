@@ -58,8 +58,16 @@ public class CommentController {
 		service.removeComment(request);
 	}
     
+	/**
+	 * //Updates comment from the table
+	 * @param request
+	 * @param response
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
 	@PutMapping("/comment")
-    public void updateComment(final HttpServletRequest request, final HttpServletResponse response)throws MessagingException, IOException  {
-        service.createComment(request);
+    public void updateComment(final HttpServletRequest request, 
+	final HttpServletResponse response)throws MessagingException, IOException  {
+        service.updateComment(request, response);
 	}
 } 
