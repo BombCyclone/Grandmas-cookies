@@ -10,6 +10,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +63,28 @@ public final class KBServiceTest {
         service.createPost(request, response);
         // confirm that this was a successful case and save was called
         verify(repository, times(1)).save(any(KBPost.class));
+    }
+
+    @Test
+    void updatedKBPostTest()throws MessagingException, IOException{
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+
+        KBPost fakekbpost = new KBPost();
+
+        
+        doNothing().when(response).sendRedirect("index");
+
+        when(repository.findPostById(anyInt())).thenReturn(fakekbpost);
+        
+        when(request.getParameter("kbpostID")).thenReturn("1");
+        when(request.getParameter("content")).thenReturn("changing up words");
+        when(request.getParameter("title")).thenReturn("faketitle");
+      
+        doReturn(null).when(repository).save(any(KBPost.class));
+      
+        service.updateKBPost(request, response);
+        verify(response, times(1)).sendRedirect("index");
     }
 
     @Test

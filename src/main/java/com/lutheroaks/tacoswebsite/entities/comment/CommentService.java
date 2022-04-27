@@ -1,9 +1,12 @@
 package com.lutheroaks.tacoswebsite.entities.comment;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.entities.ticket.Ticket;
@@ -53,5 +56,25 @@ public class CommentService {
     public void removeComment(final HttpServletRequest request) {
 		int commentId = Integer.parseInt(request.getParameter("commentId"));
 		repository.deleteCommentById(commentId);
+    }
+
+    /**
+     * 
+     * @param request
+     * @param response
+     * @throws MessagingException
+     * @throws IOException
+     */
+    public void updateComment(final HttpServletRequest request,
+                final HttpServletResponse response) throws MessagingException, IOException { 
+ 
+        int commentID = Integer.parseInt(request.getParameter("commentID"));
+        Comment updatedComment = repository.findCommentById(commentID);
+        
+        String content = request.getParameter("content");
+        updatedComment.setContent(content);
+    
+        repository.save(updatedComment);
+        response.sendRedirect("index");
     }
 }
