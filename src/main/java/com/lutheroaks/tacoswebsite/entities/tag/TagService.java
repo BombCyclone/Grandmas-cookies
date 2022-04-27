@@ -26,16 +26,18 @@ public class TagService {
      * @param response
      * @throws IOException
      */
-    public Tag createTag(final String tagString) {
+    public Tag createTag(final String tagString, final HttpServletResponse response)throws IOException {
         Tag addedTag = new Tag();
         // if the required information is missing
         if(tagString == null || "".equals(tagString)){
             logger.info("Missing String for new tag!");
             addedTag = null;
+            response.sendRedirect("error");
         // if the specified tag already exists
         } else if(repository.findTag(tagString) != null){
             logger.info("The specified tag already exists!");
             addedTag = null;
+            response.sendRedirect("error");
         // add the Tag if the information checks out
         } else {
             addedTag.setTagString(tagString);
@@ -43,6 +45,7 @@ public class TagService {
             addedTag.setTaggedTickets(new ArrayList<>());
             repository.save(addedTag);
         }
+        response.sendRedirect("tags-table");
         return addedTag;
     }
     
@@ -64,7 +67,7 @@ public class TagService {
      * @param tags
      * @return
      */
-    public List<Tag> retrieveTags(final String[] tags){
+    public List<Tag> retrieveTags(final String[] tags) throws IOException{
         // get the tags to apply to the ticket
         List<Tag> appliedTags = new ArrayList<>();
         if(tags != null && tags.length < 4){
@@ -72,11 +75,10 @@ public class TagService {
                 // find the tag by the given string
                 Tag toAdd = repository.findTag(tagString);
                 // if the tag selected is not found, create a new tag
-                if(toAdd == null){
-                    toAdd = createTag(tagString);
+                if(toAdd != null){
+                    // add the Tag to the list
+                    appliedTags.add(toAdd);  
                 }
-                // add the Tag to the list
-                appliedTags.add(toAdd);
             }
         }
         return appliedTags;

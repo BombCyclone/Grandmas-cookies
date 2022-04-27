@@ -39,10 +39,11 @@ public final class TagControllerTest {
 
     @Test
     void addTagCalled() throws IOException{
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
         // call the method in the controller
-        controller.addTag("tag");
+        controller.addTag("tag", mockResponse);
         // assert that the expected method was called
-        verify(tagService, times(1)).createTag(any());
+        verify(tagService, times(1)).createTag(any(),any());
     }
 
     @Test
