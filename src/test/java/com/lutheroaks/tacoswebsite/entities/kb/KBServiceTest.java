@@ -12,10 +12,13 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 
 import javax.mail.MessagingException;
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.member.Member;
+import com.lutheroaks.tacoswebsite.entities.tag.TagService;
 import com.lutheroaks.tacoswebsite.utils.AuthenticatedDetails;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -35,23 +38,29 @@ public final class KBServiceTest {
     @Mock
     private AuthenticatedDetails authenticatedDetails;
 
+    @Mock
+    private TagService tagService;
+
     @BeforeEach
     void init(){
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void createKBPostTest(){
+    void createKBPostTest() throws IOException{
         // mock the servlet request and its parameters
         HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getParameter("title")).thenReturn("How to log in");
         when(request.getParameter("content")).thenReturn("Type in your username and password");
         // mock the call to get the currently logged in user
         when(authenticatedDetails.getLoggedInMember(any())).thenReturn(new Member());
+        // don't search for the tags to apply - will be tested separately
+        doReturn(new ArrayList<>()).when(tagService).retrieveTags(any());
         // don't save this fake post
         doReturn(null).when(repository).save(any(KBPost.class));
         // call the method to be tested
-        service.createPost(request);
+        service.createPost(request, response);
         // confirm that this was a successful case and save was called
         verify(repository, times(1)).save(any(KBPost.class));
     }

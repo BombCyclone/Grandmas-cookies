@@ -29,6 +29,11 @@
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
 
+  <!-- JQuery and Chosen -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+  <link href="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.min.css" rel="stylesheet"/>
+
   <!-- =======================================================
   * Template Name: NiceAdmin - v2.2.2
   * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
@@ -55,10 +60,10 @@
 
       <li class="nav-item">
         <a class="nav-link collapsed" th:href="@{/index}">
-          <em class="bi bi-grid"></em>
-          <span>Dashboard</span>
+          <em class="bi bi-layout-text-window-reverse"></em>
+          <span>Active Tickets</span>
         </a>
-      </li><!-- End Dashboard Nav -->
+      </li><!-- End Active Tickets Page Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" th:href="@{/ticket-form}">
@@ -67,18 +72,11 @@
       </li><!-- End Forms Nav -->
 
       <li class="nav-item">
-        <a class="nav-link" th:href="@{/active-tickets}">
-          <em class="bi bi-layout-text-window-reverse"></em>
-          <span>Active Tickets</span>
-        </a>
-      </li><!-- End Active Tickets Page Nav -->
-
-      <li class="nav-item">
         <a class="nav-link collapsed" th:href="@{/member-table}">
           <em class="bi bi-layout-text-window-reverse"></em>
           <span>Manage Members</span>
         </a>
-      </li><!-- End All Tickets Page Nav -->
+      </li><!-- End Manage Members Nav -->
 
       <li class="nav-item">
         <a class="nav-link collapsed" th:href="@{/profile}">
@@ -116,73 +114,53 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Active Tickets</h1>
+      <h1>View Ticket</h1><br>
     </div><!-- End Page Title -->
 
-    <section class="section">
-      <div class="row">
-        <div class="col-lg-12">
-
-          <div class="card">
-            <div class="card-body">
-
-              <!-- Table with stripped rows -->
-              <table class="table datatable">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Position</th>
-                    <th scope="col">Age</th>
-                    <th scope="col">Start Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <th scope="row">1</th>
-                    <td>Brandon Jacob</td>
-                    <td>Designer</td>
-                    <td>28</td>
-                    <td>2016-05-25</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">2</th>
-                    <td>Bridie Kessler</td>
-                    <td>Developer</td>
-                    <td>35</td>
-                    <td>2014-12-05</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">3</th>
-                    <td>Ashleigh Langosh</td>
-                    <td>Finance</td>
-                    <td>45</td>
-                    <td>2011-08-12</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">4</th>
-                    <td>Angus Grady</td>
-                    <td>HR</td>
-                    <td>34</td>
-                    <td>2012-06-11</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">5</th>
-                    <td>Raheem Lehner</td>
-                    <td>Dynamic Division Officer</td>
-                    <td>47</td>
-                    <td>2011-04-19</td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- End Table with stripped rows -->
-
-            </div>
-          </div>
-
+    <h6>Ticket Details</h6>
+    <div class="card">
+        <div class="card-body">
+            <form>
+                <button>Save</button>
+                <button>Cancel</button>
+                <button style="color:black">Click Here To Edit Ticket</button>
+                <label>Ticket Number: </label>
+                <p id="ticketNumber" readonly></p><br>
+                <label>Date</label>
+                <p id="date"></p><br>
+                <label>Time</label>
+                <p id="time" readonly></p><br>
+                <label>Resident Name</label>
+                <input id="resident" readonly></input><br>
+                <label>Assigned Members</label>
+                <div class="row mb-3">
+                  <label for="memberSelect" class="col-sm-2 col-form-label">Assigned Members (Maximum is 3):</label>
+                  <div class="col-sm-5">
+                    <select id="memberSelect" data-placeholder="No Members Selected" multiple class="chosen-select" name="memberSelect">
+                      <option value=""></option>
+                    </select>
+                </div>
+                <br>
+                <label>Tags</label>
+                <div class="row mb-3">
+                  <label for="tagSelect" class="col-sm-2 col-form-label">Post Tags (Maximum is 3):</label>
+                  <div class="col-sm-5">
+                    <select id="tagSelect" data-placeholder="No Tags Selected" multiple class="chosen-select" name="tagSelect">
+                      <option value=""></option>
+                    </select>
+                </div>
+              </div>
+                <label>Issue Description</label>
+                <input id="issueDesc" readonly></input><br>
+            </form>
         </div>
-      </div>
-    </section>
+
+    </div>
+
+    <div id="comments">
+      <h6>Comments</h6>
+      <button onClick="addNewComment()">+</button>
+    </div>
 
   </main><!-- End #main -->
 
@@ -202,18 +180,9 @@
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><em class="bi bi-arrow-up-short"></em> </a>
 
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/chart.js/chart.min.js"></script>
-  <script src="assets/vendor/echarts/echarts.min.js"></script>
-  <script src="assets/vendor/quill/quill.min.js"></script>
-  <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-  <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-
 
   <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/ticketView.js"></script>
 
 </body>
 

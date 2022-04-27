@@ -4,18 +4,17 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.entities.tag.Tag;
 
@@ -42,7 +41,6 @@ public class KBPost {
     @NonNull private String content;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name="member", nullable = false)
     @NonNull private Member member;
 
@@ -50,7 +48,10 @@ public class KBPost {
     @NonNull private Timestamp timeStamp;
     
     @ManyToMany
-    @ElementCollection(targetClass = Tag.class)
+    @JoinTable(
+        name = "kbpost_tags", 
+        joinColumns = @JoinColumn(name = "post_id", referencedColumnName = "postId"), 
+        inverseJoinColumns = @JoinColumn(name = "tag_string", referencedColumnName = "tagString"))
     @Size(min=0, max=3)
-    private List<Tag> associatedTags;
+    private List<Tag> postTags;
 }

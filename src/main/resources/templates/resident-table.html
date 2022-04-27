@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>ISU Tacos - Manage Members</title>
+  <title>ISU Tacos - Residents</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -52,7 +52,7 @@
     <aside id="sidebar" class="sidebar">
   
       <ul class="sidebar-nav" id="sidebar-nav">
-
+  
         <li class="nav-item">
           <a class="nav-link collapsed" th:href="@{/index}">
             <em class="bi bi-layout-text-window-reverse"></em>
@@ -65,16 +65,16 @@
             <em class="bi bi-journal-text"></em><span>Submit Request Form</span><em class="bi ms-auto"></em>
           </a>
         </li><!-- End Forms Nav -->
-  
+
         <li class="nav-item">
-          <a class="nav-link" th:href="@{/member-table}">
+          <a class="nav-link collapsed" th:href="@{/member-table}">
             <em class="bi bi-layout-text-window-reverse"></em>
             <span>Manage Members</span>
           </a>
         </li><!-- End All Tickets Page Nav -->
-
+  
         <li class="nav-item">
-          <a class="nav-link collapsed" th:href="@{/resident-table}">
+          <a class="nav-link" th:href="@{/resident-table}">
             <em class="bi bi-layout-text-window-reverse"></em>
             <span>Manage Residents</span>
           </a>
@@ -115,7 +115,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Manage Members</h1>  
+      <h1>Manage Residents</h1>  
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -131,10 +131,10 @@
                   <tr>
                     <th scope="col">First Name</th>
                     <th scope="col">Last Name</th>
-                    <th scope="col">Email</th>
+                    <th scope="col">roomNumber</th>
                   </tr>
                 </thead>
-                <tbody id="memberTable">
+                <tbody id="residentTable">
                   
                 </tbody>
                 
@@ -154,27 +154,27 @@
               <br/>
 
               <div class="pagetitle">
-                <h1>Add New Member</h1>  
-              </div><!-- end add new member -->
+                <h1>Add New Resident</h1>  
+              </div><!-- end add new resident -->
 
-              <!-- Add New Member Form -->
-              <form id="add-member-form" name="add-member-form" action="/member" method="POST" enctype="multipart/form-data" onSubmit="alert('Adding new member! \n(Will redirect to error page if provided email already exists)')">
+              <!-- Add New Resident Form -->
+              <form id="add-resident-form" name="add-resident-form" action="/resident" method="POST" enctype="multipart/form-data" onSubmit="alert('Adding new resident! \n(Will redirect to error page if provided resident already exists)')">
                 <div class="row mb-3 justify-content-center">
                   <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
                   <div class="col-sm-6 col-md-4">
-                    <input type="text" class="form-control" id="fname" name="fname" minlength = "3" maxlength = "30" required></input>
+                    <input type="text" class="form-control" id="fname" name="fName" minlength = "3" maxlength = "30" required></input>
                   </div>
                 </div>
                 <div class="row mb-3 justify-content-center">
                   <label for="lastName" class="col-sm-2 col-form-label" >Last Name</label>
                   <div class="col-sm-6 col-md-4">
-                    <input type="text" class="form-control" id="lname" name="lname" minlength = "3" maxlength = "30" required></input>
+                    <input type="text" class="form-control" id="lname" name="lName" minlength = "3" maxlength = "30" required></input>
                   </div>
                 </div>
                 <div class="row mb-3 justify-content-center">
-                  <label for="email" class="col-sm-2 col-form-label">Email</label>
+                  <label for="Room Number" class="col-sm-2 col-form-label">Room Number</label>
                   <div class="col-sm-6 col-md-4">
-                    <input class="form-control" id="email" name="email" type="email" minlength="4" maxlength = "60" required></input>
+                    <input class="form-control" id="roomNumber" name="roomNumber" type="roomNumber" minlength="1" maxlength = "4" required></input>
                   </div>
                 
                 </div>
@@ -209,7 +209,7 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><em class="bi bi-arrow-up-short"></em> </a>
 
   <!-- Table Render JS File -->
-  <script src="assets/js/memberTable.js"></script>
+  <script src="assets/js/residentTable.js"></script>
 
 </body>
 

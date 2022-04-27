@@ -35,8 +35,9 @@ public class KbpostController {
      * @throws IOException
      */
     @PostMapping("/kbpost")
-	public void addKBPost(final HttpServletRequest request) {
-        service.createPost(request);
+	public void addKBPost(final HttpServletRequest request, 
+            final HttpServletResponse response) throws IOException {
+        service.createPost(request, response);
 	}
     /**
      * Returns a list of all KB posts in the table

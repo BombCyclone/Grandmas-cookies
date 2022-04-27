@@ -9,10 +9,10 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,27 +34,35 @@ public final class ResidentServiceTest {
     }
 
     @Test
-    void createResidentSuccessCase(){
+    void createResidentSuccessCase() throws IOException{
         // we don't actually want to save to our database here
         doReturn(null).when(repository).save(any(Resident.class));
         // return an empty list when checking to see if resident exists
-        List<Resident> mockReturn = new ArrayList<>();
-        when(repository.findResidentByName(anyString(), anyString())).thenReturn(mockReturn);
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = mock(HttpServletResponse.class);
+        when(repository.findResidentByName(anyString(), anyString())).thenReturn(new Resident());
         // call the method to test
-        service.createResident("Rupert", "Thompson", 101);
+        when(request.getParameter("roomNumber")).thenReturn("100");
+        when(request.getParameter("fName")).thenReturn("jeff");
+        when(request.getParameter("lName")).thenReturn("bezos");
+        doReturn(null).when(repository).save(any());
+        doReturn(null).when(repository).findResidentByName(anyString(), anyString());
+        service.createResident(request,response);
         // confirm that Rupert would have been saved
         verify(repository, times(1)).save(any());
     }
 
     @Test
-    void createResidentAlreadyExists(){
-        // return an list that is not empty
-        List<Resident> mockReturn = new ArrayList<>();
-        Resident toAdd = new Resident();
-        mockReturn.add(toAdd);
-        when(repository.findResidentByName(anyString(), anyString())).thenReturn(mockReturn);
+    void createResidentAlreadyExists() throws IOException{
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = mock(HttpServletResponse.class);
+        when(repository.findResidentByName(anyString(), anyString())).thenReturn(new Resident());
         // call the method to test
-        service.createResident("Rupert", "Thompson", 101);
+        when(request.getParameter("roomNumber")).thenReturn("100");
+        when(request.getParameter("fName")).thenReturn("jeff");
+        when(request.getParameter("lName")).thenReturn("bezos");
+        doReturn(new Resident()).when(repository).findResidentByName(anyString(), anyString());
+        service.createResident(request,response);
         // confirm that Rupert would not be saved this time
         verify(repository, times(0)).save(any());
     }

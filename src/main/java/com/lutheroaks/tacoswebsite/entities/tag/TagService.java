@@ -2,6 +2,7 @@ package com.lutheroaks.tacoswebsite.entities.tag;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,5 +57,28 @@ public class TagService {
         String tagString = request.getParameter("tagString");
         repository.deleteTag(tagString);
         response.sendRedirect("index");
+    }
+
+    /**
+     * Parses and returns tag objects based on the input which is an array of tagStrings
+     * @param tags
+     * @return
+     */
+    public List<Tag> retrieveTags(final String[] tags){
+        // get the tags to apply to the ticket
+        List<Tag> appliedTags = new ArrayList<>();
+        if(tags != null && tags.length < 4){
+            for(String tagString : tags){
+                // find the tag by the given string
+                Tag toAdd = repository.findTag(tagString);
+                // if the tag selected is not found, create a new tag
+                if(toAdd == null){
+                    toAdd = createTag(tagString);
+                }
+                // add the Tag to the list
+                appliedTags.add(toAdd);
+            }
+        }
+        return appliedTags;
     }
 }

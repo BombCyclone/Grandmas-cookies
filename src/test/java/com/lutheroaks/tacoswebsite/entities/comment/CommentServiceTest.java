@@ -58,7 +58,7 @@ public final class CommentServiceTest {
         // don't save this fake comment
         doReturn(null).when(repository).save(any(Comment.class));
         // call the method to be tested
-        service.createComment(request);
+        service.createComment(request, "content", "1");
         // confirm that this was a successful case and save was called
         verify(repository, times(1)).save(any(Comment.class));
     }
