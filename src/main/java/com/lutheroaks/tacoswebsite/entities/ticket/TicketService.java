@@ -161,8 +161,8 @@ public class TicketService {
 			// Step 1 - parse parameters
 			int ticketId = Integer.parseInt(request.getParameter("ticketId"));
 			Ticket ticket = ticketRepo.findTicketById(ticketId);
-			Boolean ticketStatus = Boolean.parseBoolean(request.getParameter("ticketstatus"));
-			String issueDesc = request.getParameter("issuedesc");
+			Boolean ticketStatus = Boolean.parseBoolean(request.getParameter("ticketStatus"));
+			String issueDesc = request.getParameter("issueDesc");
 			String[] tags = request.getParameterValues("tags");
 			
 			// get the tags to apply to the ticket

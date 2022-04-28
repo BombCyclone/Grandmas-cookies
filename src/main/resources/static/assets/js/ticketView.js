@@ -63,19 +63,19 @@ function populateMemberDropdown(members, data) {
         }
         // if a match was found, add the member as a currently selected option, otherwise add as an option not currently selected
         if(matchFound){
-            $("#memberSelect").append(`<option selected value=${memberName}>${memberName}</option>`).trigger("chosen:updated"); 
+            $("#memberSelect").append(`<option selected value="${memberName}">${memberName}</option>`).trigger("chosen:updated"); 
         } else {
-            $("#memberSelect").append(`<option value=${memberName}>${memberName}</option>`).trigger("chosen:updated");
+            $("#memberSelect").append(`<option value="${memberName}">${memberName}</option>`).trigger("chosen:updated");
         }
     }
 }
 
 function populateTagDropdown(tags, data) {
     for (const pretag of data.associatedTags) {
-        $("#tagSelect").append(`<option selected value=${pretag.tagString}>${pretag.tagString}</option>`).trigger("chosen:updated"); 
+        $("#tagSelect").append(`<option selected value="${pretag.tagString}">${pretag.tagString}</option>`).trigger("chosen:updated"); 
     }
     for(let tag of tags){
-        $("#tagSelect").append(`<option value=${tag.tagString}>${tag.tagString}</option>`).trigger("chosen:updated");
+        $("#tagSelect").append(`<option value="${tag.tagString}">${tag.tagString}</option>`).trigger("chosen:updated");
     }
 }
 
@@ -147,34 +147,39 @@ function loadScript(src){
 
 function updateTicket() {
     var tags = $('#tagSelect').serializeArray();
+    var formattedTags = [];
+    for (tag of tags) {
+        formattedTags.push(tag.value);
+    }
     var members = $('#memberSelect').serializeArray();
     var issueDesc = document.getElementById("issueDesc").value;
-    var residentName = document.getElementById("resident").value;
-    console.log(tags);
-    console.log(members);
-    console.log(issueDesc);
-    console.log(residentName);
-    console.log(ticketStatus);
-    console.log(ticketNum);
+
+    const formData = new FormData();
+    formData.append('ticketId', ticketNum);
+    formData.append('ticketStatus', ticketStatus);
+    formData.append('issueDesc', issueDesc);
+    formData.append('tags', formattedTags);
+    console.log(formattedTags);
+
+    //saving tags has bugs - error in formatting passing to tag service
+    //makes new tags ex. Scam and Email will be scam,email
+
+    const formData2 = new FormData();
+    formData.append('ticketId', ticketNum);
+    formData.append('memberNames', members.value);
+
+    fetch('/ticket', {
+        method: 'PUT', body: formData,
+        })
+        .then(() => {window.location.reload()})
+        .catch(error=>console.log(error))
 
     // Promise.all([
-    //     fetch('/ticket-detail?ticketNumber=' + ticketNum, {method: 'GET'}),
-    //     fetch('/member', {method: 'GET'}),
-    //     fetch('/tags', {method: 'GET'})
-    // ]).then(function (responses) {
-    //     return Promise.all(responses.map(function (response) {
-    //         return response.json();
-    //     }));
-    // }).then(function (data) {
-    //     populateForm(data[0]);
-    //     populateComments(data[0]);
-    //     populateMemberDropdown(data[1], data[0]);
-    //     populateTagDropdown(data[2], data[0]);
-    // }).catch (function (error) {
+    //     fetch('/ticket', {method: 'PUT', body: formData})
+    //     // fetch('/ticket', {method: 'PATCH'})
+    // ]).catch (function (error) {
     //     console.log(error);
     // });
-    //get assigned members
-    //assign ticket is different than update ticket
 
 }
 //inspo for delete ticket
