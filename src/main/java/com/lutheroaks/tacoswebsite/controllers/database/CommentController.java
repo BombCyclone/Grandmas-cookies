@@ -1,14 +1,18 @@
 package com.lutheroaks.tacoswebsite.controllers.database;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -58,4 +62,16 @@ public class CommentController {
 		service.removeComment(request);
 	}
     
+	/**
+	 * //Updates comment from the table
+	 * @param request
+	 * @param response
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
+	@PutMapping("/comment")
+    public void updateComment(final HttpServletRequest request, 
+	final HttpServletResponse response)throws MessagingException, IOException  {
+        service.updateComment(request, response);
+	}
 } 
