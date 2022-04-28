@@ -63,9 +63,9 @@ function populateMemberDropdown(members, data) {
         }
         // if a match was found, add the member as a currently selected option, otherwise add as an option not currently selected
         if(matchFound){
-            $("#memberSelect").append(`<option selected value="${memberName}">${memberName}</option>`).trigger("chosen:updated"); 
+            $("#memberSelect").append(`<option selected value="${member.memberId}">${memberName}</option>`).trigger("chosen:updated"); 
         } else {
-            $("#memberSelect").append(`<option value="${memberName}">${memberName}</option>`).trigger("chosen:updated");
+            $("#memberSelect").append(`<option value="${member.memberId}">${memberName}</option>`).trigger("chosen:updated");
         }
     }
 }
@@ -147,11 +147,18 @@ function loadScript(src){
 
 function updateTicket() {
     var tags = $('#tagSelect').serializeArray();
+    console.log(tags);
     var formattedTags = [];
     for (tag of tags) {
         formattedTags.push(tag.value);
     }
+    console.log(formattedTags);
     var members = $('#memberSelect').serializeArray();
+    var formattedMembers = [];
+    for (member of members) {
+        formattedMembers.push(member.value);
+    }
+    console.log(formattedMembers);
     var issueDesc = document.getElementById("issueDesc").value;
 
     const formData = new FormData();
@@ -165,21 +172,20 @@ function updateTicket() {
     //makes new tags ex. Scam and Email will be scam,email
 
     const formData2 = new FormData();
-    formData.append('ticketId', ticketNum);
-    formData.append('memberNames', members.value);
+    formData2.append('ticketId', ticketNum);
+    formData2.append('memberId', formattedMembers);
 
+    //throws error but still works
+    fetch('/ticket', {
+        method: 'PATCH', body: formData2,
+    }).catch(error=>console.log(error))
+
+    //throws error but still works
     fetch('/ticket', {
         method: 'PUT', body: formData,
         })
         .then(() => {window.location.reload()})
         .catch(error=>console.log(error))
-
-    // Promise.all([
-    //     fetch('/ticket', {method: 'PUT', body: formData})
-    //     // fetch('/ticket', {method: 'PATCH'})
-    // ]).catch (function (error) {
-    //     console.log(error);
-    // });
 
 }
 //inspo for delete ticket

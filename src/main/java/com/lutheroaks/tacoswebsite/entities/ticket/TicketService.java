@@ -163,8 +163,9 @@ public class TicketService {
 			Ticket ticket = ticketRepo.findTicketById(ticketId);
 			Boolean ticketStatus = Boolean.parseBoolean(request.getParameter("ticketStatus"));
 			String issueDesc = request.getParameter("issueDesc");
-			String[] tags = request.getParameterValues("tags");
-			
+			String[] tempTags = request.getParameterValues("tags");
+			String[] tags = tempTags[0].split(",");
+
 			// get the tags to apply to the ticket
 			List<Tag> appliedTags = tagService.retrieveTags(tags);
 
@@ -193,7 +194,8 @@ public class TicketService {
 		try{
 			int ticketId = Integer.parseInt(request.getParameter("ticketId"));
 			// get the member IDs of the members we want to assign.
-			String[] memberIds = request.getParameterValues("memberId");
+			String[] tempMemberIds = request.getParameterValues("memberId");
+			String[] memberIds = tempMemberIds[0].split(",");
 
 			Ticket ticketToUpdate = ticketRepo.findTicketById(ticketId);
 			List<Member> assignedMembers = new ArrayList<>();
