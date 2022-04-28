@@ -30,21 +30,22 @@ function populateBio(data){
     document.getElementById('email').value = data.member.email;
 }
 
-function saveChanges() {
-    var firstName = (document.getElementById('firstNameEdit').value);
-    var lastName = (document.getElementById('lastNameEdit').value);
-    var email = document.getElementById('email').value;
-    var backgroundInfo = document.getElementById('about').value;
-    var hometown = document.getElementById('hometown').value;
-    var major = document.getElementById('major').value;
-    var profilePicture = document.getElementById('profilePic').src;
-    var queryString = $('#profileEdit').serialize();
-    alert(queryString);
+// function loadPicture(picData){
+//   var base64Pic = btoa(picData);
+//   document.getElementById("profilePic").src = "data:image/png;base64," + base64Pic;
+//   document.getElementById("displayPic").src = "data:image/png;base64," + base64Pic;
+// }
 
-    var fieldValuePairs = $('#profileEdit').serializeArray();
-    $.each(fieldValuePairs, function(index, fieldValuePair) {
-        alert("Item " + index + " is [" + fieldValuePair.name + "," + fieldValuePair.value + "]");
-    });
+
+function saveChanges() {
+    // var firstName = (document.getElementById('firstNameEdit').value);
+    // var lastName = (document.getElementById('lastNameEdit').value);
+    // var email = document.getElementById('email').value;
+    // var backgroundInfo = document.getElementById('about').value;
+    // var hometown = document.getElementById('hometown').value;
+    // var major = document.getElementById('major').value;
+    var queryString = $('#profileEdit').serialize();
+    // alert(queryString);
 }
 
 function readURL(input) {
@@ -53,8 +54,19 @@ function readURL(input) {
   
       reader.onload = function (e) {
         $('#profilePic').attr('src', e.target.result).width(120).height(120);
+        $('#displayPic').attr('src', e.target.result).width(120).height(120);
       };
   
       reader.readAsDataURL(input.files[0]);
     }
+
+    console.log('in read url');
+    // // submit the new image to the bio controller to be saved
+    var photoData = new FormData();
+    photoData.append('imageFile', input.files[0], input.files[0].name);
+
+    fetch('/bioPicture', {
+      method: 'PATCH',
+      body: photoData
+    })
   }

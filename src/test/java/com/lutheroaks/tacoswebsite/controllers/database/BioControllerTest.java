@@ -42,12 +42,12 @@ public final class BioControllerTest {
     void addBioTest() throws IOException{
         // mock the servlet request and its parameters
         HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-        doNothing().when(service).createBio(any(), any());
+
+        doNothing().when(service).createBio(any());
         // call the method to be tested
-        controller.addBio(request, response);
+        controller.addBio(request);
         // confirm that the expected method was called
-        verify(service, times(1)).createBio(request, response);
+        verify(service, times(1)).createBio(request);
     }
 
     @Test

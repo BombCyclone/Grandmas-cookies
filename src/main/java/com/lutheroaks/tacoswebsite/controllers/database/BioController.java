@@ -2,6 +2,7 @@ package com.lutheroaks.tacoswebsite.controllers.database;
 
 import java.io.IOException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,9 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class BioController {
@@ -29,9 +33,8 @@ public class BioController {
      * @throws IOException
      */
     @PostMapping("/bio")
-    public void addBio(final HttpServletRequest request, 
-    final HttpServletResponse response) throws IOException{
-        service.createBio(request, response);
+    public void addBio(final HttpServletRequest request) throws IOException {
+        service.createBio(request);
     }
 
     /**
@@ -65,6 +68,18 @@ public class BioController {
     @PutMapping("/bio")
     public void updateBio(final HttpServletRequest request, final HttpServletResponse response){
         service.updateBio(request, response);
+    }
+
+    /**
+     * Saves an uploaded picture file
+     * @param request
+     * @throws ServletException
+     * @throws IOException
+     */
+    @PatchMapping("/bioPicture")
+    public void uploadPicture(@RequestParam("imageFile") final MultipartFile file, 
+            final HttpServletRequest request) throws IOException, ServletException{
+        service.addProfilePicture(file, request);
     }
     
 }

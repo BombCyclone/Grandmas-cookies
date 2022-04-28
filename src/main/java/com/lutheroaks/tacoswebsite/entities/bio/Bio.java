@@ -1,9 +1,7 @@
 package com.lutheroaks.tacoswebsite.entities.bio;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,7 +41,7 @@ public class Bio {
     private String backgroundInfo;
     
     @Lob
-    @Basic(fetch = FetchType.LAZY)
+    @Column(length = Integer.MAX_VALUE)
     @Nullable
     private byte[] profilePicture;
 

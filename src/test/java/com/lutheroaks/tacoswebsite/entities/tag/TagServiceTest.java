@@ -86,7 +86,6 @@ public final class TagServiceTest {
 
     @Test
     void retrieveTagsTest() throws IOException {
-        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
         doReturn(null).when(repository).findTag("email");
         doReturn(new Tag()).when(repository).findTag("iPhone");
         TagService serviceSpy = spy(tagService);

@@ -44,7 +44,7 @@ public final class BioServiceTest {
     void createBioSuccess() throws IOException{
         // mock the servlet request and its parameters
         HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
+
         when(request.getParameter("major")).thenReturn("education");
         when(request.getParameter("hometown")).thenReturn("Normal");
         when(request.getParameter("background")).thenReturn("something interesting");
@@ -53,7 +53,7 @@ public final class BioServiceTest {
         // don't save this fake bio
         doReturn(null).when(repository).save(any(Bio.class));
         // call the method to be tested
-        service.createBio(request, response);
+        service.createBio(request);
         // confirm that this was a successful case and save was called
         verify(repository, times(1)).save(any(Bio.class));
     }
