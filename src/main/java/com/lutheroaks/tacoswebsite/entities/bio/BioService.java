@@ -121,5 +121,21 @@ public class BioService {
         repository.save(currentBio);
 
     }
+
+    /**
+     * returns a user's profile picture via servlet response
+     * @param id
+     * @param response
+     * @throws IOException
+     */
+    public void retrieveProfilePicture(final String id, 
+                final HttpServletResponse response) throws IOException{
+        
+        int bioId = Integer.parseInt(id);
+        byte[] image = repository.getProfilePicture(bioId);
+        response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+        response.getOutputStream().write(image);
+        response.getOutputStream().close(); 
+    }
     
 }

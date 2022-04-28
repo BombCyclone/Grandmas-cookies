@@ -4,13 +4,14 @@ fetch('/bio', {method: 'GET'})
 .then(res=>{
     // the response data are the members to be displayed, call the buildtable method
     populateBio(res);
+    getProfilePicture(res);
 })
 .catch(error=>console.log(error))
 
 // fills the fields on the page with data from the logged in member's bio
 function populateBio(data){
-    
     var fullName = data.member.firstName + ' ' + data.member.lastName;
+
     document.getElementById('staticName').innerHTML = fullName;
     document.getElementById('titleName').innerHTML = fullName;
 
@@ -30,11 +31,10 @@ function populateBio(data){
     document.getElementById('email').value = data.member.email;
 }
 
-// function loadPicture(picData){
-//   var base64Pic = btoa(picData);
-//   document.getElementById("profilePic").src = "data:image/png;base64," + base64Pic;
-//   document.getElementById("displayPic").src = "data:image/png;base64," + base64Pic;
-// }
+function getProfilePicture(res){
+  $('#profilePic').attr('src', `${window.location.origin}/bioPicture/${res.bioId}`).width(120).height(120);
+  $('#displayPic').attr('src', `${window.location.origin}/bioPicture/${res.bioId}`).width(120).height(120);
+}
 
 
 function saveChanges() {
@@ -60,7 +60,6 @@ function readURL(input) {
       reader.readAsDataURL(input.files[0]);
     }
 
-    console.log('in read url');
     // // submit the new image to the bio controller to be saved
     var photoData = new FormData();
     photoData.append('imageFile', input.files[0], input.files[0].name);
