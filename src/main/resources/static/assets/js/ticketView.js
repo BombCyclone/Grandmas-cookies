@@ -1,6 +1,7 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const ticketNum = urlParams.get('number');
+let ticketStatus;
 
 document.getElementById("ticketNumber").innerHTML = ticketNum;
 
@@ -13,6 +14,7 @@ Promise.all([
         return response.json();
     }));
 }).then(function (data) {
+    ticketStatus = data[0].ticketStatusActive;
     populateForm(data[0]);
     populateComments(data[0]);
     populateMemberDropdown(data[1], data[0]);
@@ -143,6 +145,38 @@ function loadScript(src){
     document.body.append(script);
 }
 
+function updateTicket() {
+    var tags = $('#tagSelect').serializeArray();
+    var members = $('#memberSelect').serializeArray();
+    var issueDesc = document.getElementById("issueDesc").value;
+    var residentName = document.getElementById("resident").value;
+    console.log(tags);
+    console.log(members);
+    console.log(issueDesc);
+    console.log(residentName);
+    console.log(ticketStatus);
+    console.log(ticketNum);
+
+    // Promise.all([
+    //     fetch('/ticket-detail?ticketNumber=' + ticketNum, {method: 'GET'}),
+    //     fetch('/member', {method: 'GET'}),
+    //     fetch('/tags', {method: 'GET'})
+    // ]).then(function (responses) {
+    //     return Promise.all(responses.map(function (response) {
+    //         return response.json();
+    //     }));
+    // }).then(function (data) {
+    //     populateForm(data[0]);
+    //     populateComments(data[0]);
+    //     populateMemberDropdown(data[1], data[0]);
+    //     populateTagDropdown(data[2], data[0]);
+    // }).catch (function (error) {
+    //     console.log(error);
+    // });
+    //get assigned members
+    //assign ticket is different than update ticket
+
+}
 //inspo for delete ticket
 // formData.append('ticketNum', id);
 // await fetch('/ticket/', {
@@ -173,7 +207,7 @@ function loadScript(src){
             ipt[l].readOnly = true;
         }
         previous = [];
-        //send your info here 
+        updateTicket();
     }
 
     function edit(e) {
