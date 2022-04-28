@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>ISU Tacos - Residents</title>
+  <title>ISU Tacos - Tags</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -74,19 +74,19 @@
         </li><!-- End All Tickets Page Nav -->
   
         <li class="nav-item">
-          <a class="nav-link" th:href="@{/resident-table}">
+          <a class="nav-link collapsed" th:href="@{/resident-table}">
             <em class="bi bi-layout-text-window-reverse"></em>
             <span>Manage Residents</span>
           </a>
+
+        </li><!-- tags -->
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/tags-table}">
+            <em class="bi bi-layout-text-window-reverse"></em>
+            <span>Tags</span>
+          </a>
+
         </li><!-- End All Tickets Page Nav -->
-  
-      </li><!-- tags -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" th:href="@{/tags-table}">
-          <em class="bi bi-layout-text-window-reverse"></em>
-          <span>Tags</span>
-        </a>
-  
         <li class="nav-item">
           <a class="nav-link collapsed" th:href="@{/profile}">
             <em class="bi bi-person"></em>
@@ -122,7 +122,7 @@
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Manage Residents</h1>  
+      <h1>Manage Tags</h1>  
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -136,12 +136,10 @@
               <table class="table datatable">
                 <thead>
                   <tr>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">roomNumber</th>
+                    <th scope="col">Tag String</th>
                   </tr>
                 </thead>
-                <tbody id="residentTable">
+                <tbody id="tagsTable">
                   
                 </tbody>
                 
@@ -161,29 +159,17 @@
               <br/>
 
               <div class="pagetitle">
-                <h1>Add New Resident</h1>  
-              </div><!-- end add new resident -->
+                <h1>Add New Tag</h1>  
+              </div><!-- end add new tag-->
 
-              <!-- Add New Resident Form -->
-              <form id="add-resident-form" name="add-resident-form" action="/resident" method="POST" enctype="multipart/form-data" onSubmit="alert('Adding new resident! \n(Will redirect to error page if provided resident already exists)')">
+              <!-- Add New Tag Form -->
+              <form id="add-tag-form" name="add-tag-form" action="/tag" method="POST" enctype="multipart/form-data" onSubmit="alert('Adding new tag! \n(Will redirect to error page if provided tag already exists)')">
                 <div class="row mb-3 justify-content-center">
-                  <label for="firstName" class="col-sm-2 col-form-label">First Name</label>
+                  <label for="tagString" class="col-sm-2 col-form-label">Tag Name</label>
                   <div class="col-sm-6 col-md-4">
-                    <input type="text" class="form-control" id="fname" name="fName" minlength = "3" maxlength = "30" required></input>
+                    <input type="text" class="form-control" id="tagStrimg" name="tagString" minlength = "3" maxlength = "30" required></input>
                   </div>
                 </div>
-                <div class="row mb-3 justify-content-center">
-                  <label for="lastName" class="col-sm-2 col-form-label" >Last Name</label>
-                  <div class="col-sm-6 col-md-4">
-                    <input type="text" class="form-control" id="lname" name="lName" minlength = "3" maxlength = "30" required></input>
-                  </div>
-                </div>
-                <div class="row mb-3 justify-content-center">
-                  <label for="Room Number" class="col-sm-2 col-form-label">Room Number</label>
-                  <div class="col-sm-6 col-md-4">
-                    <input class="form-control" id="roomNumber" name="roomNumber" type="roomNumber" minlength="1" maxlength = "4" required></input>
-                  </div>
-                
                 </div>
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary">Submit</button>
@@ -216,7 +202,7 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><em class="bi bi-arrow-up-short"></em> </a>
 
   <!-- Table Render JS File -->
-  <script src="assets/js/residentTable.js"></script>
+  <script src="assets/js/tagsTable.js"></script>
 
 </body>
 

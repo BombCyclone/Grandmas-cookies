@@ -32,8 +32,8 @@ public class TagController {
      * @throws IOException
      */
     @PostMapping("/tag")
-    public void addTag(final String tagString) {
-        tagService.createTag(tagString);
+    public void addTag(final String tagString, final HttpServletResponse response)throws IOException {
+        tagService.createTag(tagString, response);
     }
 
     /**
