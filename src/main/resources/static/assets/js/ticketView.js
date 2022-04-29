@@ -38,12 +38,14 @@ function populateForm(data) {
 function populateComments(data){
     for (comment of data.comments) {
         var memberName = comment.member.firstName + " " + comment.member.lastName;
-        var timestamp = new Date(comment.timeStamp);
+        var commentDate = new Date(comment.timeStamp);
+        var formattedDate = commentDate.toLocaleDateString();
+        var formattedTime = commentDate.toLocaleTimeString();
+
         commentCard = `<div class="card"><div class="card-body">
-                        <h7>${timestamp}</h7><br>
-                        <h7>${memberName}</h7>
+                        <h7><span><b>${memberName} | ${formattedDate} ${formattedTime}</b></span></h7><br><br>
                         <p>${comment.content}</p>
-                        <button onClick="deleteComment(${comment.commentId})">Delete</button>
+                        <button style="float: right;" onClick="deleteComment(${comment.commentId})">Delete</button>
                         </div></div>`
         comments.innerHTML += commentCard;
     }
@@ -89,7 +91,9 @@ function addNewComment() {
     <button id="cancelComment" onClick="deleteNewComment()">Cancel</button>
     <div class="card" id="newComment"><div class="card-body">
     <form id="ticket-form" name="ticket-form" action="/ticket" method="POST" >
-    <input placeholder="Add comment here" id="newContent"></input>
+    <div class="row mb-3">
+    <textarea maxLength="200" placeholder="Add comment here" id="newContent"></textarea>
+    </div>
     </form>
     </div></div>`
     comments.innerHTML += commentCard;
@@ -223,7 +227,7 @@ function deleteTicket() {
         D = W.document, previous = [];
         form = D.getElementsByTagName('form')[0];
         bts = form.getElementsByTagName('button');
-        ipt = form.getElementsByTagName('input');
+        ipt = form.getElementsByTagName('textarea');
         form.addEventListener('submit', save, false);
         bts[1].addEventListener('click', cancel, false);
         bts[2].addEventListener('click', edit, false);

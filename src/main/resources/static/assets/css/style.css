@@ -1077,6 +1077,15 @@ form input {
   outline:none;
   box-sizing:border-box;
 }
+form textarea {
+  border:none;
+  outline:none;
+  box-sizing:border-box;
+}
+form.invert textarea{
+  border:1px solid rgba(0, 0, 0, 0.2);
+  outline:none;
+}
 form.invert input {
   border:1px solid rgba(0, 0, 0, 0.2);
   outline:none;
