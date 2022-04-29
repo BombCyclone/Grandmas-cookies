@@ -44,7 +44,6 @@ public class Bio {
     @Lob
     @Column(length = Integer.MAX_VALUE)
     @JsonIgnore
-    @Nullable
     private byte[] profilePicture;
 
     @OneToOne(optional = false)
