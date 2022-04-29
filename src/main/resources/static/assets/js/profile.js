@@ -57,3 +57,30 @@ function readURL(input) {
       body: photoData
     })
   }
+
+function saveProfile() {
+  console.log("in save profile");
+
+  //member properties
+  var firstName = document.getElementById('firstNameEdit');
+  var lastName = document.getElementById('lastNameEdit');
+  var email = document.getElementById('email');
+  console.log(firstName);
+  //get member id
+  //get password
+
+  //bio properties
+  var backgroundInfo = document.getElementById('about').value;
+  var hometown = document.getElementById('hometown').value;
+  var major = document.getElementById('major').value;
+  console.log(backgroundInfo, hometown, major);
+
+  var formData = new FormData();
+  formData.append('backgroundInfo', backgroundInfo);
+  formData.append('hometown', hometown);
+  formData.append('major', major);
+  fetch('/bio', {
+    method: 'PUT',
+    body: formData
+  })
+}
