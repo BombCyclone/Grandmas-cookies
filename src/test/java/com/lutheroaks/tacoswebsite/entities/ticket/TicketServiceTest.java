@@ -146,7 +146,7 @@ public final class TicketServiceTest {
     String[] tagStrings = {"computers","email"};
     when(request.getParameterValues("tags")).thenReturn(tagStrings);
     doReturn(null).when(tagRepo).findTag(anyString());
-    doReturn(new Tag()).when(tagService).createTag(anyString());
+    doReturn(new Tag()).when(tagService).createTag(anyString(),any());
     doReturn(fakeTicket).when(ticketRepo).findTicketById(anyInt());
     doReturn(fakeTicket).when(ticketRepo).save(any(Ticket.class));
     service.updateTicket(request,response);

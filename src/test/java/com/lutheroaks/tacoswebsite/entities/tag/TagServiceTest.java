@@ -37,31 +37,34 @@ public final class TagServiceTest {
 
     @Test
     void createTagSuccessTest() throws IOException{
-
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
         // return null when searching for the Tag, indicating it does not already exist
         doReturn(null).when(repository).findTag(anyString());
         // don't save the new Tag to the database
         doReturn(null).when(repository).save(any(Tag.class));
         // call the method to be tested
-        Tag retVal = tagService.createTag("tag");
+        Tag retVal = tagService.createTag("tag", mockResponse);
         // confirm the request was successful
+
         assertEquals("tag", retVal.getTagString());
     }
 
     @Test
     void createTagAlreadyExists() throws IOException{
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
         // return a tag when searching, indicating the tag already exists
         doReturn(new Tag()).when(repository).findTag(anyString());
         // call the method to be tested
-        Tag retVal = tagService.createTag("tag");
+        Tag retVal = tagService.createTag("tag", mockResponse);
         // confirm the request was unsuccessful
         assertEquals(null, retVal);
     }
 
     @Test
     void createTagMissingParameter() throws IOException{
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
         // call the method to be tested
-        Tag retVal = tagService.createTag("");
+        Tag retVal = tagService.createTag("",mockResponse);
         // confirm the request was unsuccessful
         assertEquals(null, retVal);
     }
@@ -82,13 +85,14 @@ public final class TagServiceTest {
     }
 
     @Test
-    void retrieveTagsTest() {
+    void retrieveTagsTest() throws IOException {
+        HttpServletResponse mockResponse = mock(HttpServletResponse.class);
         doReturn(null).when(repository).findTag("email");
         doReturn(new Tag()).when(repository).findTag("iPhone");
         TagService serviceSpy = spy(tagService);
-        doReturn(new Tag()).when(serviceSpy).createTag(any());
+        doReturn(new Tag()).when(serviceSpy).createTag(anyString(), any());
         String[] params = {"email", "iPhone"};
         List<Tag> retVal = serviceSpy.retrieveTags(params);
-        assertEquals(2, retVal.size(), 0);
+        assertEquals(1, retVal.size(), 0);
     }
 }

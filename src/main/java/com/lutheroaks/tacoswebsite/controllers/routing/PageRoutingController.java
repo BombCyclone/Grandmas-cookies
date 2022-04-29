@@ -59,6 +59,10 @@ public final class PageRoutingController {
 	public String viewLogin() {
 		return "login";
 	}	
+	@GetMapping("/tags-table")
+	public String viewTags() {
+		return "tags-table";
+	}	
 
 
 

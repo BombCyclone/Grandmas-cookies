@@ -9,7 +9,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.entities.ticket.Ticket;
@@ -59,6 +63,7 @@ public final class CommentServiceTest {
         verify(repository, times(1)).save(any(Comment.class));
     }
 
+   
     @Test
     void removeCommentSuccess(){
         // mock the servlet request and its parameters
@@ -70,5 +75,25 @@ public final class CommentServiceTest {
         service.removeComment(request);
         // confirm that this was a successful case and deleteCommentById was called
         verify(repository, times(1)).deleteCommentById(anyInt());
+    }
+
+    @Test
+    void updateCommentTest() throws IOException, MessagingException{ 
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        Comment test = new Comment();
+               
+        doNothing().when(response).sendRedirect("index");
+
+        when(repository.findCommentById(anyInt())).thenReturn(test);
+        
+        when(request.getParameter("commentID")).thenReturn("1");
+        when(request.getParameter("content")).thenReturn("changing up words");
+      
+        doReturn(null).when(repository).save(any(Comment.class));
+      
+        service.updateComment(request, response);
+        verify(repository,times(1)).save(any());
     }
 }
