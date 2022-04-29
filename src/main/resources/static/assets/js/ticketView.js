@@ -191,7 +191,7 @@ function updateTicket() {
 
 function enable() {
     console.log("In enable");
-    document.getElementById("memberSelect").disabled = false;
+    $(".chosen-select").prop("disabled", false);
 }
 
 function deleteTicket() {
@@ -227,6 +227,7 @@ function deleteTicket() {
         form.addEventListener('submit', save, false);
         bts[1].addEventListener('click', cancel, false);
         bts[2].addEventListener('click', edit, false);
+
     }
 
     function save(e) {
@@ -269,3 +270,10 @@ $(".chosen-select").chosen({
     max_selected_options: 3,
     no_results_text: ""
 })
+
+$(".chosen-select").prop("disabled", true);
+
+$(document).on('click','#edit',function () {
+    console.log("IN function");
+    $(".chosen-select").prop("disabled", false);
+});
