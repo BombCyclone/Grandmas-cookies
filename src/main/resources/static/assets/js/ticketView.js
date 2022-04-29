@@ -42,11 +42,19 @@ function populateComments(data){
         var formattedDate = commentDate.toLocaleDateString();
         var formattedTime = commentDate.toLocaleTimeString();
 
-        commentCard = `<div class="card"><div class="card-body">
-                        <h7><span><b>${memberName} | ${formattedDate} ${formattedTime}</b></span></h7><br><br>
-                        <p>${comment.content}</p>
-                        <button style="float: right;" onClick="deleteComment(${comment.commentId})">Delete</button>
-                        </div></div>`
+        commentCard = `<div class="card">
+                            <div class="card-body">
+                                <h7>
+                                    <span>
+                                        <b>${memberName} on ${formattedDate} at ${formattedTime}</b>
+                                    </span>
+                                </h7>
+                                </br>
+                                </br>
+                                <p>${comment.content}</p>
+                                <button style="float: right;" onClick="deleteComment(${comment.commentId})">Delete</button>
+                            </div>
+                        </div>`
         comments.innerHTML += commentCard;
     }
 }
@@ -89,13 +97,16 @@ function addNewComment() {
     `
     <button id="saveComment" onClick="saveComment()">Save Comment</button>
     <button id="cancelComment" onClick="deleteNewComment()">Cancel</button>
-    <div class="card" id="newComment"><div class="card-body">
-    <form id="ticket-form" name="ticket-form" action="/ticket" method="POST" >
-    <div class="row mb-3">
-    <textarea maxLength="200" placeholder="Add comment here" id="newContent"></textarea>
+    <div class="card" id="newComment">
+        <div class="card-body">
+            <form id="ticket-form" name="ticket-form" action="/ticket" method="POST" >
+                <div class="row mb-3">
+                    <textarea maxLength="200" placeholder="Add comment here" id="newContent" required></textarea>
+                </div>
+            </form>
+        </div>
     </div>
-    </form>
-    </div></div>`
+    `
     comments.innerHTML += commentCard;
 }
 
@@ -172,9 +183,6 @@ function updateTicket() {
     formData.append('tags', formattedTags);
     console.log(formattedTags);
 
-    //saving tags has bugs - error in formatting passing to tag service
-    //makes new tags ex. Scam and Email will be scam,email
-
     const formData2 = new FormData();
     formData2.append('ticketId', ticketNum);
     formData2.append('memberId', formattedMembers);
@@ -215,14 +223,6 @@ function deleteTicket() {
         .catch(error=>console.log(error))
     }
 }
-
-//inspo for delete ticket
-// formData.append('ticketNum', id);
-// await fetch('/ticket/', {
-//     method: 'DELETE', body: formData,
-//     })
-//     .then(() => {window.location.reload()})
-// }
 
 //source: http://jsfiddle.net/d7TeL/
 (function (W) {
