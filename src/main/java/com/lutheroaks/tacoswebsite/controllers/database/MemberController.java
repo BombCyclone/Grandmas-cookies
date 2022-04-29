@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 import com.lutheroaks.tacoswebsite.entities.member.MemberService;
+import com.lutheroaks.tacoswebsite.utils.AuthenticatedDetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,9 @@ public class MemberController {
 
 	@Autowired
 	private MemberService service;
+
+	@Autowired
+	private AuthenticatedDetails authenticatedDetails;
 
 	/**
 	 * Adds a new Tacos member to the table
@@ -56,9 +60,19 @@ public class MemberController {
 	 * Returns a list of all Tacos members
 	 * @return
 	 */
-	@GetMapping("/member")
+	@GetMapping("/members")
 	public List<Member> getMembers() {
 		return repository.findAll();
+	}
+	
+	/**
+	 * Returns the currently logged in member's details
+	 * @param request
+	 * @return
+	 */
+	@GetMapping("/member")
+	public Member getLoggedInMemberDetails(final HttpServletRequest request) {
+		return authenticatedDetails.getLoggedInMember(request);
 	}
 
 	/**

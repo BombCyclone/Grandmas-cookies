@@ -1,5 +1,5 @@
 // call the get mapping from the controller to retrive data from the database
-fetch('/member', {method: 'GET'})
+fetch('/members', {method: 'GET'})
 .then(data=>{return data.json()})
 .then(res=>{
     // the response data are the members to be displayed, call the buildtable method

@@ -48,6 +48,7 @@ public class Bio {
 
     @OneToOne(optional = false)
     @JoinColumn(name = "memberId", nullable = false)
+    @JsonIgnore
     private Member member;
 
 }
