@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import com.lutheroaks.tacoswebsite.entities.comment.Comment;
 import com.lutheroaks.tacoswebsite.entities.comment.CommentRepo;
@@ -74,5 +76,18 @@ public final class CommentControllerTest {
         controller.deleteComment(request);
         // confirm that the expected method was called
         verify(service, times(1)).removeComment(request);
+    }
+
+    @Test
+    void updateCommentCalled() throws MessagingException, IOException{
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        // don't actually update a comment
+        doNothing().when(service).updateComment(any(), any());
+        // call the controller method
+        controller.updateComment(request, response);
+        // confirm that the service method would have been called
+        verify(service, times(1)).updateComment(any(), any());
     }
 }
