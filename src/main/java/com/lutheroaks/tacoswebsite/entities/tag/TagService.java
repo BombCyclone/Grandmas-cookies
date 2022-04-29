@@ -74,7 +74,6 @@ public class TagService {
             for(String tagString : tags){
                 // find the tag by the given string
                 Tag toAdd = repository.findTag(tagString);
-                // if the tag selected is not found, create a new tag
                 if(toAdd != null){
                     // add the Tag to the list
                     appliedTags.add(toAdd);  
