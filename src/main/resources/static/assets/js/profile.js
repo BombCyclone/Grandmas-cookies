@@ -37,16 +37,9 @@ function getProfilePicture(res){
 }
 
 
-function saveChanges() {
-    // var firstName = (document.getElementById('firstNameEdit').value);
-    // var lastName = (document.getElementById('lastNameEdit').value);
-    // var email = document.getElementById('email').value;
-    // var backgroundInfo = document.getElementById('about').value;
-    // var hometown = document.getElementById('hometown').value;
-    // var major = document.getElementById('major').value;
-    var queryString = $('#profileEdit').serialize();
-    // alert(queryString);
-}
+// function saveChanges() {
+//     var queryString = $('#profileEdit').serialize();
+// }
 
 function readURL(input) {
     if (input.files && input.files[0]) {
