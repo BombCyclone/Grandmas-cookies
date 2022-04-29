@@ -1,6 +1,7 @@
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const ticketNum = urlParams.get('number');
+let ticketStatus;
 
 document.getElementById("ticketNumber").innerHTML = ticketNum;
 
@@ -13,6 +14,7 @@ Promise.all([
         return response.json();
     }));
 }).then(function (data) {
+    ticketStatus = data[0].ticketStatusActive;
     populateForm(data[0]);
     populateComments(data[0]);
     populateMemberDropdown(data[1], data[0]);
@@ -29,19 +31,21 @@ function populateForm(data) {
     document.getElementById("date").innerHTML = formattedDate;
     document.getElementById("time").innerHTML = formattedTime;
     document.getElementById("issueDesc").value = data.issueDesc;
-    document.getElementById("resident").value = data.resident.firstName + " " + data.resident.lastName;
+    document.getElementById("resident").innerHTML = data.resident.firstName + " " + data.resident.lastName;
     addscripts();
 }
 
 function populateComments(data){
     for (comment of data.comments) {
         var memberName = comment.member.firstName + " " + comment.member.lastName;
-        var timestamp = new Date(comment.timeStamp);
+        var commentDate = new Date(comment.timeStamp);
+        var formattedDate = commentDate.toLocaleDateString();
+        var formattedTime = commentDate.toLocaleTimeString();
+
         commentCard = `<div class="card"><div class="card-body">
-                        <h7>${timestamp}</h7><br>
-                        <h7>${memberName}</h7>
+                        <h7><span><b>${memberName} | ${formattedDate} ${formattedTime}</b></span></h7><br><br>
                         <p>${comment.content}</p>
-                        <button onClick="deleteComment(${comment.commentId})">Delete</button>
+                        <button style="float: right;" onClick="deleteComment(${comment.commentId})">Delete</button>
                         </div></div>`
         comments.innerHTML += commentCard;
     }
@@ -61,19 +65,19 @@ function populateMemberDropdown(members, data) {
         }
         // if a match was found, add the member as a currently selected option, otherwise add as an option not currently selected
         if(matchFound){
-            $("#memberSelect").append(`<option selected value=${memberName}>${memberName}</option>`).trigger("chosen:updated"); 
+            $("#memberSelect").append(`<option selected value="${member.memberId}">${memberName}</option>`).trigger("chosen:updated"); 
         } else {
-            $("#memberSelect").append(`<option value=${memberName}>${memberName}</option>`).trigger("chosen:updated");
+            $("#memberSelect").append(`<option value="${member.memberId}">${memberName}</option>`).trigger("chosen:updated");
         }
     }
 }
 
 function populateTagDropdown(tags, data) {
     for (const pretag of data.associatedTags) {
-        $("#tagSelect").append(`<option selected value=${pretag.tagString}>${pretag.tagString}</option>`).trigger("chosen:updated"); 
+        $("#tagSelect").append(`<option selected value="${pretag.tagString}">${pretag.tagString}</option>`).trigger("chosen:updated"); 
     }
     for(let tag of tags){
-        $("#tagSelect").append(`<option value=${tag.tagString}>${tag.tagString}</option>`).trigger("chosen:updated");
+        $("#tagSelect").append(`<option value="${tag.tagString}">${tag.tagString}</option>`).trigger("chosen:updated");
     }
 }
 
@@ -87,7 +91,9 @@ function addNewComment() {
     <button id="cancelComment" onClick="deleteNewComment()">Cancel</button>
     <div class="card" id="newComment"><div class="card-body">
     <form id="ticket-form" name="ticket-form" action="/ticket" method="POST" >
-    <input placeholder="Add comment here" id="newContent"></input>
+    <div class="row mb-3">
+    <textarea maxLength="200" placeholder="Add comment here" id="newContent"></textarea>
+    </div>
     </form>
     </div></div>`
     comments.innerHTML += commentCard;
@@ -143,6 +149,68 @@ function loadScript(src){
     document.body.append(script);
 }
 
+function updateTicket() {
+    var tags = $('#tagSelect').serializeArray();
+    console.log(tags);
+    var formattedTags = [];
+    for (tag of tags) {
+        formattedTags.push(tag.value);
+    }
+    console.log(formattedTags);
+    var members = $('#memberSelect').serializeArray();
+    var formattedMembers = [];
+    for (member of members) {
+        formattedMembers.push(member.value);
+    }
+    console.log(formattedMembers);
+    var issueDesc = document.getElementById("issueDesc").value;
+
+    const formData = new FormData();
+    formData.append('ticketId', ticketNum);
+    formData.append('ticketStatus', ticketStatus);
+    formData.append('issueDesc', issueDesc);
+    formData.append('tags', formattedTags);
+    console.log(formattedTags);
+
+    //saving tags has bugs - error in formatting passing to tag service
+    //makes new tags ex. Scam and Email will be scam,email
+
+    const formData2 = new FormData();
+    formData2.append('ticketId', ticketNum);
+    formData2.append('memberId', formattedMembers);
+
+    //throws error but still works
+    fetch('/ticket-update', {
+        method: 'POST', body: formData2, credentials: "include"
+    }).catch(error=>console.log(error))
+
+    //throws error but still works
+    fetch('/ticket-assign', {
+        method: 'POST', body: formData,
+        })
+        .then(() => {window.location.reload()})
+        .catch(error=>console.log(error))
+
+}
+
+function enable() {
+    console.log("In enable");
+    $(".chosen-select").prop("disabled", false);
+}
+
+function deleteTicket() {
+    var result = confirm("Are you sure you want to permanently delete this ticket?");
+    if (result) {
+        const formData = new FormData();
+        formData.append('ticketNum', ticketNum);
+        fetch('/ticket/', {
+        method: 'DELETE', body: formData,
+        })
+        .then(() => {window.location.href = "/index"})
+        .catch(error=>console.log(error))
+    }
+}
+
 //inspo for delete ticket
 // formData.append('ticketNum', id);
 // await fetch('/ticket/', {
@@ -156,13 +224,15 @@ function loadScript(src){
     var D, form, bts, ipt;
 
     function init() {
-        D = W.document, previous = [];
+        D = W.document, previous = [], selectPrev = [];
         form = D.getElementsByTagName('form')[0];
         bts = form.getElementsByTagName('button');
-        ipt = form.getElementsByTagName('input');
+        ipt = form.getElementsByTagName('textarea');
+        // select = form.getElementsByTagName('select');
         form.addEventListener('submit', save, false);
         bts[1].addEventListener('click', cancel, false);
         bts[2].addEventListener('click', edit, false);
+        $(".chosen-select").prop("disabled", true);
     }
 
     function save(e) {
@@ -173,7 +243,7 @@ function loadScript(src){
             ipt[l].readOnly = true;
         }
         previous = [];
-        //send your info here 
+        updateTicket();
     }
 
     function edit(e) {
@@ -185,9 +255,15 @@ function loadScript(src){
             ipt[l].readOnly = false;
             ipt[l].disabled = false;
         }
+        // var sl = select.length;
+        // while (sl--) {
+        //     selectPrev[sl] = select[sl].value;
+        // }
+        $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
     }
 
     function cancel(e) {
+        $(".chosen-select").prop("disabled", true).trigger("chosen:updated");
         form.classList.remove('invert');
         e.preventDefault();
         var l = ipt.length;
@@ -195,6 +271,7 @@ function loadScript(src){
             ipt[l].value = previous[l];
             ipt[l].readOnly = true;
         }
+        window.location.reload();
     }
     init();
 })(window)
@@ -204,3 +281,9 @@ $(".chosen-select").chosen({
     max_selected_options: 3,
     no_results_text: ""
 })
+
+// $(".chosen-select").prop("disabled", true);
+
+// $(document).on('click','#edit',function () {
+//     $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
+// });
