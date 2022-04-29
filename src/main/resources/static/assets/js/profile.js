@@ -95,3 +95,19 @@ function readURL(input) {
       body: formData2
     })
   }
+
+  function updatePassword() {
+    var newPassword = document.getElementById('newPassword').value;
+    var renewPassword = document.getElementById('renewPassword').value;
+    var formData = new FormData();
+    formData.append('password', newPassword);
+
+    if (newPassword == renewPassword) {
+      fetch('/member-password', {
+        method: 'PUT',
+        body: formData
+      })
+    } else {
+      alert("Passwords do not match");
+    }
+  }
