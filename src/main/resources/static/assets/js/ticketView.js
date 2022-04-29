@@ -181,15 +181,20 @@ function updateTicket() {
 
     //throws error but still works
     fetch('/ticket-update', {
-        method: 'POST', body: formData2, credentials: "include"
+        method: 'PUT', 
+        body: formData
     }).catch(error=>console.log(error))
 
     //throws error but still works
     fetch('/ticket-assign', {
-        method: 'POST', body: formData,
+        method: 'PATCH', 
+        body: formData2,
         })
         .then(() => {window.location.reload()})
-        .catch(error=>console.log(error))
+    .catch(error=>console.log(error))
+    
+    //refresh the page
+    window.location.reload();
 
 }
 
@@ -255,10 +260,6 @@ function deleteTicket() {
             ipt[l].readOnly = false;
             ipt[l].disabled = false;
         }
-        // var sl = select.length;
-        // while (sl--) {
-        //     selectPrev[sl] = select[sl].value;
-        // }
         $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
     }
 
@@ -281,9 +282,3 @@ $(".chosen-select").chosen({
     max_selected_options: 3,
     no_results_text: ""
 })
-
-// $(".chosen-select").prop("disabled", true);
-
-// $(document).on('click','#edit',function () {
-//     $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
-// });

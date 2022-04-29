@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,7 +53,7 @@ public class TicketController {
 	 * @throws MessagingException
 	 * @throws IOException
 	 */
-	@PostMapping("/ticket-update")
+	@PutMapping("/ticket-update")
 	public void updateTicket(final HttpServletRequest request, final HttpServletResponse response)
 			throws MessagingException, IOException {
 		service.updateTicket(request, response);
@@ -64,7 +66,7 @@ public class TicketController {
 	 * @throws MessagingException
 	 * @throws IOException
 	 */
-	@PostMapping("/ticket-assign")
+	@PatchMapping("/ticket-assign")
 	public void assignTicket(final HttpServletRequest request, final HttpServletResponse response)
 	throws MessagingException, IOException {
 	service.assignTicket(request, response);
