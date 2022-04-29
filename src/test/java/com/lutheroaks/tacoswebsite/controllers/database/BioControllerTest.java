@@ -43,7 +43,7 @@ public final class BioControllerTest {
         // mock the servlet request and its parameters
         HttpServletRequest request = mock(HttpServletRequest.class);
 
-        doNothing().when(service).createBio(any());
+        doReturn(null).when(service).createBio(any());
         // call the method to be tested
         controller.addBio(request);
         // confirm that the expected method was called
