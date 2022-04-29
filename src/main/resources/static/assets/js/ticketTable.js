@@ -17,14 +17,14 @@ function buildTable(data){
         var ticketDate = new Date(ticket.timestamp);
         var formattedDate = ticketDate.toLocaleDateString();
         var formattedTime = ticketDate.toLocaleTimeString();
+        var dateTime = formattedDate + " at " + formattedTime;
         var residentName = ticket.resident.firstName + " " + ticket.resident.lastName;
             var row =   ` <div class="table">
                         <div class="card body">
                             <tr onClick="navToTicketView(${ticket.ticketNum})">
                             <td>${residentName}</td>
                             <td>${ticket.issueDesc}</td>
-                            <td>${formattedDate}</td>
-                            <td>${formattedTime}</td>
+                            <td>${dateTime}</td>
                         </div>
                         </td>
                         </tr>`
