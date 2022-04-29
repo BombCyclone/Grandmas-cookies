@@ -93,7 +93,7 @@ function loadScript(src){
 // adds all available tags to the dropdown menu in the add kbpost form
 function populateTagDrowdown(tags){
     for(let tag of tags){
-        $("#tagSelect").append(`<option value=${tag.tagString}>${tag.tagString}</option>`).trigger("chosen:updated");
+        $("#tagSelect").append(`<option value="${tag.tagString}">${tag.tagString}</option>`).trigger("chosen:updated");
     }
 }
 

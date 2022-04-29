@@ -1,9 +1,7 @@
 package com.lutheroaks.tacoswebsite.entities.bio;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +10,7 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 
 import org.springframework.lang.Nullable;
@@ -43,8 +42,8 @@ public class Bio {
     private String backgroundInfo;
     
     @Lob
-    @Basic(fetch = FetchType.LAZY)
-    @Nullable
+    @Column(length = Integer.MAX_VALUE)
+    @JsonIgnore
     private byte[] profilePicture;
 
     @OneToOne(optional = false)

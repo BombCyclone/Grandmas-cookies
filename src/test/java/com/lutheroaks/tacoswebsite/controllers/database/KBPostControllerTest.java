@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -104,5 +105,18 @@ public final class KBPostControllerTest {
         controller.deleteKBPost(request);
         // confirm that the expected method was called
         verify(service, times(1)).removePost(request);
+    }
+
+    @Test
+    void updateKBPostTest() throws MessagingException, IOException {
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        HttpServletResponse response = mock(HttpServletResponse.class);
+        // don't actually call the service class method
+        doNothing().when(service).updateKBPost(any(), any());
+        // call the controller method
+        controller.updateKBPost(request, response);
+        // assert that the service method would have been called
+        verify(service, times(1)).updateKBPost(any(), any());
     }
 }

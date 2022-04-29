@@ -195,20 +195,22 @@ public class TicketService {
 			int ticketId = Integer.parseInt(request.getParameter("ticketId"));
 			// get the member IDs of the members we want to assign.
 			String[] tempMemberIds = request.getParameterValues("memberId");
-			String[] memberIds = tempMemberIds[0].split(",");
+			if(tempMemberIds != null && tempMemberIds.length > 0){
+				String[] memberIds = tempMemberIds[0].split(",");
 
-			Ticket ticketToUpdate = ticketRepo.findTicketById(ticketId);
-			List<Member> assignedMembers = new ArrayList<>();
-			if(memberIds != null && memberIds.length < 4){
-				for (String idString : memberIds){
-					int id = Integer.parseInt(idString);
-					Member toAdd = memberRepo.findMemberById(id);
-					assignedMembers.add(toAdd);
+				Ticket ticketToUpdate = ticketRepo.findTicketById(ticketId);
+				List<Member> assignedMembers = new ArrayList<>();
+				if(memberIds != null && memberIds.length < 4){
+					for (String idString : memberIds){
+						int id = Integer.parseInt(idString);
+						Member toAdd = memberRepo.findMemberById(id);
+						assignedMembers.add(toAdd);
+					}
 				}
+				// assign and save changes
+				ticketToUpdate.setAssignedMembers(assignedMembers);
+				ticketRepo.save(ticketToUpdate);
 			}
-			// assign and save changes
-			ticketToUpdate.setAssignedMembers(assignedMembers);
-			ticketRepo.save(ticketToUpdate);
 			response.sendRedirect("index");
 		} catch (Exception e) {
 			logger.error("An exception occurred while adding a ticket: ", e);

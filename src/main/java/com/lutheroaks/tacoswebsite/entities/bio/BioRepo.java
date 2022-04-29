@@ -13,6 +13,9 @@ public interface BioRepo extends JpaRepository<Bio,Integer> {
     @Query("SELECT x FROM Bio x WHERE x.member = :member")
     Bio findBioByMember(@Param("member") Member member);
 
+    @Query (nativeQuery = true, value="SELECT profile_picture FROM Bio where bio_id = ?1")
+    byte[] getProfilePicture(int bioId);
+
     @Modifying
     @Query("DELETE FROM Bio WHERE bio_id = ?1")
     void deleteBioById(int bioId);
