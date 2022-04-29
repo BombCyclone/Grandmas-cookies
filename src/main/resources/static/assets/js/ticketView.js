@@ -31,7 +31,7 @@ function populateForm(data) {
     document.getElementById("date").innerHTML = formattedDate;
     document.getElementById("time").innerHTML = formattedTime;
     document.getElementById("issueDesc").value = data.issueDesc;
-    document.getElementById("resident").value = data.resident.firstName + " " + data.resident.lastName;
+    document.getElementById("resident").innerHTML = data.resident.firstName + " " + data.resident.lastName;
     addscripts();
 }
 
@@ -188,6 +188,25 @@ function updateTicket() {
         .catch(error=>console.log(error))
 
 }
+
+function enable() {
+    console.log("In enable");
+    document.getElementById("memberSelect").disabled = false;
+}
+
+function deleteTicket() {
+    var result = confirm("Are you sure you want to permanently delete this ticket?");
+    if (result) {
+        const formData = new FormData();
+        formData.append('ticketNum', ticketNum);
+        fetch('/ticket/', {
+        method: 'DELETE', body: formData,
+        })
+        .then(() => {window.location.href = "/index"})
+        .catch(error=>console.log(error))
+    }
+}
+
 //inspo for delete ticket
 // formData.append('ticketNum', id);
 // await fetch('/ticket/', {
@@ -230,6 +249,7 @@ function updateTicket() {
             ipt[l].readOnly = false;
             ipt[l].disabled = false;
         }
+        document.getElementById("memberSelect").disabled = false;
     }
 
     function cancel(e) {

@@ -120,10 +120,11 @@
     <h6>Ticket Details</h6>
     <div class="card">
         <div class="card-body">
-            <form>
+            <form id="ticketForm">
                 <button>Save</button>
                 <button>Cancel</button>
-                <button style="color:black">Click Here To Edit Ticket</button>
+                <button style="color:black" onClick="enable()">Edit Ticket</button>
+                <button onClick="deleteTicket()">Delete Ticket</button>
                 <label>Ticket Number: </label>
                 <p id="ticketNumber" readonly></p><br>
                 <label>Date</label>
@@ -131,12 +132,12 @@
                 <label>Time</label>
                 <p id="time" readonly></p><br>
                 <label>Resident Name</label>
-                <input id="resident" readonly></input><br>
+                <p id="resident" readonly></p><br>
                 <label>Assigned Members</label>
                 <div class="row mb-3">
                   <label for="memberSelect" class="col-sm-2 col-form-label">Assigned Members (Maximum is 3):</label>
                   <div class="col-sm-5">
-                    <select id="memberSelect" data-placeholder="No Members Selected" multiple class="chosen-select" name="memberSelect">
+                    <select disabled id="memberSelect" data-placeholder="No Members Selected" multiple class="chosen-select" name="memberSelect">
                       <option value=""></option>
                     </select>
                 </div>
@@ -145,7 +146,7 @@
                 <div class="row mb-3">
                   <label for="tagSelect" class="col-sm-2 col-form-label">Post Tags (Maximum is 3):</label>
                   <div class="col-sm-5">
-                    <select id="tagSelect" data-placeholder="No Tags Selected" multiple class="chosen-select" name="tagSelect">
+                    <select disabled id="tagSelect" data-placeholder="No Tags Selected" multiple class="chosen-select" name="tagSelect">
                       <option value=""></option>
                     </select>
                 </div>
