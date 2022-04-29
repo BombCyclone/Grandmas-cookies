@@ -3,6 +3,7 @@ package com.lutheroaks.tacoswebsite.controllers.database;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.lutheroaks.tacoswebsite.entities.member.Member;
 import com.lutheroaks.tacoswebsite.entities.member.MemberRepo;
 import com.lutheroaks.tacoswebsite.entities.member.MemberService;
+import com.lutheroaks.tacoswebsite.utils.AuthenticatedDetails;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,6 +36,9 @@ public final class MemberControllerTest {
     
     @Mock
     private MemberRepo repository;
+
+    @Mock
+    private AuthenticatedDetails authenticatedDetails;
 
     @BeforeEach 
     public void mockSetup() {
@@ -84,6 +89,20 @@ public final class MemberControllerTest {
         assertEquals("Malcolm", retVal.get(0).getLastName());
         assertEquals("idonthaveanemail@fakemail.com", retVal.get(0).getEmail());
         assertEquals(1, retVal.get(0).getMemberId());
+    }
+
+    @Test
+    public void getLoggedInMemberTest(){
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        // mock the call to authenticated details
+        Member toReturn = new Member();
+        toReturn.setFirstName("Linda");
+        doReturn(toReturn).when(authenticatedDetails).getLoggedInMember(any());
+        // call the controller method
+        Member retVal = controller.getLoggedInMemberDetails(request);
+        // assert the return
+        assertEquals("Linda", retVal.getFirstName());
     }
 
     @Test

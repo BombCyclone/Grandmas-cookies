@@ -7,7 +7,7 @@ document.getElementById("ticketNumber").innerHTML = ticketNum;
 
 Promise.all([
     fetch('/ticket-detail?ticketNumber=' + ticketNum, {method: 'GET'}),
-    fetch('/member', {method: 'GET'}),
+    fetch('/members', {method: 'GET'}),
     fetch('/tags', {method: 'GET'})
 ]).then(function (responses) {
     return Promise.all(responses.map(function (response) {
