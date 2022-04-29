@@ -142,7 +142,7 @@ public final class TicketServiceTest {
     Ticket fakeTicket = new Ticket();
     when(request.getParameter("ticketId")).thenReturn("2");
     when(request.getParameter("ticketstatus")).thenReturn("0");
-    when(request.getParameter("issuedesc")).thenReturn("Installed too much RAM from online");
+    when(request.getParameter("issueDesc")).thenReturn("Installed too much RAM from online");
     String[] tagStrings = {"computers","email"};
     when(request.getParameterValues("tags")).thenReturn(tagStrings);
     doReturn(null).when(tagRepo).findTag(anyString());
@@ -180,5 +180,14 @@ public final class TicketServiceTest {
         service.removeTicket(request);
         // confirm that the ticket would have been deleted
         verify(ticketRepo, times(1)).deleteTicketByTicketNum(anyInt());
+    }
+
+    @Test
+    void getTicketByNumberTest() {
+        Ticket fakeTicket = new Ticket();
+        fakeTicket.setIssueDesc("issueDesc");
+        doReturn(fakeTicket).when(ticketRepo).findTicketById(anyInt());
+        Ticket returnedTicket = service.getTicketByNumber("1");
+        assertEquals("issueDesc", returnedTicket.getIssueDesc());
     }
 }

@@ -131,49 +131,45 @@
       <h1>View Ticket</h1><br>
     </div><!-- End Page Title -->
 
-    <h6>Ticket Details</h6>
-    <div class="card">
-        <div class="card-body">
-            <form>
-                <button>Save</button>
-                <button>Cancel</button>
-                <button style="color:black">Click Here To Edit Ticket</button>
-                <label>Ticket Number: </label>
-                <p id="ticketNumber" readonly></p><br>
-                <label>Date</label>
-                <p id="date"></p><br>
-                <label>Time</label>
-                <p id="time" readonly></p><br>
-                <label>Resident Name</label>
-                <input id="resident" readonly></input><br>
-                <label>Assigned Members</label>
+            <form id="ticketForm">
+                <button style="float: right;">Save</button>
+                <button style="float: right;">Cancel</button>
+                <button style="color:black; float: right;" onClick="enable()" id="edit">Edit Ticket</button>
+                <button style="color:black; float: right;" onClick="deleteTicket()">Delete Ticket</button>
+                <br><br>
+                <div class="card">
+                <div class="card-body">
+                <h5><b>Ticket Number: </b><span id="ticketNumber"></span><br></h5>
+                <h6><b>Date: </b><span id="date"></span></h6>
+                <h6><b>Time: </b><span id="time"></span><br></h6>
+                <h6><b>Resident Name: </b><span id="resident"></span></h6>
+                <h6><b>Assigned Members:</b></h6>
                 <div class="row mb-3">
-                  <label for="memberSelect" class="col-sm-2 col-form-label">Assigned Members (Maximum is 3):</label>
                   <div class="col-sm-5">
                     <select id="memberSelect" data-placeholder="No Members Selected" multiple class="chosen-select" name="memberSelect">
                       <option value=""></option>
                     </select>
                 </div>
-                <br>
-                <label>Tags</label>
+                <br><br><br>
+                <h6><b>Tags:</b></h6>
                 <div class="row mb-3">
-                  <label for="tagSelect" class="col-sm-2 col-form-label">Post Tags (Maximum is 3):</label>
                   <div class="col-sm-5">
                     <select id="tagSelect" data-placeholder="No Tags Selected" multiple class="chosen-select" name="tagSelect">
                       <option value=""></option>
                     </select>
                 </div>
               </div>
-                <label>Issue Description</label>
-                <input id="issueDesc" readonly></input><br>
+                <h6><b>Issue Description:</b></h6>
+                <textarea maxLength="200" type="text" id="issueDesc" readonly></textarea><br>
+              </div>
+            </div>
             </form>
-        </div>
-
-    </div>
+  </div>
 
     <div id="comments">
+      <button onClick="addNewComment()" style="float: right;">Add Comment</button>
       <h6>Comments</h6>
-      <button onClick="addNewComment()">+</button>
+      <br>
     </div>
 
   </main><!-- End #main -->
