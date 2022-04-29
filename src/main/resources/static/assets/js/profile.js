@@ -8,8 +8,12 @@ fetch('/member', {method: 'GET'})
 })
 .catch(error=>console.log(error))
 
+var member;
+
 // fills the fields on the page with data from the logged in member's bio
 function populateBio(data){
+    member = data.memberId;
+
     var fullName = data.firstName + ' ' + data.lastName;
 
     document.getElementById('staticName').innerHTML = fullName;
@@ -57,17 +61,14 @@ function readURL(input) {
       body: photoData
     })
   }
-  
+
   function saveProfile() {
     console.log("in save profile");
   
     //member properties
-    var firstName = document.getElementById('firstNameEdit');
-    var lastName = document.getElementById('lastNameEdit');
-    var email = document.getElementById('email');
-    console.log(firstName);
-    //get member id
-    //get password
+    var firstName = document.getElementById('firstNameEdit').value;
+    var lastName = document.getElementById('lastNameEdit').value;
+    var email = document.getElementById('email').value;
   
     //bio properties
     var backgroundInfo = document.getElementById('about').value;
@@ -79,8 +80,18 @@ function readURL(input) {
     formData.append('backgroundInfo', backgroundInfo);
     formData.append('hometown', hometown);
     formData.append('major', major);
+
+    var formData2 = new FormData();
+    formData2.append('fname', firstName);
+    formData2.append('lname', lastName);
+    formData2.append('email', email);
+
     fetch('/bio', {
       method: 'PUT',
       body: formData
+    })
+    fetch('/member-details', {
+      method: 'PUT',
+      body: formData2
     })
   }

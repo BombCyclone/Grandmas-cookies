@@ -43,6 +43,29 @@ public class MemberController {
 		service.createMember(request, response);
 	}
 
+	/**
+	 * Updates member fname, lname, and email
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@PutMapping("/member-details")
+	public void updateMemberDetails(final HttpServletRequest request, 
+	final HttpServletResponse response) throws IOException {
+		service.updateMemberDetails(request, response);
+	}
+
+	/**
+	 * Updates member password
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
+	@PutMapping("/member-password")
+	public void updatePassword(final HttpServletRequest request, 
+	final HttpServletResponse response) throws IOException {
+		service.updatePassword(request, response);
+	}
 
 		/**
 	 * Update some of the member's fields in the table

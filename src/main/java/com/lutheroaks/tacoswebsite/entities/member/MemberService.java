@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.lutheroaks.tacoswebsite.utils.AuthenticatedDetails;
 
 @Service
 public class MemberService {
@@ -18,6 +19,9 @@ public class MemberService {
     
     @Autowired
     private MemberRepo repository;
+
+	@Autowired
+    private AuthenticatedDetails authenticatedDetails;
 
 	@Autowired 
 	private PasswordEncoder passwordEncoder;
@@ -53,6 +57,44 @@ public class MemberService {
 			response.sendRedirect("error");
 		}
     }
+
+	public void updateMemberDetails(final HttpServletRequest request, 
+    final HttpServletResponse response) throws IOException {
+		Member memberToUpdate = authenticatedDetails.getLoggedInMember(request);
+		int memberId = memberToUpdate.getMemberId();
+		String fName = request.getParameter("fname");
+		String lName = request.getParameter("lname");
+		String email = request.getParameter("email");
+		// Member must exist in order to be updated
+		if (repository.findMemberById(memberId) != null) {
+			memberToUpdate.setFirstName(fName);
+			memberToUpdate.setLastName(lName);
+			memberToUpdate.setEmail(email);
+			repository.save(memberToUpdate);
+			response.sendRedirect("member-table");
+		} else{
+			if(logger.isInfoEnabled() && email != null){
+				logger.info(String.format("An existing user with the email address: " + 
+									"%s was found in the database.", email));
+			}
+			response.sendRedirect("error");
+		}
+	}
+
+	public void updatePassword(final HttpServletRequest request, 
+    final HttpServletResponse response) throws IOException {
+		Member memberToUpdate = authenticatedDetails.getLoggedInMember(request);
+		int memberId = memberToUpdate.getMemberId();
+		String password = request.getParameter("password");
+		String encryptedPwd = passwordEncoder.encode(password);
+		if (repository.findMemberById(memberId) != null) {
+			memberToUpdate.setPassword(encryptedPwd);
+			repository.save(memberToUpdate);
+			response.sendRedirect("member-table");
+		} else{
+			response.sendRedirect("error");
+		}
+	}
 
 	    /**
      * Update a tacos member
