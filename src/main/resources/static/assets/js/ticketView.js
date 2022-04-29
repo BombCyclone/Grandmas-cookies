@@ -231,7 +231,7 @@ function deleteTicket() {
         form.addEventListener('submit', save, false);
         bts[1].addEventListener('click', cancel, false);
         bts[2].addEventListener('click', edit, false);
-
+        $(".chosen-select").prop("disabled", true);
     }
 
     function save(e) {
@@ -254,10 +254,11 @@ function deleteTicket() {
             ipt[l].readOnly = false;
             ipt[l].disabled = false;
         }
-        document.getElementById("memberSelect").disabled = false;
+        $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
     }
 
     function cancel(e) {
+        $(".chosen-select").prop("disabled", true).trigger("chosen:updated");
         form.classList.remove('invert');
         e.preventDefault();
         var l = ipt.length;
@@ -275,9 +276,8 @@ $(".chosen-select").chosen({
     no_results_text: ""
 })
 
-$(".chosen-select").prop("disabled", true);
+// $(".chosen-select").prop("disabled", true);
 
-$(document).on('click','#edit',function () {
-    console.log("IN function");
-    $(".chosen-select").prop("disabled", false);
-});
+// $(document).on('click','#edit',function () {
+//     $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
+// });
