@@ -180,13 +180,13 @@ function updateTicket() {
     formData2.append('memberId', formattedMembers);
 
     //throws error but still works
-    fetch('/ticket', {
-        method: 'PATCH', body: formData2,
+    fetch('/ticket-update', {
+        method: 'POST', body: formData2, credentials: "include"
     }).catch(error=>console.log(error))
 
     //throws error but still works
-    fetch('/ticket', {
-        method: 'PUT', body: formData,
+    fetch('/ticket-assign', {
+        method: 'POST', body: formData,
         })
         .then(() => {window.location.reload()})
         .catch(error=>console.log(error))
@@ -224,10 +224,11 @@ function deleteTicket() {
     var D, form, bts, ipt;
 
     function init() {
-        D = W.document, previous = [];
+        D = W.document, previous = [], selectPrev = [];
         form = D.getElementsByTagName('form')[0];
         bts = form.getElementsByTagName('button');
         ipt = form.getElementsByTagName('textarea');
+        // select = form.getElementsByTagName('select');
         form.addEventListener('submit', save, false);
         bts[1].addEventListener('click', cancel, false);
         bts[2].addEventListener('click', edit, false);
@@ -254,6 +255,10 @@ function deleteTicket() {
             ipt[l].readOnly = false;
             ipt[l].disabled = false;
         }
+        // var sl = select.length;
+        // while (sl--) {
+        //     selectPrev[sl] = select[sl].value;
+        // }
         $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
     }
 
@@ -266,6 +271,7 @@ function deleteTicket() {
             ipt[l].value = previous[l];
             ipt[l].readOnly = true;
         }
+        window.location.reload();
     }
     init();
 })(window)
