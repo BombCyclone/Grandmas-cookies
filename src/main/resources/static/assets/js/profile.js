@@ -90,10 +90,14 @@ function readURL(input) {
       method: 'PUT',
       body: formData
     })
+    .catch(error=>console.log(error))
+
     fetch('/member-details', {
       method: 'PUT',
       body: formData2
     })
+    .catch(error=>console.log(error))
+
   }
 
   function updatePassword() {
@@ -102,12 +106,25 @@ function readURL(input) {
     var formData = new FormData();
     formData.append('password', newPassword);
 
-    if (newPassword == renewPassword) {
-      fetch('/member-password', {
-        method: 'PUT',
-        body: formData
-      })
-    } else {
-      alert("Passwords do not match");
+    if (newPassword != null) {
+      if (newPassword == renewPassword) {
+        fetch('/member-password', {
+          method: 'PUT',
+          body: formData
+        })
+        .catch(error=>console.log(error))
+      } else {
+        alert("Passwords do not match");
+      }
     }
   }
+
+  let button = document.getElementById("passwordButton");
+  let input = document.getElementById('newPassword');
+  input.addEventListener("input", function() {
+    if(input.value.length == 0) {
+      button.disabled = true;
+    } else {
+      button.disabled = false;
+    }
+  });

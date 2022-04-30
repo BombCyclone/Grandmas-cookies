@@ -187,13 +187,11 @@ function updateTicket() {
     formData2.append('ticketId', ticketNum);
     formData2.append('memberId', formattedMembers);
 
-    //throws error but still works
     fetch('/ticket-update', {
         method: 'PUT', 
         body: formData
     }).catch(error=>console.log(error))
 
-    //throws error but still works
     fetch('/ticket-assign', {
         method: 'PATCH', 
         body: formData2,
