@@ -204,9 +204,17 @@ function updateTicket() {
 
 }
 
+$(".chosen-select").prop("disabled", true);
+
 function enable() {
-    console.log("In enable");
     $(".chosen-select").prop("disabled", false);
+    var saveBtn = document.getElementById('save');
+    var cancelBtn = document.getElementById('cancel');
+    saveBtn.style.display = "block";
+    cancelBtn.style.display = "block";
+
+    var editBtn = document.getElementById('edit');
+    editBtn.style.display = "none";
 }
 
 function deleteTicket() {
@@ -219,61 +227,66 @@ function deleteTicket() {
         })
         .then(() => {window.location.href = "/index"})
         .catch(error=>console.log(error))
+        window.location.href = "/index"
     }
 }
 
+function cancel() {
+    window.location.reload();
+}
+
 //source: http://jsfiddle.net/d7TeL/
-(function (W) {
-    var D, form, bts, ipt;
+// (function (W) {
+//     var D, form, bts, ipt;
 
-    function init() {
-        D = W.document, previous = [], selectPrev = [];
-        form = D.getElementsByTagName('form')[0];
-        bts = form.getElementsByTagName('button');
-        ipt = form.getElementsByTagName('textarea');
-        // select = form.getElementsByTagName('select');
-        form.addEventListener('submit', save, false);
-        bts[1].addEventListener('click', cancel, false);
-        bts[2].addEventListener('click', edit, false);
-        $(".chosen-select").prop("disabled", true);
-    }
+//     function init() {
+//         D = W.document, previous = [], selectPrev = [];
+//         form = D.getElementsByTagName('form')[0];
+//         bts = form.getElementsByTagName('button');
+//         ipt = form.getElementsByTagName('textarea');
+//         // select = form.getElementsByTagName('select');
+//         form.addEventListener('submit', save, false);
+//         bts[1].addEventListener('click', cancel, false);
+//         bts[2].addEventListener('click', edit, false);
+//         $(".chosen-select").prop("disabled", true);
+//     }
 
-    function save(e) {
-        e.preventDefault();
-        form.classList.remove('invert');
-        var l = ipt.length;
-        while (l--) {
-            ipt[l].readOnly = true;
-        }
-        previous = [];
-        updateTicket();
-    }
+//     function save(e) {
+//         e.preventDefault();
+//         form.classList.remove('invert');
+//         var l = ipt.length;
+//         while (l--) {
+//             ipt[l].readOnly = true;
+//         }
+//         previous = [];
+//         updateTicket();
+//     }
 
-    function edit(e) {
-        e.preventDefault();
-        form.classList.add('invert');
-        var l = ipt.length;
-        while (l--) {
-            previous[l] = ipt[l].value;
-            ipt[l].readOnly = false;
-            ipt[l].disabled = false;
-        }
-        $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
-    }
+//     function edit(e) {
+//         e.preventDefault();
+//         form.classList.add('invert');
+//         var l = ipt.length;
+//         while (l--) {
+//             previous[l] = ipt[l].value;
+//             ipt[l].readOnly = false;
+//             ipt[l].disabled = false;
+//         }
+//         $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
+//     }
 
-    function cancel(e) {
-        $(".chosen-select").prop("disabled", true).trigger("chosen:updated");
-        form.classList.remove('invert');
-        e.preventDefault();
-        var l = ipt.length;
-        while (l--) {
-            ipt[l].value = previous[l];
-            ipt[l].readOnly = true;
-        }
-        window.location.reload();
-    }
-    init();
-})(window)
+//     function cancel(e) {
+//         $(".chosen-select").prop("disabled", true).trigger("chosen:updated");
+//         form.classList.remove('invert');
+//         e.preventDefault();
+//         var l = ipt.length;
+//         while (l--) {
+//             ipt[l].value = previous[l];
+//             ipt[l].readOnly = true;
+//         }
+//         window.location.reload();
+//     }
+//     init();
+// })(window)
 
 $(".chosen-select").chosen({
     width: '100%',

@@ -132,10 +132,10 @@
     </div><!-- End Page Title -->
 
             <form id="ticketForm">
-                <button style="float: right;">Save</button>
-                <button style="float: right;">Cancel</button>
-                <button style="color:black; float: right;" onClick="enable()" id="edit">Edit Ticket</button>
-                <button style="color:black; float: right;" onClick="deleteTicket()">Delete Ticket</button>
+                <button id="save" style="float: right; display: none;" onClick="updateTicket()">Save</button>
+                <button id="cancel" style="float: right; display: none;" onClick="cancel()">Cancel</button>
+                <button id="edit" style="color:black; float: right; display: block" onClick="enable()">Edit Ticket</button>
+                <button id="delete" style="color:black; float: right;" onClick="deleteTicket()">Delete Ticket</button>
                 <br><br>
                 <div class="card">
                 <div class="card-body">
@@ -146,7 +146,7 @@
                 <h6><b>Assigned Members:</b></h6>
                 <div class="row mb-3">
                   <div class="col-sm-5">
-                    <select id="memberSelect" data-placeholder="No Members Selected" multiple class="chosen-select" name="memberSelect">
+                    <select id="memberSelect" data-placeholder="No Members Selected" multiple class="chosen-select">
                       <option value=""></option>
                     </select>
                 </div>
@@ -154,7 +154,7 @@
                 <h6><b>Tags:</b></h6>
                 <div class="row mb-3">
                   <div class="col-sm-5">
-                    <select id="tagSelect" data-placeholder="No Tags Selected" multiple class="chosen-select" name="tagSelect">
+                    <select id="tagSelect" data-placeholder="No Tags Selected" multiple class="chosen-select">
                       <option value=""></option>
                     </select>
                 </div>
