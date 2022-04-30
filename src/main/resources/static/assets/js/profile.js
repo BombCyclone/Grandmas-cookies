@@ -10,6 +10,8 @@ fetch('/member', {method: 'GET'})
 
 // fills the fields on the page with data from the logged in member's bio
 function populateBio(data){
+    member = data.memberId;
+
     var fullName = data.firstName + ' ' + data.lastName;
 
     document.getElementById('staticName').innerHTML = fullName;
@@ -57,3 +59,70 @@ function readURL(input) {
       body: photoData
     })
   }
+
+  function saveProfile() {
+    console.log("in save profile");
+  
+    //member properties
+    var firstName = document.getElementById('firstNameEdit').value;
+    var lastName = document.getElementById('lastNameEdit').value;
+    var email = document.getElementById('email').value;
+  
+    //bio properties
+    var backgroundInfo = document.getElementById('about').value;
+    var hometown = document.getElementById('hometown').value;
+    var major = document.getElementById('major').value;
+    console.log(backgroundInfo, hometown, major);
+  
+    var formData = new FormData();
+    formData.append('backgroundInfo', backgroundInfo);
+    formData.append('hometown', hometown);
+    formData.append('major', major);
+
+    var formData2 = new FormData();
+    formData2.append('fname', firstName);
+    formData2.append('lname', lastName);
+    formData2.append('email', email);
+
+    fetch('/bio', {
+      method: 'PUT',
+      body: formData
+    })
+    .catch(error=>console.log(error))
+
+    fetch('/member-details', {
+      method: 'PUT',
+      body: formData2
+    })
+    .catch(error=>console.log(error))
+
+  }
+
+  function updatePassword() {
+    var newPassword = document.getElementById('newPassword').value;
+    var renewPassword = document.getElementById('renewPassword').value;
+    var formData = new FormData();
+    formData.append('password', newPassword);
+
+    if (newPassword != null) {
+      if (newPassword == renewPassword) {
+        fetch('/member-password', {
+          method: 'PUT',
+          body: formData
+        })
+        .catch(error=>console.log(error))
+      } else {
+        alert("Passwords do not match");
+      }
+    }
+  }
+
+  let button = document.getElementById("passwordButton");
+  let input = document.getElementById('newPassword');
+  input.addEventListener("input", function() {
+    if(input.value.length == 0) {
+      button.disabled = true;
+    } else {
+      button.disabled = false;
+    }
+  });

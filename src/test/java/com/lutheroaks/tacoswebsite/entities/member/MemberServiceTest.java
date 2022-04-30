@@ -21,6 +21,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.lutheroaks.tacoswebsite.utils.AuthenticatedDetails;
+
 
 public final class MemberServiceTest {
 
@@ -32,6 +34,9 @@ public final class MemberServiceTest {
 
     @Mock
     private PasswordEncoder passwordEncoder;
+
+    @Mock
+    private AuthenticatedDetails authenticatedDetails;
 
     @BeforeEach
     void init(){
@@ -74,16 +79,35 @@ public final class MemberServiceTest {
     }
 
     @Test
-    void updateMemberSuccess() throws IOException{
+    void updateMemberDetailsSuccess() throws IOException{
         HttpServletRequest  request = mock(HttpServletRequest.class);
         HttpServletResponse  response = mock(HttpServletResponse.class);
         doNothing().when(response).sendRedirect(anyString());
         // mock adding a new member 
+        when(authenticatedDetails.getLoggedInMember(any())).thenReturn(new Member());
         when(request.getParameter("fname")).thenReturn("Dorothy");
         when(request.getParameter("lname")).thenReturn("Jenkins");
         when(request.getParameter("email")).thenReturn("fakeemail@gmail.com");
-        when(request.getParameter("memberId")).thenReturn("10");
+
+        // we should get a member back when we try to find by ID
+        when(repository.findMemberById(anyInt())).thenReturn(new Member());
+        // don't actually save the member for the test
+        doReturn(null).when(repository).save(any(Member.class));
+        // call the method to be tested
+        service.updateMemberDetails(request, response);
+        // confirm the response indicates success
+        verify(response, times(1)).sendRedirect("member-table");
+    }
+
+    @Test
+    void updateMemberPasswordSuccess() throws IOException{
+        HttpServletRequest  request = mock(HttpServletRequest.class);
+        HttpServletResponse  response = mock(HttpServletResponse.class);
+        doNothing().when(response).sendRedirect(anyString());
+        // mock adding a new member 
+        when(authenticatedDetails.getLoggedInMember(any())).thenReturn(new Member());
         when(request.getParameter("password")).thenReturn("password");
+
         // we should get a member back when we try to find by ID
         when(repository.findMemberById(anyInt())).thenReturn(new Member());
         // don't actually save the member for the test
@@ -91,7 +115,7 @@ public final class MemberServiceTest {
         // don't actually encode the password for this test
         doReturn("totally secure password").when(passwordEncoder).encode(anyString());
         // call the method to be tested
-        service.updateMember(request, response);
+        service.updatePassword(request, response);
         // confirm the response indicates success
         verify(response, times(1)).sendRedirect("member-table");
     }
