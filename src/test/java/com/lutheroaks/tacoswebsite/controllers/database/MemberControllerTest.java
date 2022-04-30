@@ -59,16 +59,29 @@ public final class MemberControllerTest {
     }
 
     @Test
-    public void updateMemberTest() throws IOException {
-        // mock the servlet request and its parameters
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        HttpServletResponse response = mock(HttpServletResponse.class);
-        // don't actually call the method to create a member
-        doNothing().when(service).updateMember(any(), any());
-        // call the method to be tested
-        controller.updateMember(request, response);
-        // confirm that the expected method was called
-        verify(service, times(1)).updateMember(any(), any());
+    public void updateMemberDetailsTest() throws IOException {
+            // mock the servlet request and its parameters
+            HttpServletRequest request = mock(HttpServletRequest.class);
+            HttpServletResponse response = mock(HttpServletResponse.class);
+            // don't actually call the method to create a member
+            doNothing().when(service).updateMemberDetails(any(), any());
+            // call the method to be tested
+            controller.updateMemberDetails(request, response);
+            // confirm that the expected method was called
+            verify(service, times(1)).updateMemberDetails(any(), any());
+    }
+
+    @Test
+    public void updatePassword() throws IOException {
+            // mock the servlet request and its parameters
+            HttpServletRequest request = mock(HttpServletRequest.class);
+            HttpServletResponse response = mock(HttpServletResponse.class);
+            // don't actually call the method to create a member
+            doNothing().when(service).updatePassword(any(), any());
+            // call the method to be tested
+            controller.updatePassword(request, response);
+            // confirm that the expected method was called
+            verify(service, times(1)).updatePassword(any(), any());
     }
 
     @Test
