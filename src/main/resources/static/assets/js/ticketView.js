@@ -2,6 +2,7 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const ticketNum = urlParams.get('number');
 let ticketStatus;
+$(".chosen-select").prop("disabled", true);
 
 document.getElementById("ticketNumber").innerHTML = ticketNum;
 
@@ -204,9 +205,7 @@ function updateTicket() {
 
 }
 
-$(".chosen-select").prop("disabled", true);
-
-function enable() {
+async function enable() {
     $(".chosen-select").prop("disabled", false);
     var saveBtn = document.getElementById('save');
     var cancelBtn = document.getElementById('cancel');
@@ -215,24 +214,24 @@ function enable() {
 
     var editBtn = document.getElementById('edit');
     editBtn.style.display = "none";
+
+    var textArea = document.getElementById('issueDesc');
+    textArea.style.border = "1px solid rgba(0, 0, 0, 0.2)";
+    document.getElementById('issueDesc').disabled = false;
 }
 
-function deleteTicket() {
+async function deleteTicket() {
     var result = confirm("Are you sure you want to permanently delete this ticket?");
     if (result) {
         const formData = new FormData();
         formData.append('ticketNum', ticketNum);
-        fetch('/ticket/', {
+        await fetch('/ticket/', {
         method: 'DELETE', body: formData,
         })
         .then(() => {window.location.href = "/index"})
         .catch(error=>console.log(error))
         window.location.href = "/index"
     }
-}
-
-function cancel() {
-    window.location.reload();
 }
 
 //source: http://jsfiddle.net/d7TeL/

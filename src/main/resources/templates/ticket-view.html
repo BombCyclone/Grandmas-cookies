@@ -132,10 +132,10 @@
     </div><!-- End Page Title -->
 
             <form id="ticketForm">
-                <button id="save" style="float: right; display: none;" onClick="updateTicket()">Save</button>
-                <button id="cancel" style="float: right; display: none;" onClick="cancel()">Cancel</button>
-                <button id="edit" style="color:black; float: right; display: block" onClick="enable()">Edit Ticket</button>
-                <button id="delete" style="color:black; float: right;" onClick="deleteTicket()">Delete Ticket</button>
+                <button type="button" id="save" style="float: right; display: none;" onClick="updateTicket()">Save</button>
+                <button type="button"  id="cancel" style="float: right; display: none;" onClick="window.location.reload();">Cancel</button>
+                <button type="button" id="edit" style="color:black; float: right; display: block" onClick="enable()">Edit Ticket</button>
+                <button type="button" id="delete" style="color:black; float: right;" onClick="deleteTicket()">Delete Ticket</button>
                 <br><br>
                 <div class="card">
                 <div class="card-body">
@@ -160,7 +160,7 @@
                 </div>
               </div>
                 <h6><b>Issue Description:</b></h6>
-                <textarea maxLength="200" type="text" id="issueDesc" readonly></textarea><br>
+                <textarea maxLength="200" type="text" id="issueDesc" disabled></textarea><br>
               </div>
             </div>
             </form>
