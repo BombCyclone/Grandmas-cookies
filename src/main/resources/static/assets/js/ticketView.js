@@ -209,18 +209,19 @@ function enable() {
     $(".chosen-select").prop("disabled", false);
 }
 
-function deleteTicket() {
+async function deleteTicket() {
     var result = confirm("Are you sure you want to permanently delete this ticket?");
     if (result) {
-        const formData = new FormData();
-        formData.append('ticketNum', ticketNum);
-        fetch('/ticket/', {
-        method: 'DELETE', body: formData,
-        })
-        .then(() => {window.location.href = "/index"})
-        .catch(error=>console.log(error))
+    const formData = new FormData();
+    formData.append('ticketNum', ticketNum);
+    await fetch('/ticket', {
+    method: 'DELETE',
+    body: formData,
+    })
+    .catch(error=>console.log(error));
+    window.location.replace("/index");
     }
-}
+    }
 
 //source: http://jsfiddle.net/d7TeL/
 (function (W) {
