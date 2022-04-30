@@ -1111,3 +1111,10 @@ form.invert>button:nth-of-type(2) {
 form.invert>button:nth-of-type(3) {
   display:none;
 }
+tr:hover {
+  background-color: #EBECF0;
+}
+
+tr:hover td {
+  background-color: transparent; /* or #000 */
+}
