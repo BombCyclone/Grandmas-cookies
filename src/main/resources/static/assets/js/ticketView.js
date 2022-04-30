@@ -206,7 +206,7 @@ function updateTicket() {
 }
 
 async function enable() {
-    $(".chosen-select").prop("disabled", false);
+    $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
     var saveBtn = document.getElementById('save');
     var cancelBtn = document.getElementById('cancel');
     saveBtn.style.display = "block";
