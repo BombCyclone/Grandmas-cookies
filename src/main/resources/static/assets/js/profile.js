@@ -8,8 +8,6 @@ fetch('/member', {method: 'GET'})
 })
 .catch(error=>console.log(error))
 
-var member;
-
 // fills the fields on the page with data from the logged in member's bio
 function populateBio(data){
     member = data.memberId;
