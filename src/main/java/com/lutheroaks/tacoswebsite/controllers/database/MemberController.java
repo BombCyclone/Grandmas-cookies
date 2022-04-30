@@ -67,18 +67,6 @@ public class MemberController {
 		service.updatePassword(request, response);
 	}
 
-		/**
-	 * Update some of the member's fields in the table
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 */
-	@PutMapping("/member")
-	public void updateMember(final HttpServletRequest request, 
-						final HttpServletResponse response) throws IOException {
-		service.updateMember(request, response);
-	}
-	
 	/**
 	 * Returns a list of all Tacos members
 	 * @return

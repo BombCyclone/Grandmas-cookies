@@ -58,6 +58,12 @@ public class MemberService {
 		}
     }
 
+	/**
+	 * Updates member name and email
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	public void updateMemberDetails(final HttpServletRequest request, 
     final HttpServletResponse response) throws IOException {
 		Member memberToUpdate = authenticatedDetails.getLoggedInMember(request);
@@ -81,6 +87,12 @@ public class MemberService {
 		}
 	}
 
+	/**
+	 * Updates member password
+	 * @param request
+	 * @param response
+	 * @throws IOException
+	 */
 	public void updatePassword(final HttpServletRequest request, 
     final HttpServletResponse response) throws IOException {
 		Member memberToUpdate = authenticatedDetails.getLoggedInMember(request);
@@ -96,39 +108,6 @@ public class MemberService {
 		}
 	}
 
-	    /**
-     * Update a tacos member
-     * @param request
-     * @param response
-     * @throws IOException
-     */
-    public void updateMember(final HttpServletRequest request, 
-    final HttpServletResponse response) throws IOException {
-		int memberId = Integer.parseInt(request.getParameter("memberId"));
-        String fName = request.getParameter("fname");
-		String lName = request.getParameter("lname");
-		String email = request.getParameter("email");
-		// the password to be set needs to be encrypted prior to saving
-		String password = request.getParameter("password");
-		String encryptedPwd = passwordEncoder.encode(password);
-		// Member must exist in order to be updated
-		if (repository.findMemberById(memberId) != null) {
-			Member memberToUpdate = repository.findMemberById(memberId);
-			memberToUpdate.setFirstName(fName);
-			memberToUpdate.setLastName(lName);
-			memberToUpdate.setEmail(email);
-			memberToUpdate.setPassword(encryptedPwd);
-			repository.save(memberToUpdate);
-			response.sendRedirect("member-table");
-		} else{
-			if(logger.isInfoEnabled() && email != null){
-				logger.info(String.format("An existing user with the email address: " + 
-									"%s was found in the database.", email));
-			}
-			response.sendRedirect("error");
-		}
-    }
-    
     /**
      * Deletes a specified member
      * @param request
