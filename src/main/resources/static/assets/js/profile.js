@@ -117,6 +117,7 @@ function readURL(input) {
     }
   }
 
+  //prevent clicking save button with null password
   let button = document.getElementById("passwordButton");
   let input = document.getElementById('newPassword');
   input.addEventListener("input", function() {
@@ -124,5 +125,32 @@ function readURL(input) {
       button.disabled = true;
     } else {
       button.disabled = false;
+    }
+  });
+
+  //prevent clicking save button with null first name, last name, and email
+  let saveBtn = document.getElementById('saveBtn');
+  let fName = document.getElementById('firstNameEdit');
+  let lName = document.getElementById('lastNameEdit');
+  let email = document.getElementById('email');
+  fName.addEventListener("input", function() {
+    if(fName.value.length == 0) {
+      saveBtn.disabled = true;
+    } else if (lName.value.length != 0 && email.value.length != 0) {
+        saveBtn.disabled = false;
+      }
+  });
+  lName.addEventListener("input", function() {
+    if(lName.value.length == 0) {
+      saveBtn.disabled = true;
+    } else if (fName.value.length != 0 && email.value.length != 0) {
+      saveBtn.disabled = false;
+    }
+  });
+  email.addEventListener("input", function() {
+    if(email.value.length == 0) {
+      saveBtn.disabled = true;
+    } else if (fName.value.lenth != 0 && lName.value.length != 0) {
+      saveBtn.disabled = false;
     }
   });
