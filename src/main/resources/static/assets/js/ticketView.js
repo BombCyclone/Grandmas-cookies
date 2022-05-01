@@ -2,6 +2,7 @@ const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const ticketNum = urlParams.get('number');
 let ticketStatus;
+$(".chosen-select").prop("disabled", true);
 
 document.getElementById("ticketNumber").innerHTML = ticketNum;
 
@@ -196,85 +197,47 @@ function updateTicket() {
         method: 'PATCH', 
         body: formData2,
         })
-        .then(() => {window.location.reload()})
     .catch(error=>console.log(error))
-    
-    //refresh the page
+    alert("Ticket updated");
     window.location.reload();
 
 }
 
-function enable() {
-    console.log("In enable");
-    $(".chosen-select").prop("disabled", false);
+async function enable() {
+    $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
+    var saveBtn = document.getElementById('save');
+    var cancelBtn = document.getElementById('cancel');
+    saveBtn.style.display = "block";
+    cancelBtn.style.display = "block";
+
+    var editBtn = document.getElementById('edit');
+    editBtn.style.display = "none";
+
+    var textArea = document.getElementById('issueDesc');
+    textArea.style.border = "1px solid rgba(0, 0, 0, 0.2)";
+    document.getElementById('issueDesc').disabled = false;
 }
 
 async function deleteTicket() {
     var result = confirm("Are you sure you want to permanently delete this ticket?");
     if (result) {
-    const formData = new FormData();
-    formData.append('ticketNum', ticketNum);
-    await fetch('/ticket', {
-    method: 'DELETE',
-    body: formData,
-    })
-    .catch(error=>console.log(error));
-    window.location.replace("/index");
-    }
-    }
+        const formData = new FormData();
+        formData.append('ticketNum', ticketNum);
 
-//source: http://jsfiddle.net/d7TeL/
-(function (W) {
-    var D, form, bts, ipt;
+        //delete related comments
+        fetch('/comment-delete-all', {
+            method: 'DELETE', body: formData,
+        })
+        .catch(error=>console.log(error))
 
-    function init() {
-        D = W.document, previous = [], selectPrev = [];
-        form = D.getElementsByTagName('form')[0];
-        bts = form.getElementsByTagName('button');
-        ipt = form.getElementsByTagName('textarea');
-        // select = form.getElementsByTagName('select');
-        form.addEventListener('submit', save, false);
-        bts[1].addEventListener('click', cancel, false);
-        bts[2].addEventListener('click', edit, false);
-        $(".chosen-select").prop("disabled", true);
+        //delete ticket
+        fetch('/ticket', {
+        method: 'DELETE', body: formData,
+        })
+        .then(() => {window.location.href = "/index"})
+        .catch(error=>console.log(error))
     }
-
-    function save(e) {
-        e.preventDefault();
-        form.classList.remove('invert');
-        var l = ipt.length;
-        while (l--) {
-            ipt[l].readOnly = true;
-        }
-        previous = [];
-        updateTicket();
-    }
-
-    function edit(e) {
-        e.preventDefault();
-        form.classList.add('invert');
-        var l = ipt.length;
-        while (l--) {
-            previous[l] = ipt[l].value;
-            ipt[l].readOnly = false;
-            ipt[l].disabled = false;
-        }
-        $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
-    }
-
-    function cancel(e) {
-        $(".chosen-select").prop("disabled", true).trigger("chosen:updated");
-        form.classList.remove('invert');
-        e.preventDefault();
-        var l = ipt.length;
-        while (l--) {
-            ipt[l].value = previous[l];
-            ipt[l].readOnly = true;
-        }
-        window.location.reload();
-    }
-    init();
-})(window)
+}
 
 $(".chosen-select").chosen({
     width: '100%',
