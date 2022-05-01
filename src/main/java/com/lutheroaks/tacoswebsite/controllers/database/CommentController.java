@@ -61,6 +61,17 @@ public class CommentController {
 	public void deleteComment(final HttpServletRequest request){
 		service.removeComment(request);
 	}
+
+	/**
+	 * Deletes sll comments on specified ticket
+	 * @param request
+	 * @param response
+	 */
+	@Transactional
+	@DeleteMapping("/comment-delete-all")
+	public void deleteAllComments(final HttpServletRequest request){
+		service.removeAllComments(request);
+	}
     
 	/**
 	 * //Updates comment from the table

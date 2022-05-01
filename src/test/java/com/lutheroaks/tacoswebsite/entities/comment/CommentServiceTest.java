@@ -78,6 +78,19 @@ public final class CommentServiceTest {
     }
 
     @Test
+    void removeAllCommentsSuccess(){
+        // mock the servlet request and its parameters
+        HttpServletRequest request = mock(HttpServletRequest.class);
+        when(request.getParameter("ticketNum")).thenReturn("1");
+        // don't actually try to delete this fake comment
+        doNothing().when(repository).deleteCommentsByTicket(anyInt());
+        // call the method to be tested
+        service.removeAllComments(request);
+        // confirm that this was a successful case and deleteCommentById was called
+        verify(repository, times(1)).deleteCommentsByTicket(anyInt());
+    }
+
+    @Test
     void updateCommentTest() throws IOException, MessagingException{ 
         // mock the servlet request and its parameters
         HttpServletRequest request = mock(HttpServletRequest.class);
