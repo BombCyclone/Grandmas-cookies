@@ -19,16 +19,13 @@ function buildTable(data){
         var formattedTime = ticketDate.toLocaleTimeString();
         var dateTime = formattedDate + " at " + formattedTime;
         var residentName = ticket.resident.firstName + " " + ticket.resident.lastName;
-            var row =   `
-                            <div class="card body">
-                                <tr onClick="navToTicketView(${ticket.ticketNum})" style="cursor: pointer">
-                                    <td>${residentName}</td>
-                                    <td>${ticket.issueDesc}</td>
-                                    <td>${dateTime}</td>
-                                <tr>
-                            </div>
-                        `
-            table.innerHTML += row;
+        
+        var row =   `<tr onClick="navToTicketView(${ticket.ticketNum})" style="cursor: pointer">
+                        <td>${residentName}</td>
+                        <td>${ticket.issueDesc}</td>
+                        <td>${dateTime}</td>
+                    </tr>`
+        table.innerHTML += row;
     }
 
     // Hide the loading spinner now that the rows have been added
