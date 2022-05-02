@@ -59,15 +59,6 @@ public class CommentService {
     }
 
     /**
-     * Deletes all comments by ticket
-     * @param request
-     */
-    public void removeAllComments(final HttpServletRequest request) {
-		int ticketNum = Integer.parseInt(request.getParameter("ticketNum"));
-		repository.deleteCommentsByTicket(ticketNum);
-    }
-
-    /**
      * 
      * @param request
      * @param response

@@ -223,13 +223,7 @@ function deleteTicket() {
     if (result) {
         const formData = new FormData();
         formData.append('ticketNum', ticketNum);
-
-        //delete related comments
-        fetch('/comment-delete-all', {
-            method: 'DELETE', body: formData,
-        })
-        .catch(error=>console.log(error))
-
+        
         //delete ticket
         fetch('/ticket', {
         method: 'DELETE', body: formData,

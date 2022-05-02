@@ -78,19 +78,6 @@ public final class CommentControllerTest {
         verify(service, times(1)).removeComment(request);
     }
 
-    
-    @Test
-    void deleteAllCommentsSuccess() throws IOException{
-        // mock the servlet request and its parameters
-        HttpServletRequest request = mock(HttpServletRequest.class);
-        // don't actually delete a comment
-        doNothing().when(service).removeAllComments(any());
-        // call the method to be tested
-        controller.deleteAllComments(request);
-        // confirm that the expected method was called
-        verify(service, times(1)).removeAllComments(request);
-    }
-
     @Test
     void updateCommentCalled() throws MessagingException, IOException{
         // mock the servlet request and its parameters
