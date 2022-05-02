@@ -50,6 +50,7 @@ function buildTable(posts){
                                 <div class="accordion-body">
                                     <div id="poster">
                                         <b>Posted by: ${memberName}</b>
+                                        <button style="float: right;" id="deleteBtn" onClick="deletePost(${kbpost.postId})">Delete Post</button>
                                     </div>
                                     </br>
                                     <div id="postContent">
@@ -68,6 +69,20 @@ function buildTable(posts){
     spinner.style.visibility = "hidden";
     spinner.style.height = 0;
     addscripts();
+}
+
+function deletePost(kbPostId) {
+    var result = confirm("Are you sure you want to permanently delete this post?");
+    if (result) {
+        const formData = new FormData();
+        formData.append('postId', kbPostId);
+        //delete kbpost
+        fetch('/kbpost', {
+            method: 'DELETE', body: formData,
+            })
+            .then(() => {window.location.href = "/faq"})
+            .catch(error=>console.log(error))
+    }
 }
 
 // add other NiceAdmin Scripts to the page after the table content has been rendered
