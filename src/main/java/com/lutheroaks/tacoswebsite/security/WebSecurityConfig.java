@@ -38,16 +38,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
      
-    @Override  
+    @Override
     protected void configure(final HttpSecurity http)throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/member-login").permitAll()
+            .antMatchers("/login*").permitAll()
             .anyRequest().authenticated()
             .and()
 			.formLogin()
-				.loginPage("/member-login")
-                .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/index", true)
 				.permitAll()
 				.and()
