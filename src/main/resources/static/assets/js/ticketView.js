@@ -203,7 +203,7 @@ function updateTicket() {
 
 }
 
-async function enable() {
+function enable() {
     $(".chosen-select").prop("disabled", false).trigger("chosen:updated");
     var saveBtn = document.getElementById('save');
     var cancelBtn = document.getElementById('cancel');
@@ -218,7 +218,7 @@ async function enable() {
     document.getElementById('issueDesc').disabled = false;
 }
 
-async function deleteTicket() {
+function deleteTicket() {
     var result = confirm("Are you sure you want to permanently delete this ticket?");
     if (result) {
         const formData = new FormData();
