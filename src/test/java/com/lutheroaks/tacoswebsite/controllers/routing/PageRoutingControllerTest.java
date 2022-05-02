@@ -69,6 +69,6 @@ public final class PageRoutingControllerTest {
 	@Test
 	public void loginPageIsReturned() {
 		String retVal = controller.viewLogin();
-		assertEquals("login", retVal);
+		assertEquals("member-login", retVal);
 	}
 }
