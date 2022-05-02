@@ -55,9 +55,9 @@ public final class PageRoutingController {
 		return "register";
 	}
 
-	@GetMapping("/login")
+	@GetMapping("/member-login")
 	public String viewLogin() {
-		return "login";
+		return "member-login";
 	}	
 	@GetMapping("/tags-table")
 	public String viewTags() {
