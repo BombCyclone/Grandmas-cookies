@@ -1077,37 +1077,11 @@ label {
   outline:none;
   box-sizing:border-box;
 }
-/* form.invert textarea{
-  border:1px solid rgba(0, 0, 0, 0.2);
-  outline:none;
-} */
-/* form input {
-  border:none;
-  outline:none;
-  box-sizing:border-box;
+
+tr:hover {
+  background-color: #EBECF0;
 }
-form.invert input {
-  border:1px solid rgba(0, 0, 0, 0.2);
-  outline:none;
+
+tr:hover td {
+  background-color: transparent;
 }
-form>button:nth-of-type(1) {
-  color:green;
-  display:none;
-}
-form>button:nth-of-type(2) {
-  color:red;
-  display:none;
-}
-form>button:nth-of-type(3) {
-  color:yellow;
-  display:inline-block;
-}
-form.invert>button:nth-of-type(1) {
-  display:inline-block;
-}
-form.invert>button:nth-of-type(2) {
-  display:inline-block;
-}
-form.invert>button:nth-of-type(3) {
-  display:none;
-} */ 

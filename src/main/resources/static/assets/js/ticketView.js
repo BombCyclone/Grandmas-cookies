@@ -218,7 +218,7 @@ async function enable() {
     document.getElementById('issueDesc').disabled = false;
 }
 
-function deleteTicket() {
+async function deleteTicket() {
     var result = confirm("Are you sure you want to permanently delete this ticket?");
     if (result) {
         const formData = new FormData();
