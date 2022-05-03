@@ -45,7 +45,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .cors().disable()
             .authorizeRequests()
                 .antMatchers("/login").permitAll()
-                .anyRequest().hasRole("ADMIN")
                 .and()
 			.formLogin()
                 .defaultSuccessUrl("/index", true)
