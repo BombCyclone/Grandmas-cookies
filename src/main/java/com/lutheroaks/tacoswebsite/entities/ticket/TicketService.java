@@ -200,7 +200,7 @@ public class TicketService {
 
 				Ticket ticketToUpdate = ticketRepo.findTicketById(ticketId);
 				List<Member> assignedMembers = new ArrayList<>();
-				if(memberIds != null && memberIds.length < 4){
+				if(memberIds != null && memberIds[0].length() > 0 && memberIds.length < 4){
 					for (String idString : memberIds){
 						int id = Integer.parseInt(idString);
 						Member toAdd = memberRepo.findMemberById(id);

@@ -45,9 +45,15 @@
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center justify-content-between pull-left">
       <em class="bi bi-list toggle-sidebar-btn"></em>
     </div><!-- End Hamburger -->
+
+    <div class="d-flex align-items-center header-nav ms-auto" style="margin-right:2em">
+      <form th:action="@{/logout}" method="post">
+        <input class="btn btn-primary" type="submit" value="Sign Out"/>
+      </form>
+    </div><!-- End Logout Button -->
 
   </header><!-- End Header -->
 
