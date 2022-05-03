@@ -43,13 +43,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .csrf().disable()
             .cors().disable()
-            .authorizeRequests()
-            .antMatchers("/login").anonymous()
-            .anyRequest().authenticated()
-            .and()
+                .authorizeRequests()
+                .antMatchers("/login").anonymous()
+                .and()
 			.formLogin()
-                .permitAll()
                 .defaultSuccessUrl("/index", true)
+                .permitAll()
 				.and()
 			.logout()
 				.permitAll(); 

@@ -85,19 +85,28 @@ function readURL(input) {
     formData2.append('lname', lastName);
     formData2.append('email', email);
 
-    await fetch('/bio', {
+    fetch('/bio', {
       method: 'PUT',
       body: formData
     })
     .catch(error=>console.log(error))
 
-    await fetch('/member-details', {
+    fetch('/member-details', {
       method: 'PUT',
       body: formData2
     })
     .catch(error=>console.log(error))
+    await sleep(2000);
 
     window.location.reload();
+  }
+
+  function sleep(milliseconds) {
+    const date = Date.now();
+    let currentDate = null;
+    do {
+      currentDate = Date.now();
+    } while (currentDate - date < milliseconds);
   }
 
   async function updatePassword() {
