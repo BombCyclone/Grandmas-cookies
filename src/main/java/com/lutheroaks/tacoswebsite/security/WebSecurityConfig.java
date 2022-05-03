@@ -41,21 +41,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final HttpSecurity http)throws Exception {
         http
+            .csrf().disable()
+            .cors().disable()
             .authorizeRequests()
-            .antMatchers("/login*").permitAll()
-            .anyRequest().authenticated()
+            .antMatchers("/login").anonymous()
             .and()
 			.formLogin()
+                .permitAll()
                 .defaultSuccessUrl("/index", true)
-				.permitAll()
 				.and()
 			.logout()
 				.permitAll(); 
-
-        /* 
-        csrf prevents users from modifying state through requests like 'PUT'
-        In the future, implement csrf protection for greater application security
-        */
-        http.csrf().disable();
     }
 }
