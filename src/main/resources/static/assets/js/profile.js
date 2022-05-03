@@ -20,6 +20,9 @@ function populateBio(data){
     document.getElementById('firstNameEdit').value = data.firstName;
     document.getElementById('lastNameEdit').value = data.lastName;
 
+    document.getElementById('staticEmail').innerHTML = data.email;
+    document.getElementById('email').value = data.email;
+
     document.getElementById('staticBackground').innerHTML = data.biography.backgroundInfo;
     document.getElementById('about').innerHTML = data.biography.backgroundInfo;
 
@@ -29,8 +32,6 @@ function populateBio(data){
     document.getElementById('staticMajor').innerHTML = data.biography.major;
     document.getElementById('major').value = data.biography.major;
 
-    document.getElementById('staticEmail').innerHTML = data.email;
-    document.getElementById('email').value = data.email;
 }
 
 function getProfilePicture(res){
@@ -60,7 +61,7 @@ function readURL(input) {
     })
   }
 
-  function saveProfile() {
+  async function saveProfile() {
     console.log("in save profile");
   
     //member properties
@@ -84,21 +85,22 @@ function readURL(input) {
     formData2.append('lname', lastName);
     formData2.append('email', email);
 
-    fetch('/bio', {
+    await fetch('/bio', {
       method: 'PUT',
       body: formData
     })
     .catch(error=>console.log(error))
 
-    fetch('/member-details', {
+    await fetch('/member-details', {
       method: 'PUT',
       body: formData2
     })
     .catch(error=>console.log(error))
 
+    window.location.reload();
   }
 
-  function updatePassword() {
+  async function updatePassword() {
     var newPassword = document.getElementById('newPassword').value;
     var renewPassword = document.getElementById('renewPassword').value;
     var formData = new FormData();
@@ -106,7 +108,7 @@ function readURL(input) {
 
     if (newPassword != null) {
       if (newPassword == renewPassword) {
-        fetch('/member-password', {
+        await fetch('/member-password', {
           method: 'PUT',
           body: formData
         })
