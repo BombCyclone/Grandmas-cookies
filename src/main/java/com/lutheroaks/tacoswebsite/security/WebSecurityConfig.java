@@ -47,8 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/login").anonymous()
             .and()
 			.formLogin()
+                .permitAll()
                 .defaultSuccessUrl("/index", true)
-				.permitAll()
 				.and()
 			.logout()
 				.permitAll(); 
