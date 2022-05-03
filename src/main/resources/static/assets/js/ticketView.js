@@ -111,10 +111,10 @@ function addNewComment() {
     comments.innerHTML += commentCard;
 }
 
-function saveComment() {
+async function saveComment() {
     var commentContent = document.getElementById("newContent").value;
 
-    fetch('/comment?content=' + commentContent + '&ticketNum=' + ticketNum, {method: 'POST'})
+    await fetch('/comment?content=' + commentContent + '&ticketNum=' + ticketNum, {method: 'POST'})
     .then(data=>{return data.json()})
     .catch(error=>console.log(error))
 
@@ -137,8 +137,6 @@ fetch('/comment/', {
     method: 'DELETE', body: formData,
     })
     .then(() => {window.location.reload()})
-
-window.location.reload();
 }
 
 // add other NiceAdmin Scripts to the page after the table content has been rendered
@@ -161,7 +159,7 @@ function loadScript(src){
     document.body.append(script);
 }
 
-function updateTicket() {
+async function updateTicket() {
     var tags = $('#tagSelect').serializeArray();
     console.log(tags);
     var formattedTags = [];
@@ -188,16 +186,17 @@ function updateTicket() {
     formData2.append('ticketId', ticketNum);
     formData2.append('memberId', formattedMembers);
 
-    fetch('/ticket-update', {
+    await fetch('/ticket-update', {
         method: 'PUT', 
         body: formData
     }).catch(error=>console.log(error))
 
-    fetch('/ticket-assign', {
+    await fetch('/ticket-assign', {
         method: 'PATCH', 
         body: formData2,
         })
     .catch(error=>console.log(error))
+
     alert("Ticket updated");
     window.location.reload();
 
